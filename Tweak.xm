@@ -5,7 +5,7 @@
 #import <MediaRemote/MediaRemote.h>
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
-#import "DTTJailbreakDetection/DTTJailbreakDetection.h"
+#import "../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
 #import "Tweak.h"
 
 NSString *YTApiKey = @"AIzaSyAcHI73xntvCiURGWERFcJxm5vX12p5bN8";
@@ -106,7 +106,7 @@ YTUserDefaults *ytThemeSettings;
 
 %hook SSOKeychain
 + (id)accessGroup {
-    if (![DTTJailbreakDetection isJailbroken]) {
+    if (![JailbreakDetectionLib isJailbroken]) {
         NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
                             (__bridge NSString *)kSecClassGenericPassword, (__bridge NSString *)kSecClass,
                             @"bundleSeedID", kSecAttrAccount,
@@ -126,7 +126,7 @@ YTUserDefaults *ytThemeSettings;
     return %orig;
 }
 + (id)sharedAccessGroup {
-    if (![DTTJailbreakDetection isJailbroken]) {
+    if (![JailbreakDetectionLib isJailbroken]) {
         NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
                             (__bridge NSString *)kSecClassGenericPassword, (__bridge NSString *)kSecClass,
                             @"bundleSeedID", kSecAttrAccount,

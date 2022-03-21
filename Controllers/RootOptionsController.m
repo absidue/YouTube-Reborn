@@ -10,7 +10,7 @@
 #import "DownloadsController.h"
 #import "SponsorBlockOptionsController.h"
 #import "SearchOptionsController.h"
-#import "../DTTJailbreakDetection/DTTJailbreakDetection.h"
+#import "../../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
 #import "../iOS15Fix.h"
 
 static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
@@ -54,7 +54,7 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
         return 1;
     }
     if (section == 1) {
-        if ([DTTJailbreakDetection isJailbroken]) {
+        if ([JailbreakDetectionLib isJailbroken]) {
             return 2;
         } else {
             return 1;
