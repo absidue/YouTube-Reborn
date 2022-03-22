@@ -1,6 +1,5 @@
 #import "RootOptionsController.h"
 #import "VideoOptionsController.h"
-#import "UnderVideoOptionsController.h"
 #import "OverlayOptionsController.h"
 #import "TabBarOptionsController.h"
 #import "CreditsController.h"
@@ -61,7 +60,7 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
         }
     }
     if (section == 2) {
-        return 7;
+        return 6;
     }
     if (section == 3) {
         return 8;
@@ -109,30 +108,26 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if(indexPath.row == 1) {
-                cell.textLabel.text = @"Under-Video Options";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            if(indexPath.row == 2) {
                 cell.textLabel.text = @"Overlay Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 3) {
+            if(indexPath.row == 2) {
                 cell.textLabel.text = @"Tab Bar Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 4) {
+            if(indexPath.row == 3) {
                 cell.textLabel.text = @"Colour Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 5) {
+            if(indexPath.row == 4) {
                 cell.textLabel.text = @"Search Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 6) {
+            if(indexPath.row == 5) {
                 cell.textLabel.text = @"Shorts Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 7) {
+            if(indexPath.row == 6) {
                 cell.textLabel.text = @"SponsorBlock Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
@@ -253,48 +248,41 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
             [self presentViewController:videoOptionsControllerView animated:YES completion:nil];
         }
         if(indexPath.row == 1) {
-            UnderVideoOptionsController *underVideoOptionsController = [[UnderVideoOptionsController alloc] init];
-            UINavigationController *underVideoOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:underVideoOptionsController];
-            underVideoOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
-
-            [self presentViewController:underVideoOptionsControllerView animated:YES completion:nil];
-        }
-        if(indexPath.row == 2) {
             OverlayOptionsController *overlayOptionsController = [[OverlayOptionsController alloc] init];
             UINavigationController *overlayOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:overlayOptionsController];
             overlayOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:overlayOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 3) {
+        if(indexPath.row == 2) {
             TabBarOptionsController *tabBarOptionsController = [[TabBarOptionsController alloc] init];
             UINavigationController *tabBarOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:tabBarOptionsController];
             tabBarOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:tabBarOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 4) {
+        if(indexPath.row == 3) {
             ColourOptionsController *colourOptionsController = [[ColourOptionsController alloc] init];
             UINavigationController *colourOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:colourOptionsController];
             colourOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:colourOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 5) {
+        if(indexPath.row == 4) {
             SearchOptionsController *searchOptionsController = [[SearchOptionsController alloc] init];
             UINavigationController *searchOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:searchOptionsController];
             searchOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:searchOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 6) {
+        if(indexPath.row == 5) {
             ShortsOptionsController *shortsOptionsController = [[ShortsOptionsController alloc] init];
             UINavigationController *shortsOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:shortsOptionsController];
             shortsOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:shortsOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 7) {
+        if(indexPath.row == 6) {
             SponsorBlockOptionsController *sponsorBlockOptionsController = [[SponsorBlockOptionsController alloc] init];
             UINavigationController *sponsorBlockOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:sponsorBlockOptionsController];
             sponsorBlockOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;

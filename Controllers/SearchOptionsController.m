@@ -35,11 +35,7 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableEnhancedSearchBar"]) {
-        return 2;
-    } else {
-        return 1;
-    }
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,11 +93,9 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
     if ([sender isOn]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kEnableEnhancedSearchBar"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.tableView reloadData];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kEnableEnhancedSearchBar"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.tableView reloadData];
     }
 }
 
