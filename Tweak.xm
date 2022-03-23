@@ -236,6 +236,12 @@ NSURL *streamURL;
             [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             }]];
 
+            CGRect rect = self.frame;
+            rect.origin.x = self.frame.size.width / 20;
+            rect.origin.y = self.frame.size.height / 20;
+            alertMenu.popoverPresentationController.sourceView = self;
+            alertMenu.popoverPresentationController.sourceRect = rect;
+
             UIViewController *menuViewController = self._viewControllerForAncestor;
             [menuViewController presentViewController:alertMenu animated:YES completion:nil];
         } else {
