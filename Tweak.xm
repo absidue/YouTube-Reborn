@@ -288,7 +288,7 @@ NSURL *streamURL;
     
                 NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
                 AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-                NSURLRequest *request = [NSURLRequest requestWithURL:streamURL];
+                NSURLRequest *request = [NSURLRequest requestWithURL:directURL];
 
                 NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -377,7 +377,7 @@ NSURL *streamURL;
     
                 NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
                 AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-                NSURLRequest *request = [NSURLRequest requestWithURL:streamURL];
+                NSURLRequest *request = [NSURLRequest requestWithURL:directURL];
 
                 NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
                     dispatch_async(dispatch_get_main_queue(), ^{
