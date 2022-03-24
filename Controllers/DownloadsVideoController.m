@@ -1,5 +1,6 @@
 #import "DownloadsVideoController.h"
 #import <MediaRemote/MediaRemote.h>
+#import <Photos/Photos.h>
 #import "../iOS15Fix.h"
 
 static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
@@ -22,21 +23,7 @@ NSMutableArray *filePathsVideoArtworkArray;
     	[self.tableView setSectionHeaderTopPadding:0.0f];
 	}
 
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    documentsDirectory = [paths objectAtIndex:0];
-
-    NSArray *filePathsList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
-    filePathsVideoArray = [[NSMutableArray alloc] init];
-    filePathsVideoArtworkArray = [[NSMutableArray alloc] init];
-    for (id object in filePathsList) {
-        if ([object containsString:@".mp4"]) {
-            [filePathsVideoArray addObject:object];
-            NSString *cut = [object substringToIndex:[object length]-4];
-            NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];
-            [filePathsVideoArtworkArray addObject:jpg];
-        }
-    }
+    [self setupVideoArrays];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -54,6 +41,7 @@ NSMutableArray *filePathsVideoArtworkArray;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
         cell.textLabel.adjustsFontSizeToFitWidth = true;
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
             cell.textLabel.textColor = [UIColor blackColor];
@@ -95,6 +83,58 @@ NSMutableArray *filePathsVideoArtworkArray;
     [self presentViewController:playerViewController animated:YES completion:nil];
 }
 
+- (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
+    NSString *currentFileName = filePathsVideoArray[indexPath.row];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];
+
+    UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleAlert];
+
+    /* [alertMenu addAction:[UIAlertAction actionWithTitle:@"Import Video To Camera Roll" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+            [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:filePath];
+        } completionHandler:^(BOOL success, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (success) {
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Video Saved To Camera Roll" preferredStyle:UIAlertControllerStyleAlert];
+                                        
+                    [alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    }]];
+
+                    [self presentViewController:alert animated:YES completion:nil];
+                } else{
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Save To Camera Roll Failed \nMake Sure To Give Camera Roll Permission To YouTube In The iOS Settings App" preferredStyle:UIAlertControllerStyleAlert];
+                                        
+                    [alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    }]];
+
+                    [self presentViewController:alert animated:YES completion:nil];
+                }
+            });
+        }];
+    }]]; */
+
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Delete Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSFileManager *fm = [[NSFileManager alloc] init];
+        [fm removeItemAtPath:filePath error:nil];
+
+        UIAlertController *alertDeleted = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Video Successfully Deleted" preferredStyle:UIAlertControllerStyleAlert];
+
+        [alertDeleted addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [filePathsVideoArray removeAllObjects];
+            [filePathsVideoArtworkArray removeAllObjects];
+            [self setupVideoArrays];
+            [self.tableView reloadData];
+        }]];
+
+        [self presentViewController:alertDeleted animated:YES completion:nil];
+    }]];
+
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    }]];
+
+    [self presentViewController:alertMenu animated:YES completion:nil];
+}
+
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     [self setupLightDarkModeVideoView];
@@ -111,6 +151,24 @@ NSMutableArray *filePathsVideoArtworkArray;
     }
     else {
         self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+    }
+}
+
+- (void)setupVideoArrays {
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectory = [paths objectAtIndex:0];
+
+    NSArray *filePathsList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
+    filePathsVideoArray = [[NSMutableArray alloc] init];
+    filePathsVideoArtworkArray = [[NSMutableArray alloc] init];
+    for (id object in filePathsList) {
+        if ([object containsString:@".mp4"]) {
+            [filePathsVideoArray addObject:object];
+            NSString *cut = [object substringToIndex:[object length]-4];
+            NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];
+            [filePathsVideoArtworkArray addObject:jpg];
+        }
     }
 }
 

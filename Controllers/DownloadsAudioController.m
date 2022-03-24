@@ -22,21 +22,7 @@ NSMutableArray *filePathsAudioArtworkArray;
     	[self.tableView setSectionHeaderTopPadding:0.0f];
 	}
 
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    documentsDirectory = [paths objectAtIndex:0];
-
-    NSArray *filePathsList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
-    filePathsAudioArray = [[NSMutableArray alloc] init];
-    filePathsAudioArtworkArray = [[NSMutableArray alloc] init];
-    for (id object in filePathsList) {
-        if ([object containsString:@".m4a"]) {
-            [filePathsAudioArray addObject:object];
-            NSString *cut = [object substringToIndex:[object length]-4];
-            NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];
-            [filePathsAudioArtworkArray addObject:jpg];
-        }
-    }
+    [self setupAudioArrays];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -54,6 +40,7 @@ NSMutableArray *filePathsAudioArtworkArray;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
         cell.textLabel.adjustsFontSizeToFitWidth = true;
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
             cell.textLabel.textColor = [UIColor blackColor];
@@ -95,6 +82,34 @@ NSMutableArray *filePathsAudioArtworkArray;
     [self presentViewController:playerViewController animated:YES completion:nil];
 }
 
+- (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
+    NSString *currentFileName = filePathsAudioArray[indexPath.row];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];
+
+    UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleAlert];
+
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Delete Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSFileManager *fm = [[NSFileManager alloc] init];
+        [fm removeItemAtPath:filePath error:nil];
+
+        UIAlertController *alertDeleted = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Successfully Deleted" preferredStyle:UIAlertControllerStyleAlert];
+
+        [alertDeleted addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [filePathsAudioArray removeAllObjects];
+            [filePathsAudioArtworkArray removeAllObjects];
+            [self setupAudioArrays];
+            [self.tableView reloadData];
+        }]];
+
+        [self presentViewController:alertDeleted animated:YES completion:nil];
+    }]];
+
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    }]];
+
+    [self presentViewController:alertMenu animated:YES completion:nil];
+}
+
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     [self setupLightDarkModeAudioView];
@@ -111,6 +126,24 @@ NSMutableArray *filePathsAudioArtworkArray;
     }
     else {
         self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+    }
+}
+
+- (void)setupAudioArrays {
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectory = [paths objectAtIndex:0];
+
+    NSArray *filePathsList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
+    filePathsAudioArray = [[NSMutableArray alloc] init];
+    filePathsAudioArtworkArray = [[NSMutableArray alloc] init];
+    for (id object in filePathsList) {
+        if ([object containsString:@".m4a"]) {
+            [filePathsAudioArray addObject:object];
+            NSString *cut = [object substringToIndex:[object length]-4];
+            NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];
+            [filePathsAudioArtworkArray addObject:jpg];
+        }
     }
 }
 
