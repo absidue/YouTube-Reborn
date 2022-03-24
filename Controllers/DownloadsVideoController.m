@@ -89,9 +89,10 @@ NSMutableArray *filePathsVideoArtworkArray;
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleAlert];
 
-    /* [alertMenu addAction:[UIAlertAction actionWithTitle:@"Import Video To Camera Roll" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Import Video To Camera Roll" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-            [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:filePath];
+            NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+            [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileURL];
         } completionHandler:^(BOOL success, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (success) {
@@ -111,7 +112,7 @@ NSMutableArray *filePathsVideoArtworkArray;
                 }
             });
         }];
-    }]]; */
+    }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Delete Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSFileManager *fm = [[NSFileManager alloc] init];
