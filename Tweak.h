@@ -36,6 +36,7 @@
 - (void)audioDownloader;
 - (void)videoDownloader;
 - (void)pictureInPicture;
+- (void)test;
 @end
 
 @interface YTMainAppSkipVideoButton

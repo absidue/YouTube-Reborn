@@ -233,6 +233,10 @@ NSURL *streamURL;
                 [self playInApp];
             }]];
 
+            [alertMenu addAction:[UIAlertAction actionWithTitle:@"Test" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self test];
+            }]];
+
             [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             }]];
 
@@ -476,6 +480,42 @@ NSURL *streamURL;
         UIViewController *failedViewController = self._viewControllerForAncestor;
         [failedViewController presentViewController:alertFailed animated:YES completion:nil];
     }
+}
+
+%new;
+- (void)test {
+    NSString *videoIdentifier = [playingVideoID currentVideoID];
+    
+    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+
+    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@", videoIdentifier];
+    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+
+    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed" preferredStyle:UIAlertControllerStyleAlert];
+
+            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            }]];
+
+            UIViewController *failedViewController = self._viewControllerForAncestor;
+            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+        } else {
+            NSMutableDictionary *jsonResponse = responseObject;
+            NSString *thumbnail = [jsonResponse objectForKey:@"thumbnail"];
+
+            UIAlertController *alertTest = [UIAlertController alertControllerWithTitle:@"Notice" message:thumbnail preferredStyle:UIAlertControllerStyleAlert];
+
+            [alertTest addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            }]];
+
+            UIViewController *testViewController = self._viewControllerForAncestor;
+            [testViewController presentViewController:alertTest animated:YES completion:nil];
+        }
+    }];
+    [dataTask resume];
 }
 %end
 
