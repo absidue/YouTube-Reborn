@@ -32,11 +32,11 @@
 @property(readonly, nonatomic) YTQTMButton *closedCaptionsOrSubtitlesButton;
 @property(retain, nonatomic) UIButton *overlayButtonOne;
 - (void)playInApp;
-- (void)optionsAction:(id)sender;
+- (void)optionsAction;
 - (void)audioDownloader;
+- (void)videoDownloaderOptions;
 - (void)videoDownloader;
 - (void)pictureInPicture;
-- (void)test;
 @end
 
 @interface YTMainAppSkipVideoButton
@@ -76,12 +76,19 @@
 - (void)rootOptionsAction:(id)sender;
 @end
 
-// Tweak Variables
-
-extern NSString *videoTime;
-extern NSURL *directURL;
-extern NSURL *streamURL;
-
-// YouTube Api Variables
-
-extern NSString *YTApiKey;
+extern NSString *title;
+extern NSString *description;
+extern NSString *thumbnail;
+extern NSURL *v240p;
+extern NSURL *a240p;
+extern NSURL *v480p;
+extern NSURL *a480p;
+extern NSURL *v720p;
+extern NSURL *a720p;
+extern NSURL *v1080p;
+extern NSURL *a1080p;
+extern NSURL *v1440p;
+extern NSURL *a1440p;
+extern NSURL *v2160p;
+extern NSURL *a2160p;
+extern NSMutableArray *qualities;
