@@ -144,23 +144,6 @@ YTUserDefaults *ytThemeSettings;
 }
 %end
 
-NSString *title;
-NSString *description;
-NSString *thumbnail;
-NSURL *v240p;
-NSURL *a240p;
-NSURL *v480p;
-NSURL *a480p;
-NSURL *v720p;
-NSURL *a720p;
-NSURL *v1080p;
-NSURL *a1080p;
-NSURL *v1440p;
-NSURL *a1440p;
-NSURL *v2160p;
-NSURL *a2160p;
-NSMutableArray *qualities;
-
 %hook YTMainAppControlsOverlayView
 
 %property(retain, nonatomic) UIButton *overlayButtonOne;
@@ -242,97 +225,10 @@ NSMutableArray *qualities;
 
     UIViewController *menuViewController = self._viewControllerForAncestor;
     [menuViewController presentViewController:alertMenu animated:YES completion:nil];
-
-    /* UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
-
-    UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
-
-    NSString *videoIdentifier = [playingVideoID currentVideoID];
-
-    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
-
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@", videoIdentifier];
-    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
-
-    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
-
-            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            }]];
-
-            UIViewController *failedViewController = self._viewControllerForAncestor;
-            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-        } else {
-            NSMutableDictionary *jsonResponse = responseObject;
-            title = [jsonResponse objectForKey:@"title"];
-            description = [jsonResponse objectForKey:@"description"];
-            thumbnail = [jsonResponse objectForKey:@"thumbnail"];
-            v240p = [jsonResponse objectForKey:@"v240p"];
-            a240p = [jsonResponse objectForKey:@"a240p"];
-            v480p = [jsonResponse objectForKey:@"v480p"];
-            a480p = [jsonResponse objectForKey:@"a480p"];
-            v720p = [jsonResponse objectForKey:@"v720p"];
-            a720p = [jsonResponse objectForKey:@"a720p"];
-            v1080p = [jsonResponse objectForKey:@"v1080p"];
-            a1080p = [jsonResponse objectForKey:@"a1080p"];
-            v1440p = [jsonResponse objectForKey:@"v1440p"];
-            a1440p = [jsonResponse objectForKey:@"a1440p"];
-            v2160p = [jsonResponse objectForKey:@"v2160p"];
-            a2160p = [jsonResponse objectForKey:@"a2160p"];
-
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-        }
-    }];
-    [dataTask resume]; */
 }
 
 %new;
 - (void)audioDownloader {
-    /* UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-    UIViewController *downloadingViewController = self._viewControllerForAncestor;
-    [downloadingViewController presentViewController:alertDownloading animated:YES completion:nil];
-
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    NSURLRequest *request;
-    if (a2160p.absoluteString != NULL) {
-        request = [NSURLRequest requestWithURL:a2160p];
-    } else if (a1440p.absoluteString != NULL) {
-        request = [NSURLRequest requestWithURL:a1440p];
-    } else if (a1080p.absoluteString != NULL) {
-        request = [NSURLRequest requestWithURL:a1080p];
-    } else if (a720p.absoluteString != NULL) {
-        request = [NSURLRequest requestWithURL:a720p];
-    } else if (a480p.absoluteString != NULL) {
-        request = [NSURLRequest requestWithURL:a480p];
-    } else if (a240p.absoluteString != NULL) {
-        request = [NSURLRequest requestWithURL:a240p];
-    }
-
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            float downloadPercent = downloadProgress.fractionCompleted * 100;
-            alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-        });
-    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        [alertDownloading dismissViewControllerAnimated:YES completion:nil];
-        UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
-
-        [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        }]];
-
-        UIViewController *downloadedViewController = self._viewControllerForAncestor;
-        [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
-    }];
-    [downloadTask resume]; */
 }
 
 %new;
@@ -347,7 +243,7 @@ NSMutableArray *qualities;
     NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-    NSString *options = @"[%22sponsor%22,%20%22intro%22,%20%22outro%22,%20%22interaction%22,%20%22selfpromo%22,%20%22music_offtopic%22]";
+    NSString *options = @"[%22v240p%22,%22v480p%22,%22v720p%22,%22v1080p%22,%22v1440p%22,%22v2160p%22,%22qualities%22]";
     NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoIdentifier, options];
     NSURL *dataUrl = [NSURL URLWithString:apiUrl];
     NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
@@ -364,52 +260,15 @@ NSMutableArray *qualities;
             [failedViewController presentViewController:alertFailed animated:YES completion:nil];
         } else {
             NSMutableDictionary *jsonResponse = responseObject;
-            v240p = [jsonResponse objectForKey:@"v240p"];
-            v480p = [jsonResponse objectForKey:@"v480p"];
-            v720p = [jsonResponse objectForKey:@"v720p"];
-            v1080p = [jsonResponse objectForKey:@"v1080p"];
-            v1440p = [jsonResponse objectForKey:@"v1440p"];
-            v2160p = [jsonResponse objectForKey:@"v2160p"];
-            qualities = [jsonResponse objectForKey:@"qualities"];
-
+            NSMutableDictionary *qualities = [jsonResponse objectForKey:@"qualities"];
             [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            /* UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertController *alertTest = [UIAlertController alertControllerWithTitle:@"Notice" message:[jsonResponse objectForKey:@"v240p"] preferredStyle:UIAlertControllerStyleAlert];
 
-            for (NSString *key in qualities) {
-                [alertMenu addAction:[UIAlertAction actionWithTitle:key style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                }]];
-            }
-
-            [alertMenu addAction:[UIAlertAction actionWithTitle:qualities[0] style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [alertTest addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             }]];
 
-            if (v2160p.absoluteString != NULL) {
-                [alertMenu addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                }]];
-            }
-            if (v1440p.absoluteString != NULL) {
-                [alertMenu addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                }]];
-            }
-            if (v1080p.absoluteString != NULL) {
-                [alertMenu addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                }]];
-            }
-            if (v720p.absoluteString != NULL) {
-                [alertMenu addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                }]];
-            }
-            [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            }]];
-
-            CGRect rect = self.frame;
-            rect.origin.x = self.frame.size.width / 20;
-            rect.origin.y = self.frame.size.height / 20;
-            alertMenu.popoverPresentationController.sourceView = self;
-            alertMenu.popoverPresentationController.sourceRect = rect;
-
-            UIViewController *menuViewController = self._viewControllerForAncestor;
-            [menuViewController presentViewController:alertMenu animated:YES completion:nil]; */
+            UIViewController *testViewController = self._viewControllerForAncestor;
+            [testViewController presentViewController:alertTest animated:YES completion:nil];
         }
     }];
     [dataTask resume];
