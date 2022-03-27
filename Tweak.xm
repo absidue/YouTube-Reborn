@@ -261,14 +261,46 @@ YTUserDefaults *ytThemeSettings;
         } else {
             NSMutableDictionary *jsonResponse = responseObject;
             NSMutableDictionary *qualities = [jsonResponse objectForKey:@"qualities"];
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertTest = [UIAlertController alertControllerWithTitle:@"Notice" message:[jsonResponse objectForKey:@"v240p"] preferredStyle:UIAlertControllerStyleAlert];
 
-            [alertTest addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [alertFetching dismissViewControllerAnimated:YES completion:nil];
+            UIAlertController *alertQualitySelector = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+            if ([[qualities objectForKey:@"v240p"] isEqual:@"True"]) {
+                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+            }
+            if ([[qualities objectForKey:@"v480p"] isEqual:@"True"]) {
+                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+            }
+            if ([[qualities objectForKey:@"v720p"] isEqual:@"True"]) {
+                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+            }
+            if ([[qualities objectForKey:@"v1080p"] isEqual:@"True"]) {
+                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+            }
+            if ([[qualities objectForKey:@"v1440p"] isEqual:@"True"]) {
+                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+            }
+            if ([[qualities objectForKey:@"v2160p"] isEqual:@"True"]) {
+                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+            }
+
+            [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             }]];
 
-            UIViewController *testViewController = self._viewControllerForAncestor;
-            [testViewController presentViewController:alertTest animated:YES completion:nil];
+            CGRect rect = self.frame;
+            rect.origin.x = self.frame.size.width / 20;
+            rect.origin.y = self.frame.size.height / 20;
+            alertQualitySelector.popoverPresentationController.sourceView = self;
+            alertQualitySelector.popoverPresentationController.sourceRect = rect;
+
+            UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
+            [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];
         }
     }];
     [dataTask resume];
