@@ -35,7 +35,7 @@
 - (void)optionsAction;
 - (void)audioDownloader;
 - (void)videoDownloaderOptions;
-- (void)videoDownloader;
+- (void)videoDownloader:(NSInteger)quality;
 - (void)pictureInPicture;
 @end
 

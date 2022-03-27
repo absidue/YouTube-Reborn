@@ -267,26 +267,32 @@ YTUserDefaults *ytThemeSettings;
 
             if ([[qualities objectForKey:@"v240p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [self videoDownloader:240];
                 }]];
             }
             if ([[qualities objectForKey:@"v480p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [self videoDownloader:480];
                 }]];
             }
             if ([[qualities objectForKey:@"v720p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [self videoDownloader:720];
                 }]];
             }
             if ([[qualities objectForKey:@"v1080p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [self videoDownloader:1080];
                 }]];
             }
             if ([[qualities objectForKey:@"v1440p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [self videoDownloader:1440];
                 }]];
             }
             if ([[qualities objectForKey:@"v2160p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [self videoDownloader:2160];
                 }]];
             }
 
@@ -307,7 +313,7 @@ YTUserDefaults *ytThemeSettings;
 }
 
 %new;
-- (void)videoDownloader {
+- (void)videoDownloader:(NSInteger)quality {
 }
 
 %new;
