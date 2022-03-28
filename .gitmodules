@@ -1,0 +1,3 @@
+[submodule "Jailbreak-Detection-Lib"]
+	path = Jailbreak-Detection-Lib
+	url = https://github.com/LillieWeeb001/Jailbreak-Detection-Lib.git
