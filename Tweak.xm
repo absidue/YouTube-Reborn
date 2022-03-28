@@ -3,7 +3,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
-#import "../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
+#import "Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
 #import "Tweak.h"
 
 UIColor *hexColour() {
