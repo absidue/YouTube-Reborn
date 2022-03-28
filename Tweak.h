@@ -31,12 +31,12 @@
 @property(readonly, nonatomic) ABCSwitch *autonavSwitch;
 @property(readonly, nonatomic) YTQTMButton *closedCaptionsOrSubtitlesButton;
 @property(retain, nonatomic) UIButton *overlayButtonOne;
-- (void)playInApp;
 - (void)optionsAction;
 - (void)audioDownloader;
 - (void)videoDownloaderOptions;
 - (void)videoDownloader:(NSInteger)quality;
 - (void)pictureInPicture;
+- (void)playInApp;
 @end
 
 @interface YTMainAppSkipVideoButton
