@@ -3,6 +3,8 @@
 @end
 
 @interface YTQTMButton : UIButton
+@property (strong, nonatomic) UIImageView *imageView;
++ (instancetype)iconButton;
 @end
 
 @interface ABCSwitch : UISwitch
@@ -18,10 +20,13 @@
 @interface YTAsyncCollectionView : UICollectionView
 @end
 
-@interface YTRightNavigationButtons
+@interface YTRightNavigationButtons : UIView
 @property(readonly, nonatomic) YTQTMButton *MDXButton;
 @property(readonly, nonatomic) YTQTMButton *searchButton;
 @property(readonly, nonatomic) YTQTMButton *notificationButton;
+@property (strong, nonatomic) YTQTMButton *youtubeRebornButton;
+- (void)setLeadingPadding:(CGFloat)arg1;
+- (void)rootOptionsAction;
 @end
 
 @interface YTMainAppControlsOverlayView : UIView
@@ -62,10 +67,6 @@
 - (NSInteger)playerState;
 @end
 
-@interface YTUserDefaults : NSObject
-- (long long)appThemeSetting;
-@end
-
 @interface YTWatchController : NSObject
 - (void)showFullScreen;
 @end
@@ -74,8 +75,8 @@
 - (void)selectItemWithPivotIdentifier:(id)pivotIndentifier;
 @end
 
-@interface YTWrapperView : UIView
-- (void)rootOptionsAction:(id)sender;
+@interface YTPageStyleController
++ (NSInteger)pageStyle;
 @end
 
 extern NSString *videoTime;
