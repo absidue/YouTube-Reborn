@@ -243,7 +243,7 @@ YTUserDefaults *ytThemeSettings;
     NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-    NSString *options = @"[%22v240p%22,%22v480p%22,%22v720p%22,%22v1080p%22,%22v1440p%22,%22v2160p%22,%22qualities%22]";
+    NSString *options = @"[%22v240p%22,%22v480p%22,%22v720p%22,%22v1080p%22,%22v1440p%22,%22v2160p%22]";
     NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoIdentifier, options];
     NSURL *dataUrl = [NSURL URLWithString:apiUrl];
     NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
