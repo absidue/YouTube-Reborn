@@ -31,6 +31,8 @@
 @property(readonly, nonatomic) ABCSwitch *autonavSwitch;
 @property(readonly, nonatomic) YTQTMButton *closedCaptionsOrSubtitlesButton;
 @property(retain, nonatomic) UIButton *overlayButtonOne;
+- (id)playPauseButton;
+- (void)didPressPause:(id)button;
 - (void)optionsAction;
 - (void)audioDownloader;
 - (void)videoDownloaderOptions;

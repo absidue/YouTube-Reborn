@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <AFNetworking/AFNetworking.h>
-#import <MediaRemote/MediaRemote.h>
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
 #import "../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
@@ -196,7 +195,7 @@ NSURL *bestURL;
 - (void)optionsAction {
     NSInteger videoStatus = [stateOut playerState];
     if (videoStatus == 3) {
-        MRMediaRemoteSendCommand(MRMediaRemoteCommandPause, 0);
+        [self didPressPause:[self playPauseButton]];
     }
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
