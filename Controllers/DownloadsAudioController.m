@@ -1,5 +1,4 @@
 #import "DownloadsAudioController.h"
-#import <MediaRemote/MediaRemote.h>
 #import "../iOS15Fix.h"
 
 static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
@@ -65,8 +64,6 @@ NSMutableArray *filePathsAudioArtworkArray;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    MRMediaRemoteSendCommand(MRMediaRemoteCommandPause, 0);
 
     NSString *currentFileName = filePathsAudioArray[indexPath.row];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];

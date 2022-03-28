@@ -1,5 +1,4 @@
 #import "DownloadsVideoController.h"
-#import <MediaRemote/MediaRemote.h>
 #import <Photos/Photos.h>
 #import "../iOS15Fix.h"
 
@@ -66,8 +65,6 @@ NSMutableArray *filePathsVideoArtworkArray;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    MRMediaRemoteSendCommand(MRMediaRemoteCommandPause, 0);
 
     NSString *currentFileName = filePathsVideoArray[indexPath.row];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];
