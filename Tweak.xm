@@ -144,6 +144,9 @@ YTUserDefaults *ytThemeSettings;
 }
 %end
 
+NSString *videoTime;
+NSURL *bestURL;
+
 %hook YTMainAppControlsOverlayView
 
 %property(retain, nonatomic) UIButton *overlayButtonOne;
@@ -318,6 +321,48 @@ YTUserDefaults *ytThemeSettings;
 
 %new;
 - (void)pictureInPicture {
+    UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
+
+    UIViewController *fetchingViewController = self._viewControllerForAncestor;
+    [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
+
+    NSString *videoIdentifier = [playingVideoID currentVideoID];
+
+    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+
+    NSString *options = @"[%22best%22]";
+    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoIdentifier, options];
+    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+
+    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            [alertFetching dismissViewControllerAnimated:YES completion:nil];
+            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
+
+            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            }]];
+
+            UIViewController *failedViewController = self._viewControllerForAncestor;
+            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+        } else {
+            NSMutableDictionary *jsonResponse = responseObject;
+            videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
+            bestURL = [NSURL URLWithString:[jsonResponse objectForKey:@"best"]];
+
+            [alertFetching dismissViewControllerAnimated:YES completion:nil];
+            PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
+            pictureInPictureController.videoTime = videoTime;
+            pictureInPictureController.videoPath = bestURL;
+            UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
+            pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+
+            UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
+            [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
+        }
+    }];
+    [dataTask resume];
 }
 
 %new;

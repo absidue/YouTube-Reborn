@@ -75,3 +75,6 @@
 @interface YTWrapperView : UIView
 - (void)rootOptionsAction:(id)sender;
 @end
+
+extern NSString *videoTime;
+extern NSURL *bestURL;

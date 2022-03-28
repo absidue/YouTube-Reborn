@@ -59,7 +59,6 @@ AVPictureInPictureController *pictureInPictureController;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == player && [keyPath isEqualToString:@"status"]) {
         if (player.status == AVPlayerStatusReadyToPlay) {
-            [player play];
             if([AVPictureInPictureController isPictureInPictureSupported]) {
                 pictureInPictureController = [[AVPictureInPictureController alloc] initWithPlayerLayer:playerLayer];
                 pictureInPictureController.delegate = self;
@@ -67,6 +66,7 @@ AVPictureInPictureController *pictureInPictureController;
                     pictureInPictureController.canStartPictureInPictureAutomaticallyFromInline = YES;
                 }
             }
+            [player play];
         }
     } else if (object == player && [keyPath isEqualToString:@"timeControlStatus"]) {
         if (player.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
