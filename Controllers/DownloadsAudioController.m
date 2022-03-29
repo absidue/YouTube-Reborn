@@ -135,7 +135,7 @@ NSMutableArray *filePathsAudioArtworkArray;
     filePathsAudioArray = [[NSMutableArray alloc] init];
     filePathsAudioArtworkArray = [[NSMutableArray alloc] init];
     for (id object in filePathsList) {
-        if ([object containsString:@".m4a"]) {
+        if (![object containsString:@".mp4"]) {
             [filePathsAudioArray addObject:object];
             NSString *cut = [object substringToIndex:[object length]-4];
             NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];

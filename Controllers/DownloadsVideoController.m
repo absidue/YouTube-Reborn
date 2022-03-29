@@ -1,4 +1,5 @@
 #import "DownloadsVideoController.h"
+#import "DownloadsVLCPlayerController.h"
 #import <Photos/Photos.h>
 #import "../iOS15Fix.h"
 
@@ -78,6 +79,12 @@ NSMutableArray *filePathsVideoArtworkArray;
     [playerViewController.player play];
 
     [self presentViewController:playerViewController animated:YES completion:nil];
+
+    /* DownloadsVLCPlayerController *downloadsVLCPlayerController = [[DownloadsVLCPlayerController alloc] init];
+    UINavigationController *downloadsVLCPlayerControllerView = [[UINavigationController alloc] initWithRootViewController:downloadsVLCPlayerController];
+    downloadsVLCPlayerControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+
+    [self presentViewController:downloadsVLCPlayerControllerView animated:YES completion:nil]; */
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
