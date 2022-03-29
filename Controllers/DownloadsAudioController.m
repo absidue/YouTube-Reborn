@@ -1,7 +1,10 @@
 #import "DownloadsAudioController.h"
+#import "DownloadsVLCPlayerController.h"
 #import "../iOS15Fix.h"
 
 static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
+
+NSURL *downloadsPathURL;
 
 @interface DownloadsAudioController ()
 @end
@@ -67,16 +70,35 @@ NSMutableArray *filePathsAudioArtworkArray;
 
     NSString *currentFileName = filePathsAudioArray[indexPath.row];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];
+    downloadsPathURL = [NSURL fileURLWithPath:filePath];
 
-    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-    playerViewController.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:filePath]];
-    playerViewController.allowsPictureInPicturePlayback = NO;
-    if ([playerViewController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
-        playerViewController.canStartPictureInPictureAutomaticallyFromInline = NO;
-    }
-    [playerViewController.player play];
+    UIAlertController *alertPlayer = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
 
-    [self presentViewController:playerViewController animated:YES completion:nil];
+    [alertPlayer addAction:[UIAlertAction actionWithTitle:@"AVPlayer" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+        playerViewController.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:filePath]];
+        playerViewController.allowsPictureInPicturePlayback = YES;
+        if ([playerViewController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
+            playerViewController.canStartPictureInPictureAutomaticallyFromInline = NO;
+        }
+        [playerViewController.player play];
+
+        [self presentViewController:playerViewController animated:YES completion:nil];
+    }]];
+    
+    [alertPlayer addAction:[UIAlertAction actionWithTitle:@"VLC" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        DownloadsVLCPlayerController *downloadsVLCPlayerController = [[DownloadsVLCPlayerController alloc] init];
+        downloadsVLCPlayerController.videoPath = downloadsPathURL;
+        UINavigationController *downloadsVLCPlayerControllerView = [[UINavigationController alloc] initWithRootViewController:downloadsVLCPlayerController];
+        downloadsVLCPlayerControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+
+        [self presentViewController:downloadsVLCPlayerControllerView animated:YES completion:nil];
+    }]];
+
+    [alertPlayer addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    }]];
+
+    [self presentViewController:alertPlayer animated:YES completion:nil];
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
@@ -135,12 +157,12 @@ NSMutableArray *filePathsAudioArtworkArray;
     filePathsAudioArray = [[NSMutableArray alloc] init];
     filePathsAudioArtworkArray = [[NSMutableArray alloc] init];
     for (id object in filePathsList) {
-        if (![object containsString:@".mp4"]) {
+        // if (![object containsString:@".mp4"]) {
             [filePathsAudioArray addObject:object];
-            NSString *cut = [object substringToIndex:[object length]-4];
+            /* NSString *cut = [object substringToIndex:[object length]-4];
             NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];
-            [filePathsAudioArtworkArray addObject:jpg];
-        }
+            [filePathsAudioArtworkArray addObject:jpg]; */
+        // }
     }
 }
 

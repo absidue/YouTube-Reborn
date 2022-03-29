@@ -5,10 +5,6 @@
 
 @interface DownloadsVLCPlayerController : UIViewController <VLCMediaPlayerDelegate>
 
-@property (nonatomic, strong) IBOutlet UIView *movieView;
-
-- (IBAction)playandPause:(id)sender;
-
-- (void)setupLightDarkModeVideoView;
+@property (nonatomic, assign) NSURL *videoPath;
 
 @end
