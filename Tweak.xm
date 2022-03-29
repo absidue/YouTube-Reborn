@@ -193,22 +193,24 @@ NSURL *bestURL;
         [self didPressPause:[self playPauseButton]];
     }
 
+    NSString *videoIdentifier = [playingVideoID currentVideoID];
+
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self audioDownloader];
+        [self artworkDownloader:@"audio":videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self videoDownloaderOptions];
+        [self artworkDownloader:@"video":videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self pictureInPicture];
+        [self pictureInPicture:videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Play In External App" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self playInApp];
+        [self playInApp:videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -225,19 +227,90 @@ NSURL *bestURL;
 }
 
 %new;
-- (void)audioDownloader {
+- (void)artworkDownloader:(NSString *)downloader :(NSString *)videoID {
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
     [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
 
-    NSString *videoIdentifier = [playingVideoID currentVideoID];
+    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+
+    NSString *options = @"[%22thumbnail%22]";
+    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+
+    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            [alertFetching dismissViewControllerAnimated:YES completion:nil];
+            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
+
+            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            }]];
+
+            UIViewController *failedViewController = self._viewControllerForAncestor;
+            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+        } else {
+            NSMutableDictionary *jsonResponse = responseObject;
+            NSURL *thumbnailURL = [NSURL URLWithString:[jsonResponse objectForKey:@"thumbnail"]];
+
+            [alertFetching dismissViewControllerAnimated:YES completion:nil];
+            UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+            UIViewController *downloadingViewController = self._viewControllerForAncestor;
+            [downloadingViewController presentViewController:alertDownloading animated:YES completion:nil];
+
+            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+            NSURLRequest *request = [NSURLRequest requestWithURL:thumbnailURL];
+
+            NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    float downloadPercent = downloadProgress.fractionCompleted * 100;
+                    alertDownloading.message = [NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
+                });
+            } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+                NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+                return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+            } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                if (error) {
+                    [alertDownloading dismissViewControllerAnimated:YES completion:nil];
+                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to download artwork" preferredStyle:UIAlertControllerStyleAlert];
+
+                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    }]];
+
+                    UIViewController *failedViewController = self._viewControllerForAncestor;
+                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+                } else {
+                    [alertDownloading dismissViewControllerAnimated:YES completion:nil];
+                    UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Artwork Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+
+                    [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    }]];
+
+                    UIViewController *downloadedViewController = self._viewControllerForAncestor;
+                    [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                }
+            }];
+            [downloadTask resume];
+        }
+    }];
+    [dataTask resume];
+}
+
+%new;
+- (void)audioDownloader:(NSString *)videoID {
+    UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
+
+    UIViewController *fetchingViewController = self._viewControllerForAncestor;
+    [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
 
     NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
     NSString *options = @"[%22bestaudio%22]";
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoIdentifier, options];
+    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
     NSURL *dataUrl = [NSURL URLWithString:apiUrl];
     NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
@@ -289,19 +362,17 @@ NSURL *bestURL;
 }
 
 %new;
-- (void)videoDownloaderOptions {
+- (void)videoDownloaderOptions:(NSString *)videoID {
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
     [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
 
-    NSString *videoIdentifier = [playingVideoID currentVideoID];
-
     NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
     NSString *options = @"[%22v240p%22,%22v480p%22,%22v720p%22,%22v1080p%22,%22v1440p%22,%22v2160p%22]";
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoIdentifier, options];
+    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
     NSURL *dataUrl = [NSURL URLWithString:apiUrl];
     NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
@@ -324,32 +395,32 @@ NSURL *bestURL;
 
             if ([[qualities objectForKey:@"v240p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self videoDownloader:240];
+                    // [self videoDownloader:240];
                 }]];
             }
             if ([[qualities objectForKey:@"v480p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self videoDownloader:480];
+                    // [self videoDownloader:480];
                 }]];
             }
             if ([[qualities objectForKey:@"v720p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self videoDownloader:720];
+                    // [self videoDownloader:720];
                 }]];
             }
             if ([[qualities objectForKey:@"v1080p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self videoDownloader:1080];
+                    // [self videoDownloader:1080];
                 }]];
             }
             if ([[qualities objectForKey:@"v1440p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self videoDownloader:1440];
+                    // [self videoDownloader:1440];
                 }]];
             }
             if ([[qualities objectForKey:@"v2160p"] isEqual:@"True"]) {
                 [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self videoDownloader:2160];
+                    // [self videoDownloader:2160];
                 }]];
             }
 
@@ -370,23 +441,21 @@ NSURL *bestURL;
 }
 
 %new;
-- (void)videoDownloader:(NSInteger)quality {
+- (void)videoDownloader:(NSInteger)quality :(NSString *)videoID {
 }
 
 %new;
-- (void)pictureInPicture {
+- (void)pictureInPicture:(NSString *)videoID {
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
     [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
 
-    NSString *videoIdentifier = [playingVideoID currentVideoID];
-
     NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
     NSString *options = @"[%22best%22]";
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoIdentifier, options];
+    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
     NSURL *dataUrl = [NSURL URLWithString:apiUrl];
     NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
@@ -420,7 +489,7 @@ NSURL *bestURL;
 }
 
 %new;
-- (void)playInApp {
+- (void)playInApp:(NSString *)videoID {
 }
 %end
 
@@ -1315,6 +1384,12 @@ NSURL *bestURL;
 }
 %end
 %hook YTCommentView
+- (void)setBackgroundColor:(UIColor *)color {
+    color = hexColour();
+    %orig;
+}
+%end
+%hook YTChannelListSubMenuAvatarView
 - (void)setBackgroundColor:(UIColor *)color {
     color = hexColour();
     %orig;
