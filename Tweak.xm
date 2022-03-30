@@ -76,7 +76,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 - (NSMutableArray *)visibleButtons {
     NSMutableArray *retVal = %orig.mutableCopy;
-    // [self setLeadingPadding:-10];
+    [self setLeadingPadding:+10];
     if (self.youtubeRebornButton) {
         [self.youtubeRebornButton removeFromSuperview];
         [self addSubview:self.youtubeRebornButton];
