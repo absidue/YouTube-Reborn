@@ -202,7 +202,7 @@ NSURL *bestURL;
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self artworkDownloader:@"video":videoIdentifier];
+        // [self artworkDownloader:@"video":videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -231,72 +231,75 @@ NSURL *bestURL;
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
+    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
+        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+        NSString *options = @"[%22thumbnail%22]";
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+        NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
-    NSString *options = @"[%22thumbnail%22]";
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
-    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
-
-    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
-
-            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            }]];
-
-            UIViewController *failedViewController = self._viewControllerForAncestor;
-            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-        } else {
-            NSMutableDictionary *jsonResponse = responseObject;
-            NSURL *thumbnailURL = [NSURL URLWithString:[jsonResponse objectForKey:@"thumbnail"]];
-
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-            UIViewController *downloadingViewController = self._viewControllerForAncestor;
-            [downloadingViewController presentViewController:alertDownloading animated:YES completion:nil];
-
-            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-            NSURLRequest *request = [NSURLRequest requestWithURL:thumbnailURL];
-
-            NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    float downloadPercent = downloadProgress.fractionCompleted * 100;
-                    alertDownloading.message = [NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-                });
-            } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-                return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-            } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                if (error) {
-                    [alertDownloading dismissViewControllerAnimated:YES completion:nil];
-                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to download artwork" preferredStyle:UIAlertControllerStyleAlert];
+        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            if (error) {
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
 
                     [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     }]];
 
                     UIViewController *failedViewController = self._viewControllerForAncestor;
                     [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-                } else {
-                    [alertDownloading dismissViewControllerAnimated:YES completion:nil];
-                    UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Artwork Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+                }];
+            } else {
+                NSMutableDictionary *jsonResponse = responseObject;
+                NSURL *thumbnailURL = [NSURL URLWithString:[jsonResponse objectForKey:@"thumbnail"]];
 
-                    [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    }]];
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+                    UIViewController *downloadingViewController = self._viewControllerForAncestor;
+                    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
+                        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+                        NSURLRequest *request = [NSURLRequest requestWithURL:thumbnailURL];
 
-                    UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                    [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
-                }
-            }];
-            [downloadTask resume];
-        }
+                        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                float downloadPercent = downloadProgress.fractionCompleted * 100;
+                                alertDownloading.message = [NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
+                            });
+                        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+                            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+                            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+                        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                            if (error) {
+                                [alertDownloading dismissViewControllerAnimated:YES completion:^{
+                                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to download artwork" preferredStyle:UIAlertControllerStyleAlert];
+
+                                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                                    }]];
+
+                                    UIViewController *failedViewController = self._viewControllerForAncestor;
+                                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+                                }];
+                            } else {
+                                [alertDownloading dismissViewControllerAnimated:YES completion:^{
+                                    if ([downloader isEqual:@"audio"]) {
+                                        [self audioDownloader:videoID];
+                                    }
+                                    if ([downloader isEqual:@"video"]) {
+                                        // [self videoDownloader:videoID];
+                                    }
+                                }];
+                            }
+                        }];
+                        [downloadTask resume];
+                    }];
+                }];
+            }
+        }];
+        [dataTask resume];
     }];
-    [dataTask resume];
 }
 
 %new;
@@ -304,61 +307,63 @@ NSURL *bestURL;
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
+    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
+        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+        NSString *options = @"[%22bestaudio%22]";
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+        NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
-    NSString *options = @"[%22bestaudio%22]";
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
-    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            if (error) {
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
 
-    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
+                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    }]];
 
-            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            }]];
+                    UIViewController *failedViewController = self._viewControllerForAncestor;
+                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+                }];
+            } else {
+                NSMutableDictionary *jsonResponse = responseObject;
+                NSURL *bestaudioURL = [NSURL URLWithString:[jsonResponse objectForKey:@"bestaudio"]];
 
-            UIViewController *failedViewController = self._viewControllerForAncestor;
-            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-        } else {
-            NSMutableDictionary *jsonResponse = responseObject;
-            NSURL *bestaudioURL = [NSURL URLWithString:[jsonResponse objectForKey:@"bestaudio"]];
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+                    UIViewController *downloadingViewController = self._viewControllerForAncestor;
+                    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
+                        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+                        NSURLRequest *request = [NSURLRequest requestWithURL:bestaudioURL];
 
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-            UIViewController *downloadingViewController = self._viewControllerForAncestor;
-            [downloadingViewController presentViewController:alertDownloading animated:YES completion:nil];
+                        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                float downloadPercent = downloadProgress.fractionCompleted * 100;
+                                alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
+                            });
+                        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+                            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+                            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+                        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                            [alertDownloading dismissViewControllerAnimated:YES completion:nil];
+                            UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
 
-            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-            NSURLRequest *request = [NSURLRequest requestWithURL:bestaudioURL];
+                            [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                            }]];
 
-            NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    float downloadPercent = downloadProgress.fractionCompleted * 100;
-                    alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-                });
-            } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-                return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-            } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                [alertDownloading dismissViewControllerAnimated:YES completion:nil];
-                UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
-
-                [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                }]];
-
-                UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
-            }];
-            [downloadTask resume];
-        }
+                            UIViewController *downloadedViewController = self._viewControllerForAncestor;
+                            [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                        }];
+                        [downloadTask resume];
+                    }];
+                }];
+            }
+        }];
+        [dataTask resume];
     }];
-    [dataTask resume];
 }
 
 %new;
@@ -366,78 +371,81 @@ NSURL *bestURL;
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
+    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
 
-    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-    NSString *options = @"[%22v240p%22,%22v480p%22,%22v720p%22,%22v1080p%22,%22v1440p%22,%22v2160p%22]";
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
-    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+        NSString *options = @"[%22v240p%22,%22v480p%22,%22v720p%22,%22v1080p%22,%22v1440p%22,%22v2160p%22]";
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+        NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
-    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
+        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            if (error) {
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
 
-            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            }]];
+                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    }]];
 
-            UIViewController *failedViewController = self._viewControllerForAncestor;
-            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-        } else {
-            NSMutableDictionary *jsonResponse = responseObject;
-            NSMutableDictionary *qualities = [jsonResponse objectForKey:@"qualities"];
+                    UIViewController *failedViewController = self._viewControllerForAncestor;
+                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+                }];
+            } else {
+                NSMutableDictionary *jsonResponse = responseObject;
+                NSMutableDictionary *qualities = [jsonResponse objectForKey:@"qualities"];
 
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertQualitySelector = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertQualitySelector = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-            if ([[qualities objectForKey:@"v240p"] isEqual:@"True"]) {
-                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    // [self videoDownloader:240];
-                }]];
+                    if ([[qualities objectForKey:@"v240p"] isEqual:@"True"]) {
+                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                            // [self videoDownloader:240];
+                        }]];
+                    }
+                    if ([[qualities objectForKey:@"v480p"] isEqual:@"True"]) {
+                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                            // [self videoDownloader:480];
+                        }]];
+                    }
+                    if ([[qualities objectForKey:@"v720p"] isEqual:@"True"]) {
+                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                            // [self videoDownloader:720];
+                        }]];
+                    }
+                    if ([[qualities objectForKey:@"v1080p"] isEqual:@"True"]) {
+                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                            // [self videoDownloader:1080];
+                        }]];
+                    }
+                    if ([[qualities objectForKey:@"v1440p"] isEqual:@"True"]) {
+                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                            // [self videoDownloader:1440];
+                        }]];
+                    }
+                    if ([[qualities objectForKey:@"v2160p"] isEqual:@"True"]) {
+                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                            // [self videoDownloader:2160];
+                        }]];
+                    }
+
+                    [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    }]];
+
+                    CGRect rect = self.frame;
+                    rect.origin.x = self.frame.size.width / 20;
+                    rect.origin.y = self.frame.size.height / 20;
+                    alertQualitySelector.popoverPresentationController.sourceView = self;
+                    alertQualitySelector.popoverPresentationController.sourceRect = rect;
+
+                    UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
+                    [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];
+                }];
             }
-            if ([[qualities objectForKey:@"v480p"] isEqual:@"True"]) {
-                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    // [self videoDownloader:480];
-                }]];
-            }
-            if ([[qualities objectForKey:@"v720p"] isEqual:@"True"]) {
-                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    // [self videoDownloader:720];
-                }]];
-            }
-            if ([[qualities objectForKey:@"v1080p"] isEqual:@"True"]) {
-                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    // [self videoDownloader:1080];
-                }]];
-            }
-            if ([[qualities objectForKey:@"v1440p"] isEqual:@"True"]) {
-                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    // [self videoDownloader:1440];
-                }]];
-            }
-            if ([[qualities objectForKey:@"v2160p"] isEqual:@"True"]) {
-                [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    // [self videoDownloader:2160];
-                }]];
-            }
-
-            [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            }]];
-
-            CGRect rect = self.frame;
-            rect.origin.x = self.frame.size.width / 20;
-            rect.origin.y = self.frame.size.height / 20;
-            alertQualitySelector.popoverPresentationController.sourceView = self;
-            alertQualitySelector.popoverPresentationController.sourceRect = rect;
-
-            UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
-            [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];
-        }
+        }];
+        [dataTask resume];
     }];
-    [dataTask resume];
 }
 
 %new;
@@ -449,43 +457,46 @@ NSURL *bestURL;
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:nil];
+    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
 
-    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-    NSString *options = @"[%22best%22]";
-    NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
-    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+        NSString *options = @"[%22best%22]";
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+        NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
-    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
+        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            if (error) {
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
 
-            [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            }]];
+                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    }]];
 
-            UIViewController *failedViewController = self._viewControllerForAncestor;
-            [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-        } else {
-            NSMutableDictionary *jsonResponse = responseObject;
-            videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
-            bestURL = [NSURL URLWithString:[jsonResponse objectForKey:@"best"]];
+                    UIViewController *failedViewController = self._viewControllerForAncestor;
+                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+                }];
+            } else {
+                NSMutableDictionary *jsonResponse = responseObject;
+                videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
+                bestURL = [NSURL URLWithString:[jsonResponse objectForKey:@"best"]];
 
-            [alertFetching dismissViewControllerAnimated:YES completion:nil];
-            PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
-            pictureInPictureController.videoTime = videoTime;
-            pictureInPictureController.videoPath = bestURL;
-            UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
-            pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
+                    pictureInPictureController.videoTime = videoTime;
+                    pictureInPictureController.videoPath = bestURL;
+                    UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
+                    pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
-            UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
-            [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
-        }
+                    UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
+                    [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
+                }];
+            }
+        }];
+        [dataTask resume];
     }];
-    [dataTask resume];
 }
 
 %new;
