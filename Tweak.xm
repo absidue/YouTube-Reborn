@@ -198,7 +198,7 @@ NSURL *bestURL;
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self artworkDownloader:@"audio":videoIdentifier];
+        // [self artworkDownloader:@"audio":videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -210,7 +210,7 @@ NSURL *bestURL;
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Play In External App" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self playInApp:videoIdentifier];
+        // [self playInApp:videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {

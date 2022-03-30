@@ -8,7 +8,7 @@ TWEAK_NAME = YouTubeReborn
 YouTubeReborn_FILES = Tweak.xm $(shell find Controllers -name '*.m') $(shell find AFNetworking -name '*.m') $(shell find Jailbreak-Detection-Lib -name '*.m')
 YouTubeReborn_CFLAGS = -fobjc-arc
 YouTubeReborn_FRAMEWORKS = UIKit Foundation AVFoundation AVKit Photos AudioToolbox CFNetwork CoreFoundation CoreGraphics CoreMedia CoreText CoreVideo OpenGLES QuartzCore Security VideoToolbox
-YouTubeReborn_EXTRA_FRAMEWORKS = ffmpegkit libavcodec libavdevice libavfilter libavformat libavutil libswresample libswscale MobileVLCKit
+YouTubeReborn_EXTRA_FRAMEWORKS = MobileVLCKit
 YouTubeReborn_LDFLAGS += -rpath /Library/Frameworks/
 ARCHS = arm64
 
