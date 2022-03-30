@@ -52,8 +52,8 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         youtubeRebornLightSettingsPath = [tweakBundle pathForResource:@"ytrebornbuttonwhite" ofType:@"png"];
 		youtubeRebornDarkSettingsPath = [tweakBundle pathForResource:@"ytrebornbuttonblack" ofType:@"png"];
     } else {
-		youtubeRebornLightSettingsPath = @"/Library/Application%20Support/YouTubeReborn.bundle/youtuberebornbuttonwhite.png";
-        youtubeRebornDarkSettingsPath = @"/Library/Application%20Support/YouTubeReborn.bundle/youtuberebornbuttonblack.png";
+		youtubeRebornLightSettingsPath = @"/Library/Application Support/YouTubeReborn.bundle/ytrebornbuttonwhite.png";
+        youtubeRebornDarkSettingsPath = @"/Library/Application Support/YouTubeReborn.bundle/ytrebornbuttonblack.png";
     }
     NSMutableArray *retVal = %orig.mutableCopy;
     [self.youtubeRebornButton removeFromSuperview];
