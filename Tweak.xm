@@ -60,7 +60,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     [self addSubview:self.youtubeRebornButton];
     if (!self.youtubeRebornButton) {
         self.youtubeRebornButton = [%c(YTQTMButton) iconButton];
-        self.youtubeRebornButton.frame = CGRectMake(0, 0, 40, 40);
+        self.youtubeRebornButton.frame = CGRectMake(0, 0, 24, 24);
         
         if ([%c(YTPageStyleController) pageStyle] == 0) {
             [self.youtubeRebornButton setImage:[UIImage imageWithContentsOfFile:youtubeRebornDarkSettingsPath] forState:UIControlStateNormal];
@@ -76,7 +76,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 - (NSMutableArray *)visibleButtons {
     NSMutableArray *retVal = %orig.mutableCopy;
-    [self setLeadingPadding:-10];
+    // [self setLeadingPadding:-10];
     if (self.youtubeRebornButton) {
         [self.youtubeRebornButton removeFromSuperview];
         [self addSubview:self.youtubeRebornButton];
