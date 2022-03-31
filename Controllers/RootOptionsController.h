@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface RootOptionsController : UITableViewController
+@interface RootOptionsController : UITableViewController <HBColorPickerDelegate>
 
 @end

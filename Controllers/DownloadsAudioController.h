@@ -8,5 +8,3 @@
 - (void)setupAudioArrays;
 
 @end
-
-extern NSURL *downloadsPathURL;

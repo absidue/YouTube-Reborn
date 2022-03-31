@@ -10,6 +10,8 @@
 #import "SponsorBlockOptionsController.h"
 #import "SearchOptionsController.h"
 #import "../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
+// #import "../Alderis/Alderis.h"
+#import "YouTubeReborn-Swift.h"
 #import "../iOS15Fix.h"
 
 static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
@@ -262,11 +264,15 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
             [self presentViewController:tabBarOptionsControllerView animated:YES completion:nil];
         }
         if(indexPath.row == 3) {
-            ColourOptionsController *colourOptionsController = [[ColourOptionsController alloc] init];
-            UINavigationController *colourOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:colourOptionsController];
-            colourOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+            HBColorPickerViewController *alderisViewController = [[HBColorPickerViewController alloc] init];
+            alderisViewController.delegate = self;
+            alderisViewController.popoverPresentationController.sourceView = self.view;
 
-            [self presentViewController:colourOptionsControllerView animated:YES completion:nil];
+            HBColorPickerConfiguration *configuration = [[HBColorPickerConfiguration alloc] initWithColor:[UIColor blueColor]];
+            configuration.supportsAlpha = NO;
+
+            alderisViewController.configuration = configuration;
+            [self presentViewController:alderisViewController animated:YES completion:nil];
         }
         if(indexPath.row == 4) {
             SearchOptionsController *searchOptionsController = [[SearchOptionsController alloc] init];
