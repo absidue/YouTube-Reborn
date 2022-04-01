@@ -1,7 +1,6 @@
 #import "RebornSettingsController.h"
+#import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
-
-static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
 
 @interface RebornSettingsController ()
 @end
@@ -83,7 +82,7 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"kYTRebornColourOptionsVTwo"];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"kYTRebornColourOptionsVThree"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             exit(0);
         }
