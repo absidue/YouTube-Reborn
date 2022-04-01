@@ -3,15 +3,12 @@
 #import "OverlayOptionsController.h"
 #import "TabBarOptionsController.h"
 #import "CreditsController.h"
-#import "ColourOptionsController.h"
 #import "ShortsOptionsController.h"
 #import "RebornSettingsController.h"
 #import "DownloadsController.h"
 #import "SponsorBlockOptionsController.h"
 #import "SearchOptionsController.h"
 #import "../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
-// #import "../Alderis/Alderis.h"
-#import "YouTubeReborn-Swift.h"
 #import "../iOS15Fix.h"
 
 static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
@@ -268,7 +265,11 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
             alderisViewController.delegate = self;
             alderisViewController.popoverPresentationController.sourceView = self.view;
 
-            HBColorPickerConfiguration *configuration = [[HBColorPickerConfiguration alloc] initWithColor:[UIColor blueColor]];
+            NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kYTRebornColourOptionsVThree"];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:colorData error:nil];
+            [unarchiver setRequiresSecureCoding:NO];
+            UIColor *colour = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+            HBColorPickerConfiguration *configuration = [[HBColorPickerConfiguration alloc] initWithColor:colour];
             configuration.supportsAlpha = NO;
 
             alderisViewController.configuration = configuration;
@@ -316,7 +317,7 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.0.1 (Beta 2)";
+        return @"Version: 3.0.1 (Beta 3)";
     }
     return nil;
 }
@@ -350,6 +351,12 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
         return 50;
     }
     return 0;
+}
+
+- (void)colorPicker:self didAcceptColor:(UIColor *)colour {
+    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:colour requiringSecureCoding:nil error:nil];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"kYTRebornColourOptionsVThree"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
