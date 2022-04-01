@@ -205,9 +205,11 @@ NSURL *bestURL;
         // [self artworkDownloader:@"video":videoIdentifier];
     }]];
 
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self pictureInPicture:videoIdentifier];
-    }]];
+    if([AVPictureInPictureController isPictureInPictureSupported]) {
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self pictureInPicture:videoIdentifier];
+        }]];
+    }
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Play In External App" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // [self playInApp:videoIdentifier];
