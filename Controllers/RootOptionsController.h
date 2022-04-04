@@ -3,4 +3,6 @@
 
 @interface RootOptionsController : UITableViewController <HBColorPickerDelegate>
 
+- (void)setupRootOptionsControllerView;
+
 @end

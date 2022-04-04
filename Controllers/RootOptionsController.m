@@ -19,17 +19,9 @@
 
 - (void)loadView {
 	[super loadView];
+    [self setupRootOptionsControllerView];
 
     self.title = @"Options";
-    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    }
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.leftBarButtonItem = doneButton;
@@ -58,7 +50,7 @@
         }
     }
     if (section == 2) {
-        return 6;
+        return 7;
     }
     if (section == 3) {
         return 8;
@@ -128,7 +120,7 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if(indexPath.row == 6) {
-                cell.textLabel.text = @"SponsorBlock Options";
+                cell.textLabel.text = @"SponsorBlock Options (Beta)";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
@@ -360,6 +352,12 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self setupRootOptionsControllerView];
+    [self.tableView reloadData];
+}
+
 @end
 
 @implementation RootOptionsController(Privates)
@@ -370,6 +368,19 @@
 
 - (void)apply {
     exit(0); 
+}
+
+- (void)setupRootOptionsControllerView {
+    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    }
+    else {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    }
 }
 
 - (void)toggleEnableiPadStyleOniPhone:(UISwitch *)sender {

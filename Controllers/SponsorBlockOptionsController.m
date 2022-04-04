@@ -1,7 +1,6 @@
 #import "SponsorBlockOptionsController.h"
+#import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
-
-static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
 
 @interface SponsorBlockOptionsController ()
 @end
@@ -10,17 +9,9 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 
 - (void)loadView {
 	[super loadView];
+    [self setupSponsorBlockOptionsControllerView];
 
-    self.title = @"SponsorBlock Options";
-    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    }
+    self.title = @"SponsorBlock Options (Beta)";
 
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -31,18 +22,18 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 8;
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 || section == 1 || section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 7) {
+    if (section == 0 || section == 1 || section == 2 || section == 3 || section == 4 || section == 5 || section == 6) {
         return 1;
     }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"TabBarTableViewCell";
+    static NSString *CellIdentifier = @"SponsorBlockTableViewCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (cell == nil) {
@@ -127,16 +118,6 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
                 [cell addSubview:musicofftopicSegmentedControl];
             }
         }
-        if(indexPath.section == 7) {
-            if(indexPath.row == 0) {
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *fillerItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
-                UISegmentedControl *fillerSegmentedControl = [[UISegmentedControl alloc] initWithItems:fillerItemArray];
-                fillerSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                fillerSegmentedControl.selectedSegmentIndex = 0;
-                [cell addSubview:fillerSegmentedControl];
-            }
-        }
     }
     return cell;
 }
@@ -163,9 +144,6 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
     if (section == 6) {
         return @"Music_offtopic";
     }
-    if (section == 7) {
-        return @"Filler";
-    }
     return nil;
 }
 
@@ -182,7 +160,7 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0 || section == 1 || section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 7) {
+    if (section == 0 || section == 1 || section == 2 || section == 3 || section == 4 || section == 5 || section == 6) {
         return 50;
     }
     return 0;
@@ -193,9 +171,15 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 7) {
+    if (section == 6) {
         return 10;
     }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self setupSponsorBlockOptionsControllerView];
+    [self.tableView reloadData];
 }
 
 @end
@@ -204,6 +188,19 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)setupSponsorBlockOptionsControllerView {
+    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    }
+    else {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    }
 }
 
 @end
