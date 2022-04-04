@@ -2,4 +2,6 @@
 
 @interface VideoOptionsController : UITableViewController
 
+- (void)setupVideoOptionsControllerView;
+
 @end
