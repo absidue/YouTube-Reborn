@@ -2,4 +2,6 @@
 
 @interface SearchOptionsController : UITableViewController
 
+- (void)setupSearchOptionsControllerView;
+
 @end
