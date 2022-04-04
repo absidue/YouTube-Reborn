@@ -7,7 +7,7 @@
 @property (nonatomic, assign) NSString *videoTime;
 @property (nonatomic, assign) NSURL *videoPath;
 
-- (void)setupLightDarkModeVideoView;
+- (void)setupPictureInPictureControllerView;
 - (void)setupPictureInPicture;
 
 @end

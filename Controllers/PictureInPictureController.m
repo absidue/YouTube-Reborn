@@ -14,7 +14,7 @@ AVPictureInPictureController *pictureInPictureController;
 
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 
-    [self setupLightDarkModeVideoView];
+    [self setupPictureInPictureControllerView];
 
     AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:self.videoPath];
     player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
@@ -40,14 +40,14 @@ AVPictureInPictureController *pictureInPictureController;
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    [self setupLightDarkModeVideoView];
+    [self setupPictureInPictureControllerView];
 }
 
 @end
 
 @implementation PictureInPictureController(Privates)
 
-- (void)setupLightDarkModeVideoView {
+- (void)setupPictureInPictureControllerView {
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
     }

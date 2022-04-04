@@ -2,4 +2,6 @@
 
 @interface RebornSettingsController : UITableViewController
 
+- (void)setupRebornSettingsControllerView;
+
 @end

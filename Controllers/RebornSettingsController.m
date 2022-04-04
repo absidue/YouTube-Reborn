@@ -9,17 +9,9 @@
 
 - (void)loadView {
 	[super loadView];
+    [self setupRebornSettingsControllerView];
 
     self.title = @"Reborn Options";
-    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    }
 
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -82,9 +74,18 @@
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"kYTRebornColourOptionsVThree"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            exit(0);
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Are you sure you want to delete your set colour?" preferredStyle:UIAlertControllerStyleAlert];
+
+            [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            }]];
+
+            [alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"kYTRebornColourOptionsVThree"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                exit(0);
+            }]];
+
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
 }
@@ -111,12 +112,31 @@
     return 0;
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self setupRebornSettingsControllerView];
+    [self.tableView reloadData];
+}
+
 @end
 
 @implementation RebornSettingsController(Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)setupRebornSettingsControllerView {
+    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    }
+    else {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    }
 }
 
 - (void)toggleHideRebornOPButton:(UISwitch *)sender {
