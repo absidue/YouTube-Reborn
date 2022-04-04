@@ -55,7 +55,9 @@
 @end
 
 @interface YTPlayerViewController : UIViewController <YTPlaybackController>
-- (void)didSeekToTime:(CGFloat)time toleranceBefore:(CGFloat)before toleranceAfter:(CGFloat)after;
+- (void)scrubToTime:(CGFloat)time;
+- (NSString *)currentVideoID;
+- (CGFloat)currentVideoMediaTime;
 @end
 
 @interface YTLocalPlaybackController : NSObject
@@ -78,6 +80,9 @@
 
 @interface YTPageStyleController
 + (NSInteger)pageStyle;
+@end
+
+@interface YTSingleVideoTime : NSObject
 @end
 
 extern NSString *videoTime;

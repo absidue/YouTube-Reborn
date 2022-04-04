@@ -212,7 +212,7 @@ NSURL *bestURL;
     }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
-        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self pictureInPicture:videoIdentifier];
         }]];
     }
@@ -1484,6 +1484,132 @@ NSURL *bestURL;
 	return 1 ? 0 : %orig;
 }
 %end
+%end
+
+BOOL sponsorBlockEnabled;
+NSMutableArray *jsonSponsorValues = [[NSMutableArray alloc] init];
+NSMutableArray *jsonSelfPromoValues = [[NSMutableArray alloc] init];
+NSMutableArray *jsonInteractionValues = [[NSMutableArray alloc] init];
+NSMutableArray *jsonIntroValues = [[NSMutableArray alloc] init];
+NSMutableArray *jsonOutroValues = [[NSMutableArray alloc] init];
+NSMutableArray *jsonPreviewValues = [[NSMutableArray alloc] init];
+NSMutableArray *jsonMusicOffTopicValues = [[NSMutableArray alloc] init];
+
+%hook YTPlayerViewController
+- (void)playbackController:(id)arg1 didActivateVideo:(id)arg2 withPlaybackData:(id)arg3 {
+    sponsorBlockEnabled = 0;
+    [jsonSponsorValues removeAllObjects];
+    [jsonSelfPromoValues removeAllObjects];
+    [jsonInteractionValues removeAllObjects];
+    [jsonIntroValues removeAllObjects];
+    [jsonOutroValues removeAllObjects];
+    [jsonPreviewValues removeAllObjects];
+    [jsonMusicOffTopicValues removeAllObjects];
+    %orig();
+    NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+
+    NSString *options = @"[%22sponsor%22,%22selfpromo%22,%22interaction%22,%22intro%22,%22outro%22,%22preview%22,%22music_offtopic%22]";
+    NSString *apiUrl = [NSString stringWithFormat:@"https://sponsor.ajay.app/api/skipSegments?videoID=%@&categories=%@", self.currentVideoID, options];
+    NSURL *dataUrl = [NSURL URLWithString:apiUrl];
+    NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+
+    NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (!error) {
+            NSMutableDictionary *jsonResponse = responseObject;
+            if ([NSJSONSerialization isValidJSONObject:jsonResponse]) {
+                sponsorBlockEnabled = 1;
+                for (NSMutableDictionary *jsonDictionary in jsonResponse) {
+                    if ([[jsonDictionary objectForKey:@"category"] isEqual:@"sponsor"]) {
+                        [jsonSponsorValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][0] floatValue]]];
+                        [jsonSponsorValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][1] floatValue]]];
+                    }
+                    if ([[jsonDictionary objectForKey:@"category"] isEqual:@"selfpromo"]) {
+                        [jsonSelfPromoValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][0] floatValue]]];
+                        [jsonSelfPromoValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][1] floatValue]]];
+                    }
+                    if ([[jsonDictionary objectForKey:@"category"] isEqual:@"interaction"]) {
+                        [jsonInteractionValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][0] floatValue]]];
+                        [jsonInteractionValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][1] floatValue]]];
+                    }
+                    if ([[jsonDictionary objectForKey:@"category"] isEqual:@"intro"]) {
+                        [jsonIntroValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][0] floatValue]]];
+                        [jsonIntroValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][1] floatValue]]];
+                    }
+                    if ([[jsonDictionary objectForKey:@"category"] isEqual:@"outro"]) {
+                        [jsonOutroValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][0] floatValue]]];
+                        [jsonOutroValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][1] floatValue]]];
+                    }
+                    if ([[jsonDictionary objectForKey:@"category"] isEqual:@"preview"]) {
+                        [jsonPreviewValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][0] floatValue]]];
+                        [jsonPreviewValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][1] floatValue]]];
+                    }
+                    if ([[jsonDictionary objectForKey:@"category"] isEqual:@"music_offtopic"]) {
+                        [jsonMusicOffTopicValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][0] floatValue]]];
+                        [jsonMusicOffTopicValues addObject:[NSNumber numberWithFloat:[[jsonDictionary objectForKey:@"segment"][1] floatValue]]];
+                    }
+                }
+            } else {
+                sponsorBlockEnabled = 0;
+            }
+        }
+    }];
+    [dataTask resume];
+}
+- (void)singleVideo:(id)video currentVideoTimeDidChange:(YTSingleVideoTime *)time {
+    %orig();
+    if (sponsorBlockEnabled == 1) {
+        @try {
+            if (self.currentVideoMediaTime >= [[jsonSponsorValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonSponsorValues objectAtIndex:1] floatValue]) {
+                [self scrubToTime:[[jsonSponsorValues objectAtIndex:1] floatValue]];
+            }
+        }
+        @catch (NSException *exception) {
+        }
+        @try {
+            if (self.currentVideoMediaTime >= [[jsonSelfPromoValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonSelfPromoValues objectAtIndex:1] floatValue]) {
+                [self scrubToTime:[[jsonSelfPromoValues objectAtIndex:1] floatValue]];
+            }
+        }
+        @catch (NSException *exception) {
+        }
+        @try {
+            if (self.currentVideoMediaTime >= [[jsonInteractionValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonInteractionValues objectAtIndex:1] floatValue]) {
+                [self scrubToTime:[[jsonInteractionValues objectAtIndex:1] floatValue]];
+            }
+        }
+        @catch (NSException *exception) {
+        }
+        @try {
+            if (self.currentVideoMediaTime >= [[jsonIntroValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonIntroValues objectAtIndex:1] floatValue]) {
+                [self scrubToTime:[[jsonIntroValues objectAtIndex:1] floatValue]];
+            }
+        }
+        @catch (NSException *exception) {
+        }
+        @try {
+            if (self.currentVideoMediaTime >= [[jsonOutroValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonOutroValues objectAtIndex:1] floatValue]) {
+                [self scrubToTime:[[jsonOutroValues objectAtIndex:1] floatValue]];
+            }
+        }
+        @catch (NSException *exception) {
+        }
+        @try {
+            if (self.currentVideoMediaTime >= [[jsonPreviewValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonPreviewValues objectAtIndex:1] floatValue]) {
+                [self scrubToTime:[[jsonPreviewValues objectAtIndex:1] floatValue]];
+            }
+        }
+        @catch (NSException *exception) {
+        }
+        @try {
+            if (self.currentVideoMediaTime >= [[jsonMusicOffTopicValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonMusicOffTopicValues objectAtIndex:1] floatValue]) {
+                [self scrubToTime:[[jsonMusicOffTopicValues objectAtIndex:1] floatValue]];
+            }
+        }
+        @catch (NSException *exception) {
+        }
+    }
+}
 %end
 
 int selectedTabIndex = 0;
