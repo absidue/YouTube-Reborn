@@ -2,4 +2,6 @@
 
 @interface OverlayOptionsController : UITableViewController
 
+- (void)setupOverlayOptionsControllerView;
+
 @end

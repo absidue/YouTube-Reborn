@@ -1,7 +1,6 @@
 #import "CreditsController.h"
+#import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
-
-static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
 
 @interface CreditsController ()
 @end
@@ -10,17 +9,9 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
 
 - (void)loadView {
 	[super loadView];
+    [self setupCreditsControllerView];
 
     self.title = @"Credits";
-    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    }
 
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -230,12 +221,31 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
     return 0;
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self setupCreditsControllerView];
+    [self.tableView reloadData];
+}
+
 @end
 
 @implementation CreditsController(Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)setupCreditsControllerView {
+    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    }
+    else {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    }
 }
 
 @end
