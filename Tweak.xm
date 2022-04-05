@@ -224,11 +224,10 @@ NSURL *bestURL;
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
     }]];
 
-    CGRect rect = self.frame;
-    rect.origin.x = self.frame.size.width / 20;
-    rect.origin.y = self.frame.size.height / 20;
-    alertMenu.popoverPresentationController.sourceView = self;
-    alertMenu.popoverPresentationController.sourceRect = rect;
+    [alertMenu setModalPresentationStyle:UIModalPresentationPopover];
+    UIPopoverPresentationController *popPresenter = [alertMenu popoverPresentationController];
+    popPresenter.sourceView = self;
+    popPresenter.sourceRect = self.bounds;
 
     UIViewController *menuViewController = self._viewControllerForAncestor;
     [menuViewController presentViewController:alertMenu animated:YES completion:nil];
@@ -441,11 +440,10 @@ NSURL *bestURL;
                     [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     }]];
 
-                    CGRect rect = self.frame;
-                    rect.origin.x = self.frame.size.width / 20;
-                    rect.origin.y = self.frame.size.height / 20;
-                    alertQualitySelector.popoverPresentationController.sourceView = self;
-                    alertQualitySelector.popoverPresentationController.sourceRect = rect;
+                    [alertQualitySelector setModalPresentationStyle:UIModalPresentationPopover];
+                    UIPopoverPresentationController *popPresenter = [alertQualitySelector popoverPresentationController];
+                    popPresenter.sourceView = self;
+                    popPresenter.sourceRect = self.bounds;
 
                     UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
                     [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];

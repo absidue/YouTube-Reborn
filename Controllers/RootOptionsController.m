@@ -254,19 +254,21 @@
             [self presentViewController:tabBarOptionsControllerView animated:YES completion:nil];
         }
         if(indexPath.row == 3) {
-            HBColorPickerViewController *alderisViewController = [[HBColorPickerViewController alloc] init];
-            alderisViewController.delegate = self;
-            alderisViewController.popoverPresentationController.sourceView = self.view;
+            if (UIDevice.currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad) {
+                HBColorPickerViewController *alderisViewController = [[HBColorPickerViewController alloc] init];
+                alderisViewController.delegate = self;
+                alderisViewController.popoverPresentationController.sourceView = self.view;
 
-            NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kYTRebornColourOptionsVThree"];
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:colorData error:nil];
-            [unarchiver setRequiresSecureCoding:NO];
-            UIColor *colour = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
-            HBColorPickerConfiguration *configuration = [[HBColorPickerConfiguration alloc] initWithColor:colour];
-            configuration.supportsAlpha = NO;
+                NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kYTRebornColourOptionsVThree"];
+                NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:colorData error:nil];
+                [unarchiver setRequiresSecureCoding:NO];
+                UIColor *colour = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+                HBColorPickerConfiguration *configuration = [[HBColorPickerConfiguration alloc] initWithColor:colour];
+                configuration.supportsAlpha = NO;
 
-            alderisViewController.configuration = configuration;
-            [self presentViewController:alderisViewController animated:YES completion:nil];
+                alderisViewController.configuration = configuration;
+                [self presentViewController:alderisViewController animated:YES completion:nil];
+            }
         }
         if(indexPath.row == 4) {
             SearchOptionsController *searchOptionsController = [[SearchOptionsController alloc] init];
