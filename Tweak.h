@@ -85,5 +85,22 @@
 @interface YTSingleVideoTime : NSObject
 @end
 
+@interface MLHAMQueuePlayer : NSObject
+@property id playerEventCenter;
+-(void)setRate:(float)rate;
+@end
+
+@interface YTVarispeedSwitchControllerOption : NSObject
+- (id)initWithTitle:(id)title rate:(float)rate;
+@end
+
+@interface HAMPlayerInternal : NSObject
+- (void)setRate:(float)rate;
+@end
+
+@interface MLPlayerEventCenter : NSObject
+- (void)broadcastRateChange:(float)rate;
+@end
+
 extern NSString *videoTime;
 extern NSURL *bestURL;
