@@ -220,7 +220,7 @@
             [self presentViewController:downloadsControllerView animated:YES completion:nil];
         }
         if(indexPath.row == 1) {
-            NSFileManager * fm = [[NSFileManager alloc] init];
+            NSFileManager *fm = [[NSFileManager alloc] init];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
             NSString *content = @"Filza Check";
@@ -312,7 +312,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.0.1 (Beta 3)";
+        return @"Version: 3.0.1 (Beta 4)";
     }
     return nil;
 }

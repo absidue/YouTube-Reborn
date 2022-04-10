@@ -33,7 +33,7 @@
         return 1;
     }
     if(section == 2) {
-        return 13;
+        return 14;
     }
     return 0;
 }
@@ -118,6 +118,10 @@
                 cell.textLabel.text = @"Worf";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
+            if(indexPath.row == 13) {
+                cell.textLabel.text = @"Zachary";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
         }
     }
     return cell;
@@ -127,7 +131,7 @@
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/LillieWeeb001"] options:@{} completionHandler:nil];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/LillieH001"] options:@{} completionHandler:nil];
         }
     }
     if(indexPath.section == 1) {
@@ -174,6 +178,9 @@
         }
         if(indexPath.row == 12) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Worf1337"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 13) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/zachary7829"] options:@{} completionHandler:nil];
         }
     }
 }
