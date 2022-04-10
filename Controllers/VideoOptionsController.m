@@ -26,7 +26,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return 11;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,6 +124,14 @@
             alwaysShowPlayerBar.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBar"];
             cell.accessoryView = alwaysShowPlayerBar;
         }
+        if(indexPath.row == 10) {
+            cell.textLabel.text = @"Enable Extra Speed Options";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UISwitch *enableExtraSpeedOptions = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [enableExtraSpeedOptions addTarget:self action:@selector(toggleExtraSpeedOptions:) forControlEvents:UIControlEventValueChanged];
+            enableExtraSpeedOptions.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableExtraSpeedOptions"];
+            cell.accessoryView = enableExtraSpeedOptions;
+        }
     }
     return cell;
 }
@@ -133,7 +141,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10;
+    return 11;
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -259,6 +267,16 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kAlwaysShowPlayerBar"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)toggleExtraSpeedOptions:(UISwitch *)sender {
+    if ([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kEnableExtraSpeedOptions"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kEnableExtraSpeedOptions"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
