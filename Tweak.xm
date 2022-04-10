@@ -243,7 +243,7 @@ NSURL *bestURL;
         AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
         NSString *options = @"[%22thumbnail%22]";
-        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieh.gay/?videoID=%@&options=%@", videoID, options];
         NSURL *dataUrl = [NSURL URLWithString:apiUrl];
         NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
@@ -319,7 +319,7 @@ NSURL *bestURL;
         AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
         NSString *options = @"[%22bestaudio%22]";
-        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieh.gay/?videoID=%@&options=%@", videoID, options];
         NSURL *dataUrl = [NSURL URLWithString:apiUrl];
         NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
@@ -383,8 +383,8 @@ NSURL *bestURL;
         NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-        NSString *options = @"[%22v240p%22,%22v480p%22,%22v720p%22,%22v1080p%22,%22v1440p%22,%22v2160p%22]";
-        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSString *options = @"[%22240p%22,%22480p%22,%22720p%22,%221080p%22,%221440p%22,%222160p%22]";
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieh.gay/?videoID=%@&options=%@", videoID, options];
         NSURL *dataUrl = [NSURL URLWithString:apiUrl];
         NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
@@ -406,32 +406,32 @@ NSURL *bestURL;
                 [alertFetching dismissViewControllerAnimated:YES completion:^{
                     UIAlertController *alertQualitySelector = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-                    if ([[qualities objectForKey:@"v240p"] isEqual:@"True"]) {
+                    if ([[qualities objectForKey:@"q240p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                             // [self videoDownloader:240];
                         }]];
                     }
-                    if ([[qualities objectForKey:@"v480p"] isEqual:@"True"]) {
+                    if ([[qualities objectForKey:@"q480p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                             // [self videoDownloader:480];
                         }]];
                     }
-                    if ([[qualities objectForKey:@"v720p"] isEqual:@"True"]) {
+                    if ([[qualities objectForKey:@"q720p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                             // [self videoDownloader:720];
                         }]];
                     }
-                    if ([[qualities objectForKey:@"v1080p"] isEqual:@"True"]) {
+                    if ([[qualities objectForKey:@"q1080p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                             // [self videoDownloader:1080];
                         }]];
                     }
-                    if ([[qualities objectForKey:@"v1440p"] isEqual:@"True"]) {
+                    if ([[qualities objectForKey:@"q1440p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                             // [self videoDownloader:1440];
                         }]];
                     }
-                    if ([[qualities objectForKey:@"v2160p"] isEqual:@"True"]) {
+                    if ([[qualities objectForKey:@"q2160p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                             // [self videoDownloader:2160];
                         }]];
@@ -469,7 +469,7 @@ NSURL *bestURL;
         AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
         NSString *options = @"[%22best%22]";
-        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieweeb001.xyz/?videoID=%@&options=%@", videoID, options];
+        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieh.gay/?videoID=%@&options=%@", videoID, options];
         NSURL *dataUrl = [NSURL URLWithString:apiUrl];
         NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
 
@@ -575,8 +575,7 @@ NSURL *bestURL;
 
 %group gExtraSpeedOptions
 %hook YTVarispeedSwitchController
-
--(void *)init {
+- (void *)init {
     void *ret = (void *)%orig;
 
     NSMutableArray *ytSpeedOptions = [NSMutableArray new];
@@ -599,16 +598,14 @@ NSURL *bestURL;
     return ret;
 }
 %end
-
 %hook MLHAMQueuePlayer
-
--(void)setRate:(float)rate {
+- (void)setRate:(float)rate {
 	MSHookIvar<float>(self, "_rate") = rate;
 
 	id ytPlayer = MSHookIvar<HAMPlayerInternal *>(self, "_player");
 	[ytPlayer setRate: rate];
 
-	[self.playerEventCenter broadcastRateChange: rate];
+	[self.playerEventCenter broadcastRateChange:rate];
 }
 %end
 %end
@@ -1533,7 +1530,7 @@ NSMutableArray *jsonOutroValues = [[NSMutableArray alloc] init];
 NSMutableArray *jsonPreviewValues = [[NSMutableArray alloc] init];
 NSMutableArray *jsonMusicOffTopicValues = [[NSMutableArray alloc] init];
 
-%hook YTPlayerViewController
+/* %hook YTPlayerViewController
 - (void)playbackController:(id)arg1 didActivateVideo:(id)arg2 withPlaybackData:(id)arg3 {
     sponsorBlockEnabled = 0;
     [jsonSponsorValues removeAllObjects];
@@ -1648,7 +1645,7 @@ NSMutableArray *jsonMusicOffTopicValues = [[NSMutableArray alloc] init];
         }
     }
 }
-%end
+%end */
 
 int selectedTabIndex = 0;
 
