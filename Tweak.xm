@@ -1530,7 +1530,7 @@ NSMutableArray *jsonOutroValues = [[NSMutableArray alloc] init];
 NSMutableArray *jsonPreviewValues = [[NSMutableArray alloc] init];
 NSMutableArray *jsonMusicOffTopicValues = [[NSMutableArray alloc] init];
 
-/* %hook YTPlayerViewController
+%hook YTPlayerViewController
 - (void)playbackController:(id)arg1 didActivateVideo:(id)arg2 withPlaybackData:(id)arg3 {
     sponsorBlockEnabled = 0;
     [jsonSponsorValues removeAllObjects];
@@ -1595,57 +1595,85 @@ NSMutableArray *jsonMusicOffTopicValues = [[NSMutableArray alloc] init];
     %orig();
     if (sponsorBlockEnabled == 1) {
         @try {
-            if (self.currentVideoMediaTime >= [[jsonSponsorValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonSponsorValues objectAtIndex:1] floatValue]) {
-                [self scrubToTime:[[jsonSponsorValues objectAtIndex:1] floatValue]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kSponsorSegmentedInt"]) {
+                if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kSponsorSegmentedInt"] == 1) {
+                    if (self.currentVideoMediaTime >= [[jsonSponsorValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonSponsorValues objectAtIndex:1] floatValue]) {
+                        [self scrubToTime:[[jsonSponsorValues objectAtIndex:1] floatValue]];
+                    }
+                }
             }
         }
         @catch (NSException *exception) {
         }
         @try {
-            if (self.currentVideoMediaTime >= [[jsonSelfPromoValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonSelfPromoValues objectAtIndex:1] floatValue]) {
-                [self scrubToTime:[[jsonSelfPromoValues objectAtIndex:1] floatValue]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kSelfPromoSegmentedInt"]) {
+                if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kSelfPromoSegmentedInt"] == 1) {
+                    if (self.currentVideoMediaTime >= [[jsonSelfPromoValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonSelfPromoValues objectAtIndex:1] floatValue]) {
+                        [self scrubToTime:[[jsonSelfPromoValues objectAtIndex:1] floatValue]];
+                    }
+                }
             }
         }
         @catch (NSException *exception) {
         }
         @try {
-            if (self.currentVideoMediaTime >= [[jsonInteractionValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonInteractionValues objectAtIndex:1] floatValue]) {
-                [self scrubToTime:[[jsonInteractionValues objectAtIndex:1] floatValue]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kInteractionSegmentedInt"]) {
+                if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kInteractionSegmentedInt"] == 1) {
+                    if (self.currentVideoMediaTime >= [[jsonInteractionValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonInteractionValues objectAtIndex:1] floatValue]) {
+                        [self scrubToTime:[[jsonInteractionValues objectAtIndex:1] floatValue]];
+                    }
+                }
             }
         }
         @catch (NSException *exception) {
         }
         @try {
-            if (self.currentVideoMediaTime >= [[jsonIntroValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonIntroValues objectAtIndex:1] floatValue]) {
-                [self scrubToTime:[[jsonIntroValues objectAtIndex:1] floatValue]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kIntroSegmentedInt"]) {
+                if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kIntroSegmentedInt"] == 1) {
+                    if (self.currentVideoMediaTime >= [[jsonIntroValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonIntroValues objectAtIndex:1] floatValue]) {
+                        [self scrubToTime:[[jsonIntroValues objectAtIndex:1] floatValue]];
+                    }
+                }
             }
         }
         @catch (NSException *exception) {
         }
         @try {
-            if (self.currentVideoMediaTime >= [[jsonOutroValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonOutroValues objectAtIndex:1] floatValue]) {
-                [self scrubToTime:[[jsonOutroValues objectAtIndex:1] floatValue]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kOutroSegmentedInt"]) {
+                if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kOutroSegmentedInt"] == 1) {
+                    if (self.currentVideoMediaTime >= [[jsonOutroValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonOutroValues objectAtIndex:1] floatValue]) {
+                        [self scrubToTime:[[jsonOutroValues objectAtIndex:1] floatValue]];
+                    }
+                }
             }
         }
         @catch (NSException *exception) {
         }
         @try {
-            if (self.currentVideoMediaTime >= [[jsonPreviewValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonPreviewValues objectAtIndex:1] floatValue]) {
-                [self scrubToTime:[[jsonPreviewValues objectAtIndex:1] floatValue]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kPreviewSegmentedInt"]) {
+                if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kPreviewSegmentedInt"] == 1) {
+                    if (self.currentVideoMediaTime >= [[jsonPreviewValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonPreviewValues objectAtIndex:1] floatValue]) {
+                        [self scrubToTime:[[jsonPreviewValues objectAtIndex:1] floatValue]];
+                    }
+                }
             }
         }
         @catch (NSException *exception) {
         }
         @try {
-            if (self.currentVideoMediaTime >= [[jsonMusicOffTopicValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonMusicOffTopicValues objectAtIndex:1] floatValue]) {
-                [self scrubToTime:[[jsonMusicOffTopicValues objectAtIndex:1] floatValue]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kMusicOffTopicSegmentedInt"]) {
+                if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kMusicOffTopicSegmentedInt"] == 1) {
+                    if (self.currentVideoMediaTime >= [[jsonMusicOffTopicValues objectAtIndex:0] floatValue] && self.currentVideoMediaTime <= [[jsonMusicOffTopicValues objectAtIndex:1] floatValue]) {
+                        [self scrubToTime:[[jsonMusicOffTopicValues objectAtIndex:1] floatValue]];
+                    }
+                }
             }
         }
         @catch (NSException *exception) {
         }
     }
 }
-%end */
+%end
 
 int selectedTabIndex = 0;
 

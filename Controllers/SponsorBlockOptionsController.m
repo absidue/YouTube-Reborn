@@ -51,70 +51,105 @@
         if(indexPath.section == 0) {
             if(indexPath.row == 0) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *sponsorItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
+                NSArray *sponsorItemArray = [NSArray arrayWithObjects:@"Disable", @"Auto Skip", nil];
                 UISegmentedControl *sponsorSegmentedControl = [[UISegmentedControl alloc] initWithItems:sponsorItemArray];
                 sponsorSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                sponsorSegmentedControl.selectedSegmentIndex = 0;
+                [sponsorSegmentedControl addTarget:self action:@selector(actionSponsorSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+                if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kSponsorSegmentedInt"]) {
+                    sponsorSegmentedControl.selectedSegmentIndex = 0;
+                } else {
+                    sponsorSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kSponsorSegmentedInt"];
+                }
                 [cell addSubview:sponsorSegmentedControl];
             }
         }
         if(indexPath.section == 1) {
             if(indexPath.row == 0) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *selfpromoItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
+                NSArray *selfpromoItemArray = [NSArray arrayWithObjects:@"Disable", @"Auto Skip", nil];
                 UISegmentedControl *selfpromoSegmentedControl = [[UISegmentedControl alloc] initWithItems:selfpromoItemArray];
                 selfpromoSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                selfpromoSegmentedControl.selectedSegmentIndex = 0;
+                [selfpromoSegmentedControl addTarget:self action:@selector(actionSelfPromoSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+                if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kSelfPromoSegmentedInt"]) {
+                    selfpromoSegmentedControl.selectedSegmentIndex = 0;
+                } else {
+                    selfpromoSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kSelfPromoSegmentedInt"];
+                }
                 [cell addSubview:selfpromoSegmentedControl];
             }
         }
         if(indexPath.section == 2) {
             if(indexPath.row == 0) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *interactionItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
+                NSArray *interactionItemArray = [NSArray arrayWithObjects:@"Disable", @"Auto Skip", nil];
                 UISegmentedControl *interactionSegmentedControl = [[UISegmentedControl alloc] initWithItems:interactionItemArray];
                 interactionSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                interactionSegmentedControl.selectedSegmentIndex = 0;
+                [interactionSegmentedControl addTarget:self action:@selector(actionInteractionSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+                if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kInteractionSegmentedInt"]) {
+                    interactionSegmentedControl.selectedSegmentIndex = 0;
+                } else {
+                    interactionSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kInteractionSegmentedInt"];
+                }
                 [cell addSubview:interactionSegmentedControl];
             }
         }
         if(indexPath.section == 3) {
             if(indexPath.row == 0) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *introItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
+                NSArray *introItemArray = [NSArray arrayWithObjects:@"Disable", @"Auto Skip", nil];
                 UISegmentedControl *introSegmentedControl = [[UISegmentedControl alloc] initWithItems:introItemArray];
                 introSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                introSegmentedControl.selectedSegmentIndex = 0;
+                [introSegmentedControl addTarget:self action:@selector(actionIntroSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+                if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kIntroSegmentedInt"]) {
+                    introSegmentedControl.selectedSegmentIndex = 0;
+                } else {
+                    introSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kIntroSegmentedInt"];
+                }
                 [cell addSubview:introSegmentedControl];
             }
         }
         if(indexPath.section == 4) {
             if(indexPath.row == 0) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *outroItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
+                NSArray *outroItemArray = [NSArray arrayWithObjects:@"Disable", @"Auto Skip", nil];
                 UISegmentedControl *outroSegmentedControl = [[UISegmentedControl alloc] initWithItems:outroItemArray];
                 outroSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                outroSegmentedControl.selectedSegmentIndex = 0;
+                [outroSegmentedControl addTarget:self action:@selector(actionOutroSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+                if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kOutroSegmentedInt"]) {
+                    outroSegmentedControl.selectedSegmentIndex = 0;
+                } else {
+                    outroSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kOutroSegmentedInt"];
+                }
                 [cell addSubview:outroSegmentedControl];
             }
         }
         if(indexPath.section == 5) {
             if(indexPath.row == 0) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *previewItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
+                NSArray *previewItemArray = [NSArray arrayWithObjects:@"Disable", @"Auto Skip", nil];
                 UISegmentedControl *previewSegmentedControl = [[UISegmentedControl alloc] initWithItems:previewItemArray];
                 previewSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                previewSegmentedControl.selectedSegmentIndex = 0;
+                [previewSegmentedControl addTarget:self action:@selector(actionPreviewSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+                if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kPreviewSegmentedInt"]) {
+                    previewSegmentedControl.selectedSegmentIndex = 0;
+                } else {
+                    previewSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kPreviewSegmentedInt"];
+                }
                 [cell addSubview:previewSegmentedControl];
             }
         }
         if(indexPath.section == 6) {
             if(indexPath.row == 0) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                NSArray *musicofftopicItemArray = [NSArray arrayWithObjects:@"Disable", @"Manual Skip", @"Auto Skip", nil];
+                NSArray *musicofftopicItemArray = [NSArray arrayWithObjects:@"Disable", @"Auto Skip", nil];
                 UISegmentedControl *musicofftopicSegmentedControl = [[UISegmentedControl alloc] initWithItems:musicofftopicItemArray];
                 musicofftopicSegmentedControl.frame = CGRectMake(0, 5, self.view.bounds.size.width, cell.bounds.size.height - 10);
-                musicofftopicSegmentedControl.selectedSegmentIndex = 0;
+                [musicofftopicSegmentedControl addTarget:self action:@selector(actionMusicOffTopicSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+                if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kMusicOffTopicSegmentedInt"]) {
+                    musicofftopicSegmentedControl.selectedSegmentIndex = 0;
+                } else {
+                    musicofftopicSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kMusicOffTopicSegmentedInt"];
+                }
                 [cell addSubview:musicofftopicSegmentedControl];
             }
         }
@@ -201,6 +236,41 @@
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     }
+}
+
+- (void)actionSponsorSegmentedControl:(UISegmentedControl *)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.selectedSegmentIndex forKey:@"kSponsorSegmentedInt"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)actionSelfPromoSegmentedControl:(UISegmentedControl *)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.selectedSegmentIndex forKey:@"kSelfPromoSegmentedInt"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)actionInteractionSegmentedControl:(UISegmentedControl *)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.selectedSegmentIndex forKey:@"kInteractionSegmentedInt"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)actionIntroSegmentedControl:(UISegmentedControl *)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.selectedSegmentIndex forKey:@"kIntroSegmentedInt"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)actionOutroSegmentedControl:(UISegmentedControl *)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.selectedSegmentIndex forKey:@"kOutroSegmentedInt"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)actionPreviewSegmentedControl:(UISegmentedControl *)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.selectedSegmentIndex forKey:@"kPreviewSegmentedInt"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)actionMusicOffTopicSegmentedControl:(UISegmentedControl *)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.selectedSegmentIndex forKey:@"kMusicOffTopicSegmentedInt"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
