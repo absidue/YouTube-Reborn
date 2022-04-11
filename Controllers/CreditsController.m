@@ -22,7 +22,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -30,10 +30,7 @@
         return 1;
     }
     if(section == 1) {
-        return 1;
-    }
-    if(section == 2) {
-        return 14;
+        return 29;
     }
     return 0;
 }
@@ -64,76 +61,144 @@
             if(indexPath.row == 0) {
                 cell.textLabel.text = @"Alpha_Stream";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.detailTextLabel.text = @"Icon Designer";
+                cell.detailTextLabel.text = @"Icon Designer, Beta Tester";
             }
-        }
-        if(indexPath.section == 2) {
-            if(indexPath.row == 0) {
+            if(indexPath.row == 1) {
                 cell.textLabel.text = @"Binny";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Alpha & Beta Tester";
             }
-            if(indexPath.row == 1) {
-                cell.textLabel.text = @"Cameren";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.detailTextLabel.text = @"Beta Tester";
-            }
             if(indexPath.row == 2) {
-                cell.textLabel.text = @"Capt Inc";
+                cell.textLabel.text = @"Bread Cat";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 3) {
-                cell.textLabel.text = @"Emma";
+                cell.textLabel.text = @"Cameren";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.detailTextLabel.text = @"Alpha & Beta Tester";
+                cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 4) {
-                cell.textLabel.text = @"Emy";
+                cell.textLabel.text = @"Capt Inc";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 5) {
-                cell.textLabel.text = @"hmuy";
+                cell.textLabel.text = @"Emma";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.detailTextLabel.text = @"Beta Tester";
+                cell.detailTextLabel.text = @"Alpha & Beta Tester";
             }
             if(indexPath.row == 6) {
-                cell.textLabel.text = @"Lans";
+                cell.textLabel.text = @"Emy";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 7) {
-                cell.textLabel.text = @"PoomSmart";
+                cell.textLabel.text = @"Fahrenheight";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.detailTextLabel.text = @"Features: \"Adblock\", \"AutoPlay In Fullscreen\"";
+                cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 8) {
-                cell.textLabel.text = @"Rick";
+                cell.textLabel.text = @"Goodgamer";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 9) {
-                cell.textLabel.text = @"Rosie";
+                cell.textLabel.text = @"hmuy";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 10) {
-                cell.textLabel.text = @"Sarah";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.detailTextLabel.text = @"Alpha & Beta Tester";
-            }
-            if(indexPath.row == 11) {
-                cell.textLabel.text = @"Sloopie";
+                cell.textLabel.text = @"Joey";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
             }
+            if(indexPath.row == 11) {
+                cell.textLabel.text = @"Kirb";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Development Support, Beta Tester";
+            }
             if(indexPath.row == 12) {
-                cell.textLabel.text = @"Worf";
+                cell.textLabel.text = @"Lans";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 13) {
+                cell.textLabel.text = @"llsc";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 14) {
+                cell.textLabel.text = @"MasterMike";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 15) {
+                cell.textLabel.text = @"Natalie";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 16) {
+                cell.textLabel.text = @"Nathan";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 17) {
+                cell.textLabel.text = @"oneinanull";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 18) {
+                cell.textLabel.text = @"PoomSmart";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Features: \"Adblock\", \"AutoPlay In Fullscreen\"";
+            }
+            if(indexPath.row == 19) {
+                cell.textLabel.text = @"Rick";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 20) {
+                cell.textLabel.text = @"Rosie";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 21) {
+                cell.textLabel.text = @"Sarah";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Alpha & Beta Tester";
+            }
+            if(indexPath.row == 22) {
+                cell.textLabel.text = @"SkyMTF";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 23) {
+                cell.textLabel.text = @"Sloopie";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 24) {
+                cell.textLabel.text = @"Smokin";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 25) {
+                cell.textLabel.text = @"Superuser";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 26) {
+                cell.textLabel.text = @"The_Lucifer";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 27) {
+                cell.textLabel.text = @"Worf";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text = @"Beta Tester";
+            }
+            if(indexPath.row == 28) {
                 cell.textLabel.text = @"Zachary";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester, Features: \"Enable Extra Video Speed\"";
@@ -150,55 +215,6 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/LillieH001"] options:@{} completionHandler:nil];
         }
     }
-    if(indexPath.section == 1) {
-        if(indexPath.row == 0) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/Kutarin_"] options:@{} completionHandler:nil];
-        }
-    }
-    if(indexPath.section == 2) {
-        if(indexPath.row == 0) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/drama_binny"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 1) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/cameren0"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 2) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/captinc"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 3) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/nikoyagamer"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 4) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Emy"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 5) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/hmuy0608"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 6) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/imlans10"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 7) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/PoomSmart"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 8) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/sahmoee"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 9) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/deluxe_rosie"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 10) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Banaantje04"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 11) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/Sloooopie"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 12) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Worf1337"] options:@{} completionHandler:nil];
-        }
-        if(indexPath.row == 13) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/zachary7829"] options:@{} completionHandler:nil];
-        }
-    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -206,7 +222,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0 || section == 1 || section == 2) {
+    if (section == 0 || section == 1) {
         return 50;
     }
     return 0;
@@ -217,7 +233,7 @@
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 2) {
+    if (section == 1) {
         return 50;
     }
     return 0;
