@@ -70,8 +70,9 @@
             }
             if(indexPath.row == 2) {
                 cell.textLabel.text = @"Bread Cat";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 3) {
                 cell.textLabel.text = @"Cameren";
@@ -95,13 +96,15 @@
             }
             if(indexPath.row == 7) {
                 cell.textLabel.text = @"Fahrenheight";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 8) {
                 cell.textLabel.text = @"Goodgamer";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 9) {
                 cell.textLabel.text = @"hmuy";
@@ -125,13 +128,15 @@
             }
             if(indexPath.row == 13) {
                 cell.textLabel.text = @"llsc";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 14) {
                 cell.textLabel.text = @"MasterMike";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 15) {
                 cell.textLabel.text = @"Natalie";
@@ -180,8 +185,9 @@
             }
             if(indexPath.row == 24) {
                 cell.textLabel.text = @"Smokin";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 25) {
                 cell.textLabel.text = @"Superuser";
@@ -190,8 +196,9 @@
             }
             if(indexPath.row == 26) {
                 cell.textLabel.text = @"The_Lucifer";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 27) {
                 cell.textLabel.text = @"Worf";
@@ -213,6 +220,74 @@
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/LillieH001"] options:@{} completionHandler:nil];
+        }
+    }
+    if(indexPath.section == 1) {
+        if(indexPath.row == 0) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/Kutarin_"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/drama_binny"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 3) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/cameren0"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 4) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/captinc"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 5) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/nikoyagamer"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 6) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Emy"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 9) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/hmuy0608"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 10) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Joey0980"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 11) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/kirb"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 12) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/imlans10"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 15) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/CuteNatalie"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 16) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/verygenericname"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 17) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Oneinanull"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 18) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/PoomSmart"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 19) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/sahmoee"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 20) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/deluxe_rosie"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 21) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Banaantje04"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 22) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/SkyMTF"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 23) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/Sloooopie"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 25) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/joshuah345"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 27) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Worf1337"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 28) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/zachary7829"] options:@{} completionHandler:nil];
         }
     }
 }
