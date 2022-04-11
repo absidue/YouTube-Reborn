@@ -70,9 +70,8 @@
             }
             if(indexPath.row == 2) {
                 cell.textLabel.text = @"Bread Cat";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 3) {
                 cell.textLabel.text = @"Cameren";
@@ -117,7 +116,7 @@
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 11) {
-                cell.textLabel.text = @"Kirb";
+                cell.textLabel.text = @"kirb";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Development Support, Beta Tester";
             }
@@ -127,16 +126,14 @@
                 cell.detailTextLabel.text = @"Beta Tester";
             }
             if(indexPath.row == 13) {
-                cell.textLabel.text = @"llsc";
+                cell.textLabel.text = @"llsc12";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 14) {
                 cell.textLabel.text = @"MasterMike";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 15) {
                 cell.textLabel.text = @"Natalie";
@@ -196,9 +193,8 @@
             }
             if(indexPath.row == 26) {
                 cell.textLabel.text = @"The_Lucifer";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 27) {
                 cell.textLabel.text = @"Worf";
@@ -229,6 +225,9 @@
         if(indexPath.row == 1) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/drama_binny"] options:@{} completionHandler:nil];
         }
+        if(indexPath.row == 2) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/breadcat0314"] options:@{} completionHandler:nil];
+        }
         if(indexPath.row == 3) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/cameren0"] options:@{} completionHandler:nil];
         }
@@ -252,6 +251,12 @@
         }
         if(indexPath.row == 12) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/imlans10"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 13) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/llsc12"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 14) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/TheMasterOfMike"] options:@{} completionHandler:nil];
         }
         if(indexPath.row == 15) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/CuteNatalie"] options:@{} completionHandler:nil];
@@ -282,6 +287,9 @@
         }
         if(indexPath.row == 25) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/joshuah345"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 26) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/the_lucifer0509"] options:@{} completionHandler:nil];
         }
         if(indexPath.row == 27) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Worf1337"] options:@{} completionHandler:nil];

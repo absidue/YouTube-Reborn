@@ -212,9 +212,11 @@ NSURL *bestURL;
     }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
-        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self pictureInPicture:videoIdentifier];
-        }]];
+        if (SYSTEM_VERSION_LESS_THAN(@"15.0")) {
+            [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self pictureInPicture:videoIdentifier];
+            }]];
+        }
     }
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Play In External App" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
