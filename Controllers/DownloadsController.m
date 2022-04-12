@@ -13,8 +13,6 @@
 	[super loadView];
     [self setupDownloadsControllerView];
 
-    self.title = @"Test";
-
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = doneButton;
 
@@ -22,11 +20,13 @@
 
     DownloadsVideoController *videoViewController = [[DownloadsVideoController alloc] init];
     videoViewController.title = @"Video";
+    UINavigationController *videoNavViewController = [[UINavigationController alloc] initWithRootViewController:videoViewController];
 
     DownloadsAudioController *audioViewController = [[DownloadsAudioController alloc] init];
     audioViewController.title = @"Audio";
+    UINavigationController *audioNavViewController = [[UINavigationController alloc] initWithRootViewController:audioViewController];
 
-    self.tabBar.viewControllers = [NSArray arrayWithObjects:videoViewController, audioViewController, nil];
+    self.tabBar.viewControllers = [NSArray arrayWithObjects:videoNavViewController, audioNavViewController, nil];
 
     [self.view addSubview:self.tabBar.view];
 }
