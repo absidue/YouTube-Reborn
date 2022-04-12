@@ -204,7 +204,7 @@ NSURL *bestURL;
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // [self artworkDownloader:@"audio":videoIdentifier];
+        [self artworkDownloader:@"audio":videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

@@ -1,9 +1,8 @@
 #import "DownloadsController.h"
 #import "DownloadsVideoController.h"
 #import "DownloadsAudioController.h"
+#import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
-
-static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSystemVersion version; version.majorVersion = major; version.minorVersion = minor; version.patchVersion = patch; return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]; }
 
 @interface DownloadsController ()
 @end
@@ -26,13 +25,6 @@ static int __isOSVersionAtLeast(int major, int minor, int patch) { NSOperatingSy
     self.tabBar.viewControllers = [NSArray arrayWithObjects:videoViewController, audioViewController, nil];
 
     [self.view addSubview:self.tabBar.view];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
 }
 
 @end

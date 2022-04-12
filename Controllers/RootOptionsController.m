@@ -86,8 +86,6 @@
             if(indexPath.row == 0) {
                 cell.textLabel.text = @"View Downloads";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 1) {
                 cell.textLabel.text = @"View Downloads In Filza";
