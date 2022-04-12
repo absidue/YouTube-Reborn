@@ -1,5 +1,4 @@
 #import "DownloadsVideoController.h"
-#import "DownloadsVLCPlayerController.h"
 #import <Photos/Photos.h>
 #import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
@@ -83,15 +82,6 @@ NSMutableArray *filePathsVideoArtworkArray;
         [playerViewController.player play];
 
         [self presentViewController:playerViewController animated:YES completion:nil];
-    }]];
-    
-    [alertPlayer addAction:[UIAlertAction actionWithTitle:@"VLC" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        DownloadsVLCPlayerController *downloadsVLCPlayerController = [[DownloadsVLCPlayerController alloc] init];
-        downloadsVLCPlayerController.videoPath = downloadsPathURL;
-        UINavigationController *downloadsVLCPlayerControllerView = [[UINavigationController alloc] initWithRootViewController:downloadsVLCPlayerController];
-        downloadsVLCPlayerControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
-
-        [self presentViewController:downloadsVLCPlayerControllerView animated:YES completion:nil];
     }]];
 
     [alertPlayer addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
