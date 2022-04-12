@@ -4,7 +4,7 @@
 
 @interface DownloadsVideoController : UITableViewController <AVPlayerViewControllerDelegate>
 
-- (void)setupLightDarkModeVideoView;
+- (void)setupDownloadsVideoControllerView;
 - (void)setupVideoArrays;
 
 @end

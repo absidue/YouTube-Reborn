@@ -4,7 +4,7 @@
 
 @interface DownloadsAudioController : UITableViewController <AVPlayerViewControllerDelegate>
 
-- (void)setupLightDarkModeAudioView;
+- (void)setupDownloadsAudioControllerView;
 - (void)setupAudioArrays;
 
 @end

@@ -16,8 +16,7 @@ NSMutableArray *filePathsAudioArtworkArray;
 
 - (void)loadView {
 	[super loadView];
-
-    [self setupLightDarkModeAudioView];
+    [self setupDownloadsAudioControllerView];
 
     if (@available(iOS 15.0, *)) {
     	[self.tableView setSectionHeaderTopPadding:0.0f];
@@ -76,7 +75,7 @@ NSMutableArray *filePathsAudioArtworkArray;
     [alertPlayer addAction:[UIAlertAction actionWithTitle:@"AVPlayer" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         AVPlayerViewController *playerViewController = [AVPlayerViewController new];
         playerViewController.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:filePath]];
-        playerViewController.allowsPictureInPicturePlayback = YES;
+        playerViewController.allowsPictureInPicturePlayback = NO;
         if ([playerViewController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
             playerViewController.canStartPictureInPictureAutomaticallyFromInline = NO;
         }
@@ -130,7 +129,7 @@ NSMutableArray *filePathsAudioArtworkArray;
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    [self setupLightDarkModeAudioView];
+    [self setupDownloadsAudioControllerView];
     [self.tableView reloadData];
 }
 
@@ -138,7 +137,7 @@ NSMutableArray *filePathsAudioArtworkArray;
 
 @implementation DownloadsAudioController(Privates)
 
-- (void)setupLightDarkModeAudioView {
+- (void)setupDownloadsAudioControllerView {
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
     }

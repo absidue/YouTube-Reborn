@@ -17,8 +17,7 @@ NSMutableArray *filePathsVideoArtworkArray;
 
 - (void)loadView {
 	[super loadView];
-
-    [self setupLightDarkModeVideoView];
+    [self setupDownloadsVideoControllerView];
 
     if (@available(iOS 15.0, *)) {
     	[self.tableView setSectionHeaderTopPadding:0.0f];
@@ -77,7 +76,7 @@ NSMutableArray *filePathsVideoArtworkArray;
     [alertPlayer addAction:[UIAlertAction actionWithTitle:@"AVPlayer" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         AVPlayerViewController *playerViewController = [AVPlayerViewController new];
         playerViewController.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:filePath]];
-        playerViewController.allowsPictureInPicturePlayback = YES;
+        playerViewController.allowsPictureInPicturePlayback = NO;
         if ([playerViewController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
             playerViewController.canStartPictureInPictureAutomaticallyFromInline = NO;
         }
@@ -156,7 +155,7 @@ NSMutableArray *filePathsVideoArtworkArray;
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    [self setupLightDarkModeVideoView];
+    [self setupDownloadsVideoControllerView];
     [self.tableView reloadData];
 }
 
@@ -164,7 +163,7 @@ NSMutableArray *filePathsVideoArtworkArray;
 
 @implementation DownloadsVideoController(Privates)
 
-- (void)setupLightDarkModeVideoView {
+- (void)setupDownloadsVideoControllerView {
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
     }

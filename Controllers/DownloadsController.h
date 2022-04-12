@@ -4,4 +4,6 @@
 
 @property (nonatomic, retain) UITabBarController *tabBar;
 
+- (void)setupDownloadsControllerView;
+
 @end
