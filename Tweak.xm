@@ -325,9 +325,9 @@ NSURL *bestURL;
         [apiRequest setHTTPMethod:@"POST"];
         [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
-        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":%@,\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
-        NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-        [apiRequest setHTTPBody:jsonData];
+        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
+        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        [apiRequest setHTTPBody:dataBody];
 
         NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (error) {
@@ -341,20 +341,11 @@ NSURL *bestURL;
                     [failedViewController presentViewController:alertFailed animated:YES completion:nil];
                 }];
             } else {
-                // NSMutableDictionary *jsonResponse = responseObject;
-                // NSURL *bestaudioURL = [NSURL URLWithString:[jsonResponse objectForKey:@"bestaudio"]];
+                NSMutableDictionary *jsonResponse = responseObject;
+                NSURL *bestaudioURL = [NSURL URLWithString:[jsonResponse objectForKey:@"bestaudio"]];
 
                 [alertFetching dismissViewControllerAnimated:YES completion:^{
-
-                    UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"%@ %@", response, responseObject] preferredStyle:UIAlertControllerStyleAlert];
-
-                    [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    }]];
-
-                    UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                    [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
-
-                    /* UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
                     UIViewController *downloadingViewController = self._viewControllerForAncestor;
                     [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
                         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -370,6 +361,11 @@ NSURL *bestURL;
                             NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
                             return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
                         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                            NSString *documentsDirectory = [paths objectAtIndex:0];
+                            NSString *oldName = [NSString stringWithFormat:@"%@/videoplayback", documentsDirectory];
+                            NSString *newName = [NSString stringWithFormat:@"%@/videoplayback.m4a", documentsDirectory];
+                            [[NSFileManager defaultManager] moveItemAtPath:oldName toPath:newName error:nil];
                             [alertDownloading dismissViewControllerAnimated:YES completion:nil];
                             UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
 
@@ -380,7 +376,7 @@ NSURL *bestURL;
                             [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
                         }];
                         [downloadTask resume];
-                    }]; */
+                    }];
                 }];
             }
         }];

@@ -8,5 +8,3 @@
 - (void)setupVideoArrays;
 
 @end
-
-extern NSURL *downloadsPathURL;

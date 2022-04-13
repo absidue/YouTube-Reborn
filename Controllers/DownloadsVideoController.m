@@ -3,8 +3,6 @@
 #import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
 
-NSURL *downloadsPathURL;
-
 @interface DownloadsVideoController ()
 @end
 
@@ -68,26 +66,16 @@ NSMutableArray *filePathsVideoArtworkArray;
 
     NSString *currentFileName = filePathsVideoArray[indexPath.row];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];
-    downloadsPathURL = [NSURL fileURLWithPath:filePath];
+    
+    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+    playerViewController.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:filePath]];
+    playerViewController.allowsPictureInPicturePlayback = NO;
+    if ([playerViewController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
+        playerViewController.canStartPictureInPictureAutomaticallyFromInline = NO;
+    }
+    [playerViewController.player play];
 
-    UIAlertController *alertPlayer = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
-
-    [alertPlayer addAction:[UIAlertAction actionWithTitle:@"AVPlayer" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-        playerViewController.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:filePath]];
-        playerViewController.allowsPictureInPicturePlayback = NO;
-        if ([playerViewController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
-            playerViewController.canStartPictureInPictureAutomaticallyFromInline = NO;
-        }
-        [playerViewController.player play];
-
-        [self presentViewController:playerViewController animated:YES completion:nil];
-    }]];
-
-    [alertPlayer addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-    }]];
-
-    [self presentViewController:alertPlayer animated:YES completion:nil];
+    [self presentViewController:playerViewController animated:YES completion:nil];
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
