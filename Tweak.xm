@@ -389,10 +389,14 @@ NSURL *bestURL;
         NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-        NSString *options = @"[%22240p%22,%22480p%22,%22720p%22,%221080p%22,%221440p%22,%222160p%22]";
-        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieh.gay/?videoID=%@&options=%@", videoID, options];
-        NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-        NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+        NSString *options = @"[\"240p\",\"480p\",\"720p\",\"1080p\",\"1440p\",\"2160p\"]";
+        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
+        [apiRequest setHTTPMethod:@"POST"];
+        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
+        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        [apiRequest setHTTPBody:dataBody];
 
         NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (error) {
@@ -474,10 +478,14 @@ NSURL *bestURL;
         NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-        NSString *options = @"[%22best%22]";
-        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieh.gay/?videoID=%@&options=%@", videoID, options];
-        NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-        NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+        NSString *options = @"[\"best\"]";
+        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
+        [apiRequest setHTTPMethod:@"POST"];
+        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
+        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        [apiRequest setHTTPBody:dataBody];
 
         NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (error) {
