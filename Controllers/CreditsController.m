@@ -182,9 +182,8 @@
             }
             if(indexPath.row == 24) {
                 cell.textLabel.text = @"Smokin";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = @"Beta Tester";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.userInteractionEnabled = NO;
             }
             if(indexPath.row == 25) {
                 cell.textLabel.text = @"Superuser";
@@ -284,6 +283,9 @@
         }
         if(indexPath.row == 23) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/Sloooopie"] options:@{} completionHandler:nil];
+        }
+        if(indexPath.row == 24) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/smokin1337"] options:@{} completionHandler:nil];
         }
         if(indexPath.row == 25) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/joshuah345"] options:@{} completionHandler:nil];

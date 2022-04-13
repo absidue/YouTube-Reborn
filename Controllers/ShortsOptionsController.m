@@ -45,7 +45,7 @@
             cell.textLabel.textColor = [UIColor whiteColor];
         }
         if(indexPath.row == 0) {
-            cell.textLabel.text = @"Hide Camera Buton";
+            cell.textLabel.text = @"Hide Camera Button";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsCameraButton = [[UISwitch alloc] initWithFrame:CGRectZero];
             [hideShortsCameraButton addTarget:self action:@selector(toggleHideShortsCameraButton:) forControlEvents:UIControlEventValueChanged];
