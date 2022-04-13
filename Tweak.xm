@@ -204,11 +204,11 @@ NSURL *bestURL;
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self artworkDownloader:@"audio":videoIdentifier];
+        [self artworkDownloader:@"audio":0:videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // [self artworkDownloader:@"video":videoIdentifier];
+        [self videoDownloaderOptions:videoIdentifier];
     }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
@@ -218,10 +218,6 @@ NSURL *bestURL;
             }]];
         }
     }
-
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Play In External App" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // [self playInApp:videoIdentifier];
-    }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
     }]];
@@ -236,7 +232,7 @@ NSURL *bestURL;
 }
 
 %new;
-- (void)artworkDownloader:(NSString *)downloader :(NSString *)videoID {
+- (void)artworkDownloader:(NSString *)downloader :(NSInteger)quality :(NSString *)videoID {
     UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
 
     UIViewController *fetchingViewController = self._viewControllerForAncestor;
@@ -244,10 +240,14 @@ NSURL *bestURL;
         NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
 
-        NSString *options = @"[%22thumbnail%22]";
-        NSString *apiUrl = [NSString stringWithFormat:@"https://yt.lillieh.gay/?videoID=%@&options=%@", videoID, options];
-        NSURL *dataUrl = [NSURL URLWithString:apiUrl];
-        NSURLRequest *apiRequest = [NSURLRequest requestWithURL:dataUrl];
+        NSString *options = @"[\"thumbnail\"]";
+        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
+        [apiRequest setHTTPMethod:@"POST"];
+        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
+        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        [apiRequest setHTTPBody:dataBody];
 
         NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (error) {
@@ -297,7 +297,7 @@ NSURL *bestURL;
                                         [self audioDownloader:videoID];
                                     }
                                     if ([downloader isEqual:@"video"]) {
-                                        // [self videoDownloader:videoID];
+                                        [self videoDownloader:quality:videoID];
                                     }
                                 }];
                             }
@@ -361,11 +361,6 @@ NSURL *bestURL;
                             NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
                             return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
                         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                            NSString *documentsDirectory = [paths objectAtIndex:0];
-                            NSString *oldName = [NSString stringWithFormat:@"%@/videoplayback", documentsDirectory];
-                            NSString *newName = [NSString stringWithFormat:@"%@/videoplayback.m4a", documentsDirectory];
-                            [[NSFileManager defaultManager] moveItemAtPath:oldName toPath:newName error:nil];
                             [alertDownloading dismissViewControllerAnimated:YES completion:nil];
                             UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
 
@@ -419,32 +414,32 @@ NSURL *bestURL;
 
                     if ([[qualities objectForKey:@"q240p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            // [self videoDownloader:240];
+                            [self artworkDownloader:@"video":240:videoID];
                         }]];
                     }
                     if ([[qualities objectForKey:@"q480p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            // [self videoDownloader:480];
+                            [self artworkDownloader:@"video":480:videoID];
                         }]];
                     }
                     if ([[qualities objectForKey:@"q720p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            // [self videoDownloader:720];
+                            [self artworkDownloader:@"video":720:videoID];
                         }]];
                     }
                     if ([[qualities objectForKey:@"q1080p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            // [self videoDownloader:1080];
+                            [self artworkDownloader:@"video":1080:videoID];
                         }]];
                     }
                     if ([[qualities objectForKey:@"q1440p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            // [self videoDownloader:1440];
+                            [self artworkDownloader:@"video":1440:videoID];
                         }]];
                     }
                     if ([[qualities objectForKey:@"q2160p"] isEqual:@"True"]) {
                         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            // [self videoDownloader:2160];
+                            [self artworkDownloader:@"video":2160:videoID];
                         }]];
                     }
 
@@ -514,10 +509,6 @@ NSURL *bestURL;
         }];
         [dataTask resume];
     }];
-}
-
-%new;
-- (void)playInApp:(NSString *)videoID {
 }
 %end
 
