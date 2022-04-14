@@ -361,14 +361,15 @@ NSURL *bestURL;
                             NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
                             return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
                         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                            [alertDownloading dismissViewControllerAnimated:YES completion:nil];
-                            UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+                            [alertDownloading dismissViewControllerAnimated:YES completion:^{
+                                UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
 
-                            [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                            }]];
+                                [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                                }]];
 
-                            UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                            [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                                UIViewController *downloadedViewController = self._viewControllerForAncestor;
+                                [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                            }];
                         }];
                         [downloadTask resume];
                     }];
@@ -466,6 +467,95 @@ NSURL *bestURL;
 
 %new;
 - (void)videoDownloader:(NSInteger)quality :(NSString *)videoID {
+    UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
+
+    UIViewController *fetchingViewController = self._viewControllerForAncestor;
+    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
+        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
+
+        NSString *options = [NSString stringWithFormat:@"[\"%ld\"]", (long)quality];
+        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
+        [apiRequest setHTTPMethod:@"POST"];
+        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
+        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        [apiRequest setHTTPBody:dataBody];
+
+        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            if (error) {
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
+
+                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    }]];
+
+                    UIViewController *failedViewController = self._viewControllerForAncestor;
+                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+                }];
+            } else {
+                NSMutableDictionary *jsonResponse = responseObject;
+                NSMutableDictionary *jsonRequests = [jsonResponse objectForKey:@"q1080p"];
+                NSURL *videoURL = [NSURL URLWithString:[jsonRequests objectForKey:@"video"]];
+                NSURL *audioURL = [NSURL URLWithString:[jsonRequests objectForKey:@"audio"]];
+
+                [alertFetching dismissViewControllerAnimated:YES completion:^{
+                    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Video Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+                    UIViewController *downloadingViewController = self._viewControllerForAncestor;
+                    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
+                        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+                        NSURLRequest *request = [NSURLRequest requestWithURL:videoURL];
+
+                        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                float downloadPercent = downloadProgress.fractionCompleted * 100;
+                                alertDownloading.message = [NSString stringWithFormat:@"Video Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
+                            });
+                        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+                            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+                            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+                        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                            [alertDownloading dismissViewControllerAnimated:YES completion:^{
+
+                                UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+                                UIViewController *downloadingViewController = self._viewControllerForAncestor;
+                                [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
+                                    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                                    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+                                    NSURLRequest *request = [NSURLRequest requestWithURL:audioURL];
+
+                                    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            float downloadPercent = downloadProgress.fractionCompleted * 100;
+                                            alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
+                                        });
+                                    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+                                        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+                                        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+                                    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                                        [alertDownloading dismissViewControllerAnimated:YES completion:^{
+                                            UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Video Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+
+                                            [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                                            }]];
+
+                                            UIViewController *downloadedViewController = self._viewControllerForAncestor;
+                                            [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                                        }];
+                                    }];
+                                    [downloadTask resume];
+                                }];
+                            }];
+                        }];
+                        [downloadTask resume];
+                    }];
+                }];
+            }
+        }];
+        [dataTask resume];
+    }];
 }
 
 %new;
