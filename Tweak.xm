@@ -4,6 +4,8 @@
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
 #import "Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
+#import "MobileFFmpeg/MobileFFmpegConfig.h"
+#import "MobileFFmpeg/MobileFFmpeg.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -212,11 +214,11 @@ NSURL *bestURL;
     }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
-        if (SYSTEM_VERSION_LESS_THAN(@"15.0")) {
+        // if (SYSTEM_VERSION_LESS_THAN(@"15.0")) {
             [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self pictureInPicture:videoIdentifier];
             }]];
-        }
+        // }
     }
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -362,13 +364,27 @@ NSURL *bestURL;
                             return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
                         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                             [alertDownloading dismissViewControllerAnimated:YES completion:^{
-                                UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+                                UIAlertController *alertConverting = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Converting Audio\nPlease Wait" preferredStyle:UIAlertControllerStyleAlert];
 
-                                [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                                [alertConverting addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                                 }]];
 
-                                UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                                [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                                UIViewController *convertingViewController = self._viewControllerForAncestor;
+                                [convertingViewController presentViewController:alertConverting animated:YES completion:^{
+                                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                                    NSString *documentsDirectory = [paths objectAtIndex:0];
+                                    [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:a libmp3lame -q:a 8 %@/videoplayback.mp3", filePath, documentsDirectory]];
+                                    
+                                    [alertConverting dismissViewControllerAnimated:YES completion:^{
+                                        UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+
+                                        [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                                        }]];
+
+                                        UIViewController *downloadedViewController = self._viewControllerForAncestor;
+                                        [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                                    }];
+                                }];
                             }];
                         }];
                         [downloadTask resume];
