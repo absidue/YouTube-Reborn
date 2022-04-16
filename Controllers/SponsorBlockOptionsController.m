@@ -209,6 +209,7 @@
     if (section == 6) {
         return 10;
     }
+    return 0;
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
