@@ -47,9 +47,16 @@ NSMutableArray *filePathsVideoArtworkArray;
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     cell.textLabel.text = [filePathsVideoArray objectAtIndex:indexPath.row];
+    /* @try {
+        NSString *artworkFileName = filePathsVideoArtworkArray[indexPath.row];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [documentsDirectory stringByAppendingPathComponent:artworkFileName]]];
+    }
+    @catch (NSException *exception) {
+    } */
     return cell;
 }
 
@@ -79,14 +86,14 @@ NSMutableArray *filePathsVideoArtworkArray;
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
-    NSString *currentFileName = filePathsVideoArray[indexPath.row];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];
+    NSString *currentVideoFileName = filePathsVideoArray[indexPath.row];
+    NSString *currentArtworkFileName = filePathsVideoArtworkArray[indexPath.row];
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleAlert];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Import Video To Camera Roll" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-            NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+            NSURL *fileURL = [NSURL fileURLWithPath:[documentsDirectory stringByAppendingPathComponent:currentVideoFileName]];
             [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileURL];
         } completionHandler:^(BOOL success, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -110,8 +117,8 @@ NSMutableArray *filePathsVideoArtworkArray;
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Delete Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NSFileManager *fm = [[NSFileManager alloc] init];
-        [fm removeItemAtPath:filePath error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentVideoFileName] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentArtworkFileName] error:nil];
 
         UIAlertController *alertDeleted = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Video Successfully Deleted" preferredStyle:UIAlertControllerStyleAlert];
 

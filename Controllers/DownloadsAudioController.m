@@ -46,9 +46,16 @@ NSMutableArray *filePathsAudioArtworkArray;
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     cell.textLabel.text = [filePathsAudioArray objectAtIndex:indexPath.row];
+    @try {
+        NSString *artworkFileName = filePathsAudioArtworkArray[indexPath.row];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [documentsDirectory stringByAppendingPathComponent:artworkFileName]]];
+    }
+    @catch (NSException *exception) {
+    }
     return cell;
 }
 
@@ -78,14 +85,14 @@ NSMutableArray *filePathsAudioArtworkArray;
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
-    NSString *currentFileName = filePathsAudioArray[indexPath.row];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:currentFileName];
+    NSString *currentAudioFileName = filePathsAudioArray[indexPath.row];
+    NSString *currentArtworkFileName = filePathsAudioArtworkArray[indexPath.row];
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleAlert];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Delete Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NSFileManager *fm = [[NSFileManager alloc] init];
-        [fm removeItemAtPath:filePath error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentAudioFileName] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentArtworkFileName] error:nil];
 
         UIAlertController *alertDeleted = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Successfully Deleted" preferredStyle:UIAlertControllerStyleAlert];
 
@@ -133,7 +140,12 @@ NSMutableArray *filePathsAudioArtworkArray;
     filePathsAudioArray = [[NSMutableArray alloc] init];
     filePathsAudioArtworkArray = [[NSMutableArray alloc] init];
     for (id object in filePathsList) {
-        [filePathsAudioArray addObject:object];
+        if ([[object pathExtension] isEqualToString:@"m4a"] || [[object pathExtension] isEqualToString:@"mp3"]){
+            [filePathsAudioArray addObject:object];
+            NSString *cut = [object substringToIndex:[object length]-4];
+            NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];
+            [filePathsAudioArtworkArray addObject:jpg];
+        }
     }
 }
 
