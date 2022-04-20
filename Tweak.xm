@@ -210,15 +210,13 @@ NSURL *bestURL;
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self videoDownloaderOptions:videoIdentifier];
+        // [self videoDownloaderOptions:videoIdentifier];
     }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
-        if (SYSTEM_VERSION_LESS_THAN(@"15.0")) {
-            [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self pictureInPicture:videoIdentifier];
-            }]];
-        }
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self pictureInPicture:videoIdentifier];
+        }]];
     }
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
