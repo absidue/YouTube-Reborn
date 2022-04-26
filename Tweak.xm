@@ -244,7 +244,7 @@ NSURL *bestURL;
         NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
         [apiRequest setHTTPMethod:@"POST"];
         [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
         NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
         NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         [apiRequest setHTTPBody:dataBody];
@@ -334,7 +334,7 @@ NSURL *bestURL;
         NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
         [apiRequest setHTTPMethod:@"POST"];
         [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
         NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
         NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         [apiRequest setHTTPBody:dataBody];
@@ -352,7 +352,8 @@ NSURL *bestURL;
                 }];
             } else {
                 NSMutableDictionary *jsonResponse = responseObject;
-                NSURL *bestaudioURL = [NSURL URLWithString:[jsonResponse objectForKey:@"bestaudio"]];
+                NSMutableDictionary *jsonBestAudio = [jsonResponse objectForKey:@"bestaudio"];
+                NSURL *bestaudioURL = [NSURL URLWithString:[jsonBestAudio objectForKey:@"bestaudio"]];
                 NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
                 NSString *fileName = [[[jsonResponse objectForKey:@"title"] componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
 
@@ -418,7 +419,7 @@ NSURL *bestURL;
         NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
         [apiRequest setHTTPMethod:@"POST"];
         [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
         NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
         NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         [apiRequest setHTTPBody:dataBody];
@@ -507,7 +508,7 @@ NSURL *bestURL;
         NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
         [apiRequest setHTTPMethod:@"POST"];
         [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"XyhcIapKTUFdBPOYlWqAuHSo5fDj8n4k3gCie612GNZwVMR7mbvExQJ9s0tzLr" forHTTPHeaderField:@"Gate-Key"];
+        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
         NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
         NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         [apiRequest setHTTPBody:dataBody];
@@ -525,8 +526,9 @@ NSURL *bestURL;
                 }];
             } else {
                 NSMutableDictionary *jsonResponse = responseObject;
+                NSMutableDictionary *jsonBest = [jsonResponse objectForKey:@"best"];
                 videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
-                bestURL = [NSURL URLWithString:[jsonResponse objectForKey:@"best"]];
+                bestURL = [NSURL URLWithString:[jsonBest objectForKey:@"best"]];
 
                 [alertFetching dismissViewControllerAnimated:YES completion:^{
                     PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
