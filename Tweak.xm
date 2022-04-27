@@ -796,49 +796,6 @@ NSURL *bestURL;
 %end
 %end
 
-%group gUnlockUHDQuality
-%hook YTSettings
-- (BOOL)isWebMEnabled {
-    return YES;
-}
-%end
-%hook YTUserDefaults
-- (int)manualQualitySelectionChosenResolution {
-    return 2160;
-}
-- (int)ml_manualQualitySelectionChosenResolution {
-    return 2160;
-}
-- (int)manualQualitySelectionPrecedingResolution {
-    return 2160;
-}
-- (int)ml_manualQualitySelectionPrecedingResolution {
-    return 2160;
-}
-%end
-%hook MLManualFormatSelectionMetadata
-- (int)stickyCeilingResolution {
-    return 2160;
-}
-%end
-%hook YTIHamplayerStreamFilter
-- (BOOL)enableVideoCodecSplicing {
-    return YES;
-}
-- (BOOL)hasVp9 {
-    return YES;
-}
-%end
-%hook YTIHamplayerSoftwareStreamFilter
-- (int)maxFps {
-    return 60;
-}
-- (int)maxArea {
-    return 8294400;
-}
-%end
-%end
-
 %group gHideShortsCameraButton
 %hook YTReelWatchPlaybackOverlayView
 - (void)layoutSubviews {
@@ -1537,7 +1494,6 @@ int selectedTabIndex = 0;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableVideoInfoCards"] == YES) %init(gDisableVideoInfoCards);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoSearchButton"] == YES) %init(gNoSearchButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideChannelWatermark"] == YES) %init(gHideChannelWatermark);
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kUnlockUHDQuality"] == YES) %init(gUnlockUHDQuality);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsCameraButton"] == YES) %init(gHideShortsCameraButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsMoreActionsButton"] == YES) %init(gHideShortsMoreActionsButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsLikeButton"] == YES) %init(gHideShortsLikeButton);

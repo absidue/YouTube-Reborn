@@ -53,7 +53,7 @@
         return 7;
     }
     if (section == 3) {
-        return 8;
+        return 7;
     }
     if (section == 4) {
         return 2;
@@ -132,14 +132,6 @@
                 cell.accessoryView = enableiPadStyleOniPhone;
             }
             if(indexPath.row == 1) {
-                cell.textLabel.text = @"Unlock UHD Quality";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *unlockUHDQuality = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [unlockUHDQuality addTarget:self action:@selector(toggleUnlockUHDQuality:) forControlEvents:UIControlEventValueChanged];
-                unlockUHDQuality.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kUnlockUHDQuality"];
-                cell.accessoryView = unlockUHDQuality;
-            }
-            if(indexPath.row == 2) {
                 cell.textLabel.text = @"No Cast Button";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *noCastButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -147,7 +139,7 @@
                 noCastButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoCastButton"];
                 cell.accessoryView = noCastButton;
             }
-            if(indexPath.row == 3) {
+            if(indexPath.row == 2) {
                 cell.textLabel.text = @"No Notification Button";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *noNotificationButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -155,7 +147,7 @@
                 noNotificationButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoNotificationButton"];
                 cell.accessoryView = noNotificationButton;
             }
-            if(indexPath.row == 4) {
+            if(indexPath.row == 3) {
                 cell.textLabel.text = @"No Search Button";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *noSearchButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -163,7 +155,7 @@
                 noSearchButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoSearchButton"];
                 cell.accessoryView = noSearchButton;
             }
-            if(indexPath.row == 5) {
+            if(indexPath.row == 4) {
                 cell.textLabel.text = @"Disable YouTube Kids";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *disableYouTubeKidsPopup = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -171,7 +163,7 @@
                 disableYouTubeKidsPopup.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableYouTubeKidsPopup"];
                 cell.accessoryView = disableYouTubeKidsPopup;
             }
-            if(indexPath.row == 6) {
+            if(indexPath.row == 5) {
                 cell.textLabel.text = @"Disable Hints";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *disableHints = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -179,7 +171,7 @@
                 disableHints.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableHints"];
                 cell.accessoryView = disableHints;
             }
-            if(indexPath.row == 7) {
+            if(indexPath.row == 6) {
                 cell.textLabel.text = @"Hide YouTube Logo";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideYouTubeLogo = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -252,21 +244,21 @@
             [self presentViewController:tabBarOptionsControllerView animated:YES completion:nil];
         }
         if(indexPath.row == 3) {
-            if (UIDevice.currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad) {
-                HBColorPickerViewController *alderisViewController = [[HBColorPickerViewController alloc] init];
-                alderisViewController.delegate = self;
-                alderisViewController.popoverPresentationController.sourceView = self.view;
+            HBColorPickerViewController *alderisViewController = [[HBColorPickerViewController alloc] init];
+            alderisViewController.delegate = self;
+            alderisViewController.popoverPresentationController.sourceView = self.view;
+            alderisViewController.popoverPresentationController.sourceRect = self.view.bounds;
+            alderisViewController.popoverPresentationController.permittedArrowDirections = 0;
 
-                NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kYTRebornColourOptionsVThree"];
-                NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:colorData error:nil];
-                [unarchiver setRequiresSecureCoding:NO];
-                UIColor *colour = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
-                HBColorPickerConfiguration *configuration = [[HBColorPickerConfiguration alloc] initWithColor:colour];
-                configuration.supportsAlpha = NO;
+            NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kYTRebornColourOptionsVThree"];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:colorData error:nil];
+            [unarchiver setRequiresSecureCoding:NO];
+            UIColor *colour = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+            HBColorPickerConfiguration *configuration = [[HBColorPickerConfiguration alloc] initWithColor:colour];
+            configuration.supportsAlpha = NO;
 
-                alderisViewController.configuration = configuration;
-                [self presentViewController:alderisViewController animated:YES completion:nil];
-            }
+            alderisViewController.configuration = configuration;
+            [self presentViewController:alderisViewController animated:YES completion:nil];
         }
         if(indexPath.row == 4) {
             SearchOptionsController *searchOptionsController = [[SearchOptionsController alloc] init];
@@ -310,7 +302,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.0.1 (Beta 6)";
+        return @"Version: 3.0.1 (Beta 7)";
     }
     return nil;
 }
@@ -389,16 +381,6 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kEnableiPadStyleOniPhone"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleUnlockUHDQuality:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUnlockUHDQuality"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kUnlockUHDQuality"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
