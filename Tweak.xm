@@ -4,8 +4,8 @@
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
 #import "Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
-#import "MobileFFmpeg/MobileFFmpegConfig.h"
-#import "MobileFFmpeg/MobileFFmpeg.h"
+// #import "MobileFFmpeg/MobileFFmpegConfig.h"
+// #import "MobileFFmpeg/MobileFFmpeg.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -215,7 +215,7 @@ NSURL *bestURL;
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self pictureInPicture:videoIdentifier];
+            // [self pictureInPicture:videoIdentifier];
         }]];
     }
 
@@ -233,261 +233,14 @@ NSURL *bestURL;
 
 %new;
 - (void)artworkDownloader:(NSString *)downloader :(NSInteger)quality :(NSString *)videoID {
-    UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
-
-    UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
-        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
-
-        NSString *options = @"[\"thumbnail\",\"title\"]";
-        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
-        [apiRequest setHTTPMethod:@"POST"];
-        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
-        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
-        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        [apiRequest setHTTPBody:dataBody];
-
-        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            if (error) {
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
-
-                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    }]];
-
-                    UIViewController *failedViewController = self._viewControllerForAncestor;
-                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-                }];
-            } else {
-                NSMutableDictionary *jsonResponse = responseObject;
-                NSURL *thumbnailURL = [NSURL URLWithString:[jsonResponse objectForKey:@"thumbnail"]];
-                NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
-                NSString *fileName = [[[jsonResponse objectForKey:@"title"] componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
-
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-                    UIViewController *downloadingViewController = self._viewControllerForAncestor;
-                    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
-                        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-                        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-                        NSURLRequest *request = [NSURLRequest requestWithURL:thumbnailURL];
-
-                        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                float downloadPercent = downloadProgress.fractionCompleted * 100;
-                                alertDownloading.message = [NSString stringWithFormat:@"Artwork Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-                            });
-                        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-                            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-                        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                            if (error) {
-                                [alertDownloading dismissViewControllerAnimated:YES completion:^{
-                                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to download artwork" preferredStyle:UIAlertControllerStyleAlert];
-
-                                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                                    }]];
-
-                                    UIViewController *failedViewController = self._viewControllerForAncestor;
-                                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-                                }];
-                            } else {
-                                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                                NSString *documentsDirectory = [paths objectAtIndex:0];
-                                if (![[[NSString stringWithFormat:@"%@", filePath] pathExtension] isEqualToString:@"jpg"]) {
-                                    [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:v libwebp %@/%@.jpg", filePath, documentsDirectory, fileName]];
-                                    [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
-                                } else {
-                                    [[NSFileManager defaultManager] moveItemAtPath:[filePath path] toPath:[NSString stringWithFormat:@"%@/%@.jpg", documentsDirectory, fileName] error:nil];
-                                }
-                                [alertDownloading dismissViewControllerAnimated:YES completion:^{
-                                    if ([downloader isEqual:@"audio"]) {
-                                        [self audioDownloader:videoID];
-                                    }
-                                    if ([downloader isEqual:@"video"]) {
-                                        [self videoDownloader:quality:videoID];
-                                    }
-                                }];
-                            }
-                        }];
-                        [downloadTask resume];
-                    }];
-                }];
-            }
-        }];
-        [dataTask resume];
-    }];
 }
 
 %new;
 - (void)audioDownloader:(NSString *)videoID {
-    UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
-
-    UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
-        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
-
-        NSString *options = @"[\"bestaudio\",\"title\"]";
-        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
-        [apiRequest setHTTPMethod:@"POST"];
-        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
-        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
-        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        [apiRequest setHTTPBody:dataBody];
-
-        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            if (error) {
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
-
-                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    }]];
-
-                    UIViewController *failedViewController = self._viewControllerForAncestor;
-                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-                }];
-            } else {
-                NSMutableDictionary *jsonResponse = responseObject;
-                NSMutableDictionary *jsonBestAudio = [jsonResponse objectForKey:@"bestaudio"];
-                NSURL *bestaudioURL = [NSURL URLWithString:[jsonBestAudio objectForKey:@"bestaudio"]];
-                NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
-                NSString *fileName = [[[jsonResponse objectForKey:@"title"] componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
-
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-                    UIViewController *downloadingViewController = self._viewControllerForAncestor;
-                    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
-                        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-                        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-                        NSURLRequest *request = [NSURLRequest requestWithURL:bestaudioURL];
-
-                        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                float downloadPercent = downloadProgress.fractionCompleted * 100;
-                                alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-                            });
-                        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-                            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-                        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                            [alertDownloading dismissViewControllerAnimated:YES completion:^{
-                                UIAlertController *alertConverting = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Converting And Cleaning Up\nPlease Wait" preferredStyle:UIAlertControllerStyleAlert];
-
-                                UIViewController *convertingViewController = self._viewControllerForAncestor;
-                                [convertingViewController presentViewController:alertConverting animated:YES completion:^{
-                                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                                    NSString *documentsDirectory = [paths objectAtIndex:0];
-                                    [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:a libmp3lame -q:a 8 %@/%@.mp3", filePath, documentsDirectory, fileName]];
-                                    [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
-                                    
-                                    [alertConverting dismissViewControllerAnimated:YES completion:^{
-                                        UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
-
-                                        [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                                        }]];
-
-                                        UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                                        [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
-                                    }];
-                                }];
-                            }];
-                        }];
-                        [downloadTask resume];
-                    }];
-                }];
-            }
-        }];
-        [dataTask resume];
-    }];
 }
 
 %new;
 - (void)videoDownloaderOptions:(NSString *)videoID {
-    UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
-
-    UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
-
-        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
-
-        NSString *options = @"[\"240p\",\"480p\",\"720p\",\"1080p\",\"1440p\",\"2160p\"]";
-        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
-        [apiRequest setHTTPMethod:@"POST"];
-        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
-        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
-        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        [apiRequest setHTTPBody:dataBody];
-
-        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            if (error) {
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
-
-                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    }]];
-
-                    UIViewController *failedViewController = self._viewControllerForAncestor;
-                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-                }];
-            } else {
-                NSMutableDictionary *jsonResponse = responseObject;
-                NSMutableDictionary *qualities = [jsonResponse objectForKey:@"qualities"];
-
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    UIAlertController *alertQualitySelector = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-
-                    if ([[qualities objectForKey:@"q240p"] isEqual:@"True"]) {
-                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [self artworkDownloader:@"video":240:videoID];
-                        }]];
-                    }
-                    if ([[qualities objectForKey:@"q480p"] isEqual:@"True"]) {
-                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [self artworkDownloader:@"video":480:videoID];
-                        }]];
-                    }
-                    if ([[qualities objectForKey:@"q720p"] isEqual:@"True"]) {
-                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [self artworkDownloader:@"video":720:videoID];
-                        }]];
-                    }
-                    if ([[qualities objectForKey:@"q1080p"] isEqual:@"True"]) {
-                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [self artworkDownloader:@"video":1080:videoID];
-                        }]];
-                    }
-                    if ([[qualities objectForKey:@"q1440p"] isEqual:@"True"]) {
-                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [self artworkDownloader:@"video":1440:videoID];
-                        }]];
-                    }
-                    if ([[qualities objectForKey:@"q2160p"] isEqual:@"True"]) {
-                        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [self artworkDownloader:@"video":2160:videoID];
-                        }]];
-                    }
-
-                    [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                    }]];
-
-                    [alertQualitySelector setModalPresentationStyle:UIModalPresentationPopover];
-                    UIPopoverPresentationController *popPresenter = [alertQualitySelector popoverPresentationController];
-                    popPresenter.sourceView = self;
-                    popPresenter.sourceRect = self.bounds;
-
-                    UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
-                    [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];
-                }];
-            }
-        }];
-        [dataTask resume];
-    }];
 }
 
 %new;
@@ -496,54 +249,6 @@ NSURL *bestURL;
 
 %new;
 - (void)pictureInPicture:(NSString *)videoID {
-    UIAlertController *alertFetching = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Fetching video data\nPlease wait\nThis may take a while" preferredStyle:UIAlertControllerStyleAlert];
-
-    UIViewController *fetchingViewController = self._viewControllerForAncestor;
-    [fetchingViewController presentViewController:alertFetching animated:YES completion:^{
-
-        NSURLSessionConfiguration *dataConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *dataManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:dataConfiguration];
-
-        NSString *options = @"[\"best\"]";
-        NSMutableURLRequest *apiRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://ytdlp.lillieh.gay/api/"]];
-        [apiRequest setHTTPMethod:@"POST"];
-        [apiRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [apiRequest setValue:@"omP93LXN1q6xJGyI2Hfvudz8CcWVwEl54BtRnSeiMTsD0FZKrYpjhQgUaAOb7k" forHTTPHeaderField:@"Gate-Key"];
-        NSString *jsonString = [NSString stringWithFormat:@"{\"Source\":\"YouTube\",\"Url\":\"%@\",\"AudioFormat\":\"m4a\",\"VideoFormat\":\"mp4\",\"Options\":%@}", videoID, options];
-        NSData *dataBody = [jsonString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        [apiRequest setHTTPBody:dataBody];
-
-        NSURLSessionDataTask *dataTask = [dataManager dataTaskWithRequest:apiRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            if (error) {
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to fetch video data" preferredStyle:UIAlertControllerStyleAlert];
-
-                    [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    }]];
-
-                    UIViewController *failedViewController = self._viewControllerForAncestor;
-                    [failedViewController presentViewController:alertFailed animated:YES completion:nil];
-                }];
-            } else {
-                NSMutableDictionary *jsonResponse = responseObject;
-                NSMutableDictionary *jsonBest = [jsonResponse objectForKey:@"best"];
-                videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
-                bestURL = [NSURL URLWithString:[jsonBest objectForKey:@"best"]];
-
-                [alertFetching dismissViewControllerAnimated:YES completion:^{
-                    PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
-                    pictureInPictureController.videoTime = videoTime;
-                    pictureInPictureController.videoPath = bestURL;
-                    UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
-                    pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
-
-                    UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
-                    [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
-                }];
-            }
-        }];
-        [dataTask resume];
-    }];
 }
 %end
 
@@ -640,7 +345,7 @@ NSURL *bestURL;
 	MSHookIvar<float>(self, "_rate") = rate;
 
 	id ytPlayer = MSHookIvar<HAMPlayerInternal *>(self, "_player");
-	[ytPlayer setRate: rate];
+	[ytPlayer setRate:rate];
 
 	[self.playerEventCenter broadcastRateChange:rate];
 }
@@ -1047,6 +752,13 @@ NSURL *bestURL;
 %hook YTSimpleInfoCardTeaserView
 - (id)initWithFrame:(CGRect)arg1 {
     return NULL;
+}
+%end
+%hook YTPaidContentViewController
+- (id)initWithParentResponder:(id)arg1 paidContentRenderer:(id)arg2 enableNewPaidProductDisclosure:(BOOL)arg3 {
+    arg2 = NULL;
+    arg3 = NO;
+    return %orig;
 }
 %end
 %hook YTPaidContentOverlayView
