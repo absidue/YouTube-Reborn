@@ -87,7 +87,7 @@ NSMutableArray *filePathsVideoArtworkArray;
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
     NSString *currentVideoFileName = filePathsVideoArray[indexPath.row];
-    NSString *currentArtworkFileName = filePathsVideoArtworkArray[indexPath.row];
+    // NSString *currentArtworkFileName = filePathsVideoArtworkArray[indexPath.row];
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleAlert];
 
@@ -118,7 +118,7 @@ NSMutableArray *filePathsVideoArtworkArray;
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Delete Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentVideoFileName] error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentArtworkFileName] error:nil];
+        // [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentArtworkFileName] error:nil];
 
         UIAlertController *alertDeleted = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Video Successfully Deleted" preferredStyle:UIAlertControllerStyleAlert];
 
@@ -165,9 +165,9 @@ NSMutableArray *filePathsVideoArtworkArray;
     NSArray *filePathsList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
     filePathsVideoArray = [[NSMutableArray alloc] init];
     filePathsVideoArtworkArray = [[NSMutableArray alloc] init];
-    /* for (id object in filePathsList) {
+    for (id object in filePathsList) {
         [filePathsVideoArray addObject:object];
-    } */
+    }
 }
 
 @end

@@ -213,7 +213,7 @@ NSURL *bestURL;
     }]]; */
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
-        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self pictureInPicture:videoIdentifier];
         }]];
     }
@@ -233,8 +233,47 @@ NSURL *bestURL;
 %new;
 - (void)pictureInPicture :(NSString *)videoID {
     videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
-    bestURL = [YouTubeExtractorKit dual720p:videoID];
+    NSURL *q720p = [YouTubeExtractorKit dual720p:videoID];
+    if (q720p != nil) {
+        bestURL = q720p;
+        [self presentPictureInPicture];
+    } else {
+        NSURL *q480p = [YouTubeExtractorKit dual480p:videoID];
+        if (q480p != nil) {
+            bestURL = q480p;
+            [self presentPictureInPicture];
+        } else {
+            NSURL *q360p = [YouTubeExtractorKit dual360p:videoID];
+            if (q360p != nil) {
+                bestURL = q360p;
+                [self presentPictureInPicture];
+            } else {
+                NSURL *q240p = [YouTubeExtractorKit dual240p:videoID];
+                if (q240p != nil) {
+                    bestURL = q240p;
+                    [self presentPictureInPicture];
+                } else {
+                    NSURL *q144p = [YouTubeExtractorKit dual144p:videoID];
+                    if (q144p != nil) {
+                        bestURL = q144p;
+                        [self presentPictureInPicture];
+                    } else {
+                        UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to get video info\nThis video may not be supported by Picture In Picture" preferredStyle:UIAlertControllerStyleAlert];
 
+                        [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        }]];
+
+                        UIViewController *failedViewController = self._viewControllerForAncestor;
+                        [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+                    }
+                }
+            }
+        }
+    }
+}
+
+%new
+- (void)presentPictureInPicture {
     PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
     pictureInPictureController.videoTime = videoTime;
     pictureInPictureController.videoPath = bestURL;

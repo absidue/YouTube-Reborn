@@ -40,6 +40,7 @@
 - (void)didPressPause:(id)button;
 - (void)optionsAction;
 - (void)pictureInPicture :(NSString *)videoID;
+- (void)presentPictureInPicture;
 @end
 
 @interface YTMainAppSkipVideoButton
