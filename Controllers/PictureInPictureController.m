@@ -5,9 +5,11 @@
 
 @implementation PictureInPictureController
 
-AVPlayer *player;
-AVPlayerLayer *playerLayer;
-AVPictureInPictureController *pictureInPictureController;
+AVPlayer *rebornPlayer;
+AVPlayerLayer *rebornPlayerLayer;
+AVPictureInPictureController *rebornPictureInPictureController;
+UIButton *stopRebornPictureInPictureButton;
+UILabel *rebornPictureInPictureLoadingLabel;
 
 - (void)loadView {
 	[super loadView];
@@ -16,26 +18,33 @@ AVPictureInPictureController *pictureInPictureController;
 
     [self setupPictureInPictureControllerView];
 
-    AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:self.videoPath];
-    player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+    AVPlayerItem *rebornPlayerItem = [[AVPlayerItem alloc] initWithURL:self.videoPath];
+    rebornPlayer = [[AVPlayer alloc] initWithPlayerItem:rebornPlayerItem];
     float newTimeFloat = [self.videoTime floatValue];
     CMTime newTime = CMTimeMakeWithSeconds(newTimeFloat, 1);
-    [player seekToTime:newTime];
+    [rebornPlayer seekToTime:newTime];
 
-    [player addObserver:self forKeyPath:@"status" options:0 context:nil];
-    [player addObserver:self forKeyPath:@"timeControlStatus" options:0 context:nil];
+    [rebornPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
+    [rebornPlayer addObserver:self forKeyPath:@"timeControlStatus" options:0 context:nil];
 
-    playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
-    playerLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width * 9 / 16);
-    playerLayer.hidden = YES;
+    rebornPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:rebornPlayer];
+    rebornPlayerLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width * 9 / 16);
+    rebornPlayerLayer.hidden = YES;
 
-    [self.view.layer addSublayer:playerLayer];
+    [self.view.layer addSublayer:rebornPlayerLayer];
 
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self action:@selector(closePip) forControlEvents:UIControlEventTouchUpInside];
-    button.frame = self.view.bounds;
-    [button setTitle:@"Tap To Stop Picture-In-Picture" forState:UIControlStateNormal];
-    [self.view addSubview:button];
+    stopRebornPictureInPictureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [stopRebornPictureInPictureButton addTarget:self action:@selector(closePip) forControlEvents:UIControlEventTouchUpInside];
+    stopRebornPictureInPictureButton.frame = self.view.bounds;
+    stopRebornPictureInPictureButton.hidden = YES;
+    [stopRebornPictureInPictureButton setTitle:@"Tap To Stop Picture-In-Picture" forState:UIControlStateNormal];
+    [self.view addSubview:stopRebornPictureInPictureButton];
+
+    rebornPictureInPictureLoadingLabel = [[UILabel alloc] initWithFrame:self.view.bounds];
+    rebornPictureInPictureLoadingLabel.text = @"Picture In Picture Is Loading, Please Wait";
+    rebornPictureInPictureLoadingLabel.textAlignment = NSTextAlignmentCenter;
+    rebornPictureInPictureLoadingLabel.adjustsFontSizeToFitWidth = true;
+    [self.view addSubview:rebornPictureInPictureLoadingLabel];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -57,32 +66,34 @@ AVPictureInPictureController *pictureInPictureController;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (object == player && [keyPath isEqualToString:@"status"]) {
-        if (player.status == AVPlayerStatusReadyToPlay) {
+    if (object == rebornPlayer && [keyPath isEqualToString:@"status"]) {
+        if (rebornPlayer.status == AVPlayerStatusReadyToPlay) {
             if([AVPictureInPictureController isPictureInPictureSupported]) {
-                pictureInPictureController = [[AVPictureInPictureController alloc] initWithPlayerLayer:playerLayer];
-                pictureInPictureController.delegate = self;
-                if ([pictureInPictureController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
-                    pictureInPictureController.canStartPictureInPictureAutomaticallyFromInline = YES;
+                rebornPictureInPictureController = [[AVPictureInPictureController alloc] initWithPlayerLayer:rebornPlayerLayer];
+                rebornPictureInPictureController.delegate = self;
+                if ([rebornPictureInPictureController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
+                    rebornPictureInPictureController.canStartPictureInPictureAutomaticallyFromInline = YES;
                 }
             }
-            [player play];
+            [rebornPlayer play];
+            rebornPictureInPictureLoadingLabel.hidden = YES;
+            stopRebornPictureInPictureButton.hidden = NO;
         }
-    } else if (object == player && [keyPath isEqualToString:@"timeControlStatus"]) {
-        if (player.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
+    } else if (object == rebornPlayer && [keyPath isEqualToString:@"timeControlStatus"]) {
+        if (rebornPlayer.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
             if([AVPictureInPictureController isPictureInPictureSupported]) {
-                [pictureInPictureController startPictureInPicture];
+                [rebornPictureInPictureController startPictureInPicture];
             }
         }
     }
 }
 
 - (void)closePip {
-    if ([pictureInPictureController isPictureInPictureActive]) {
-        [pictureInPictureController stopPictureInPicture];
+    if ([rebornPictureInPictureController isPictureInPictureActive]) {
+        [rebornPictureInPictureController stopPictureInPicture];
     }
-    [player pause];
-    [playerLayer removeFromSuperlayer];
+    [rebornPlayer pause];
+    [rebornPlayerLayer removeFromSuperlayer];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
