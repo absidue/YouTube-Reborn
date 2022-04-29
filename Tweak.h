@@ -39,11 +39,7 @@
 - (id)playPauseButton;
 - (void)didPressPause:(id)button;
 - (void)optionsAction;
-- (void)artworkDownloader:(NSString *)downloader :(NSInteger)quality :(NSString *)videoID;
-- (void)audioDownloader:(NSString *)videoID;
-- (void)videoDownloaderOptions:(NSString *)videoID;
-- (void)videoDownloader:(NSInteger)quality :(NSString *)videoID;
-- (void)pictureInPicture:(NSString *)videoID;
+- (void)pictureInPicture :(NSString *)videoID;
 @end
 
 @interface YTMainAppSkipVideoButton

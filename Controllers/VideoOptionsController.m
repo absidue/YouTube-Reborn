@@ -26,7 +26,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return 11;
+    return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -117,14 +117,6 @@
             cell.accessoryView = hideChannelWatermark;
         }
         if(indexPath.row == 9) {
-            cell.textLabel.text = @"Always Show Player Bar";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UISwitch *alwaysShowPlayerBar = [[UISwitch alloc] initWithFrame:CGRectZero];
-            [alwaysShowPlayerBar addTarget:self action:@selector(toggleAlwaysShowPlayerBar:) forControlEvents:UIControlEventValueChanged];
-            alwaysShowPlayerBar.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBar"];
-            cell.accessoryView = alwaysShowPlayerBar;
-        }
-        if(indexPath.row == 10) {
             cell.textLabel.text = @"Enable Extra Speed Options";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *enableExtraSpeedOptions = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -257,16 +249,6 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideChannelWatermark"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleAlwaysShowPlayerBar:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kAlwaysShowPlayerBar"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kAlwaysShowPlayerBar"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

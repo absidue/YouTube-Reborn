@@ -6,6 +6,7 @@
 #import "Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
 // #import "MobileFFmpeg/MobileFFmpegConfig.h"
 // #import "MobileFFmpeg/MobileFFmpeg.h"
+#import "../YouTube-Extractor-Kit/YouTubeExtractorKit.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -205,17 +206,15 @@ NSURL *bestURL;
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self artworkDownloader:@"audio":0:videoIdentifier];
+    /* [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // [self videoDownloaderOptions:videoIdentifier];
-    }]];
+    }]]; */
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture (Beta)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            // [self pictureInPicture:videoIdentifier];
+            [self pictureInPicture:videoIdentifier];
         }]];
     }
 
@@ -232,23 +231,18 @@ NSURL *bestURL;
 }
 
 %new;
-- (void)artworkDownloader:(NSString *)downloader :(NSInteger)quality :(NSString *)videoID {
-}
+- (void)pictureInPicture :(NSString *)videoID {
+    videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
+    bestURL = [YouTubeExtractorKit dual720p:videoID];
 
-%new;
-- (void)audioDownloader:(NSString *)videoID {
-}
+    PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
+    pictureInPictureController.videoTime = videoTime;
+    pictureInPictureController.videoPath = bestURL;
+    UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
+    pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
-%new;
-- (void)videoDownloaderOptions:(NSString *)videoID {
-}
-
-%new;
-- (void)videoDownloader:(NSInteger)quality :(NSString *)videoID {
-}
-
-%new;
-- (void)pictureInPicture:(NSString *)videoID {
+    UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
+    [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
 }
 %end
 
@@ -605,56 +599,6 @@ NSURL *bestURL;
 - (void)setBackgroundVisible:(BOOL)arg1 {
     arg1 = NO;
 	%orig;
-}
-%end
-%end
-
-%group gAlwaysShowPlayerBar
-%hook YTPlayerBarController
-- (void)setPlayerViewLayout:(int)arg1 {
-    arg1 = 2;
-    %orig;
-} 
-%end
-%hook YTRelatedVideosViewController
-- (BOOL)isEnabled {
-    return NO;
-}
-- (void)setEnabled:(BOOL)arg1 {
-    arg1 = NO;
-	%orig;
-}
-%end
-%hook YTFullscreenEngagementOverlayView
-- (BOOL)isEnabled {
-    return NO;
-} 
-- (void)setEnabled:(BOOL)arg1 {
-    arg1 = NO;
-    %orig;
-} 
-%end
-%hook YTFullscreenEngagementOverlayController
-- (BOOL)isEnabled {
-    return NO;
-}
-- (void)setEnabled:(BOOL)arg1 {
-    arg1 = NO;
-    %orig;
-}
-%end
-%hook YTMainAppVideoPlayerOverlayView
-- (void)setInfoCardButtonHidden:(BOOL)arg1 {
-    arg1 = YES;
-    %orig;
-}
-- (void)setInfoCardButtonVisible:(BOOL)arg1 {
-    arg1 = NO;
-    %orig;
-}
-%end
-%hook YTMainAppVideoPlayerOverlayViewController
-- (void)adjustPlayerBarPositionForRelatedVideos {
 }
 %end
 %end
@@ -1504,17 +1448,12 @@ int selectedTabIndex = 0;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideYouTubeLogo"] == YES) %init(gHideYouTubeLogo);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableEnhancedSearchBar"] == YES) %init(gEnableEnhancedSearchBar);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideTabBar"] == YES) %init(gHideTabBar);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES) %init(gDisableRelatedVideosInOverlay);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == NO & [[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"] == YES) {
             %init(gShowStatusBarInOverlay);
         }
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == YES or [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"] == NO) {
             %init(gEnableiPadStyleOniPhone);
-        }
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBar"] == NO & [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES) {
-            %init(gDisableRelatedVideosInOverlay);
-        }
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBar"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES or [[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBar"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == NO) {
-            %init(gAlwaysShowPlayerBar);
         }
         NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kYTRebornColourOptionsVThree"];
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:colorData error:nil];
