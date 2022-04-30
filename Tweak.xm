@@ -233,27 +233,27 @@ NSURL *bestURL;
 %new;
 - (void)pictureInPicture :(NSString *)videoID {
     videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
-    NSURL *q720p = [YouTubeExtractorKit dual720p:videoID];
+    NSURL *q720p = [YouTubeExtractorKit dual:videoID:720];
     if (q720p != nil) {
         bestURL = q720p;
         [self presentPictureInPicture];
     } else {
-        NSURL *q480p = [YouTubeExtractorKit dual480p:videoID];
+        NSURL *q480p = [YouTubeExtractorKit dual:videoID:480];
         if (q480p != nil) {
             bestURL = q480p;
             [self presentPictureInPicture];
         } else {
-            NSURL *q360p = [YouTubeExtractorKit dual360p:videoID];
+            NSURL *q360p = [YouTubeExtractorKit dual:videoID:360];
             if (q360p != nil) {
                 bestURL = q360p;
                 [self presentPictureInPicture];
             } else {
-                NSURL *q240p = [YouTubeExtractorKit dual240p:videoID];
+                NSURL *q240p = [YouTubeExtractorKit dual:videoID:240];
                 if (q240p != nil) {
                     bestURL = q240p;
                     [self presentPictureInPicture];
                 } else {
-                    NSURL *q144p = [YouTubeExtractorKit dual144p:videoID];
+                    NSURL *q144p = [YouTubeExtractorKit dual:videoID:144];
                     if (q144p != nil) {
                         bestURL = q144p;
                         [self presentPictureInPicture];
@@ -274,14 +274,24 @@ NSURL *bestURL;
 
 %new
 - (void)presentPictureInPicture {
-    PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
-    pictureInPictureController.videoTime = videoTime;
-    pictureInPictureController.videoPath = bestURL;
-    UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
-    pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableBackgroundPlayback"] == YES) {
+        PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
+        pictureInPictureController.videoTime = videoTime;
+        pictureInPictureController.videoPath = bestURL;
+        UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
+        pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
-    UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
-    [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
+        UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
+        [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
+    } else {
+        UIAlertController *alertPip = [UIAlertController alertControllerWithTitle:@"Notice" message:@"You must enable 'Background Playback' in YouTube Reborn settings to use Picture-In-Picture" preferredStyle:UIAlertControllerStyleAlert];
+
+        [alertPip addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+
+        UIViewController *pipViewController = self._viewControllerForAncestor;
+        [pipViewController presentViewController:alertPip animated:YES completion:nil];
+    }
 }
 %end
 
