@@ -1,3 +1,6 @@
 [submodule "Jailbreak-Detection-Lib"]
 	path = Jailbreak-Detection-Lib
 	url = https://github.com/LillieWeeb001/Jailbreak-Detection-Lib.git
+[submodule "YouTube-Extractor-Kit"]
+	path = YouTube-Extractor-Kit
+	url = https://github.com/LillieH001/YouTube-Extractor-Kit
