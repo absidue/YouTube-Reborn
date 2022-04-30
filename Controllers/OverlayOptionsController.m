@@ -26,7 +26,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -99,6 +99,14 @@
             [hideOverlayDarkBackground addTarget:self action:@selector(toggleHideOverlayDarkBackground:) forControlEvents:UIControlEventValueChanged];
             hideOverlayDarkBackground.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayDarkBackground"];
             cell.accessoryView = hideOverlayDarkBackground;
+        }
+        if(indexPath.row == 7) {
+            cell.textLabel.text = @"Hide Overlay Quick Actions";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UISwitch *hideOverlayQuickActions = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [hideOverlayQuickActions addTarget:self action:@selector(toggleHideOverlayQuickActions:) forControlEvents:UIControlEventValueChanged];
+            hideOverlayQuickActions.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"];
+            cell.accessoryView = hideOverlayQuickActions;
         }
     }
     return cell;
@@ -205,6 +213,16 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideOverlayDarkBackground"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)toggleHideOverlayQuickActions:(UISwitch *)sender {
+    if ([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHideOverlayQuickActions"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideOverlayQuickActions"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

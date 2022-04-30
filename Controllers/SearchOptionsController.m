@@ -26,7 +26,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -45,14 +45,6 @@
             cell.textLabel.textColor = [UIColor whiteColor];
         }
         if(indexPath.row == 0) {
-            cell.textLabel.text = @"Enable Enhanced Search Bar";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UISwitch *enableEnhancedSearchBar = [[UISwitch alloc] initWithFrame:CGRectZero];
-            [enableEnhancedSearchBar addTarget:self action:@selector(toggleEnableEnhancedSearchBar:) forControlEvents:UIControlEventValueChanged];
-            enableEnhancedSearchBar.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableEnhancedSearchBar"];
-            cell.accessoryView = enableEnhancedSearchBar;
-        }
-        if(indexPath.row == 1) {
             cell.textLabel.text = @"Disable Voice Search";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *disableVoiceSearch = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -96,16 +88,6 @@
         self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    }
-}
-
-- (void)toggleEnableEnhancedSearchBar:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kEnableEnhancedSearchBar"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kEnableEnhancedSearchBar"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
