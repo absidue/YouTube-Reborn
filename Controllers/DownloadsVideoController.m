@@ -165,9 +165,9 @@ NSMutableArray *filePathsVideoArtworkArray;
     NSArray *filePathsList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
     filePathsVideoArray = [[NSMutableArray alloc] init];
     filePathsVideoArtworkArray = [[NSMutableArray alloc] init];
-    for (id object in filePathsList) {
+    /* for (id object in filePathsList) {
         [filePathsVideoArray addObject:object];
-    }
+    } */
 }
 
 @end

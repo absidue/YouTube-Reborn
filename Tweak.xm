@@ -6,7 +6,7 @@
 #import "Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
 // #import "MobileFFmpeg/MobileFFmpegConfig.h"
 // #import "MobileFFmpeg/MobileFFmpeg.h"
-#import "../YouTube-Extractor-Kit/YouTubeExtractorKit.h"
+#import "YouTube-Extractor-Kit/YouTubeExtractorKit.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -552,6 +552,8 @@ NSURL *bestURL;
     %orig();
     MSHookIvar<UIButton *>(self, "_voiceButton").enabled = NO;
     MSHookIvar<UIButton *>(self, "_voiceButton").frame = CGRectMake(0, 0, 0, 0);
+    MSHookIvar<UIView *>(self, "_voiceButtonContainerView").hidden = YES;
+    MSHookIvar<UIView *>(self, "_voiceButtonBackgroundView").hidden = YES;
 }
 %end
 %end
@@ -1148,6 +1150,12 @@ NSURL *bestURL;
     %orig;
 }
 %end
+%hook YTSearchBarView
+- (void)setBackgroundColor:(UIColor *)color {
+    color = hexColour();
+    %orig;
+}
+%end
 %hook YCHLiveChatBannerCell
 - (void)layoutSubviews {
 	%orig();
@@ -1181,14 +1189,6 @@ NSURL *bestURL;
 %end
 %end
 
-%group gEnableEnhancedSearchBar
-%hook YTColdConfig
-- (BOOL)isEnhancedSearchBarEnabled {
-    return YES;
-}
-%end
-%end
-
 %group gHideTabBar
 %hook YTPivotBarView
 - (BOOL)isHidden {
@@ -1217,6 +1217,29 @@ NSURL *bestURL;
 - (YTPivotBarItemView *)itemView5 {
 	return 1 ? 0 : %orig;
 }
+%end
+%end
+
+%group gHideOverlayQuickActions
+%hook YTFullscreenActionsView
+- (id)initWithElementView:(id)arg1 {
+    return NULL;
+}
+- (id)initWithElementRenderer:(id)arg1 parentResponder:(id)arg2 {
+    return NULL;
+}
+- (BOOL)enabled {
+    return 0;
+}
+%end
+%end
+
+%group gAlwaysShowPlayerBar
+%hook YTPlayerBarController
+- (void)setPlayerViewLayout:(int)arg1 {
+    arg1 = 2;
+    %orig;
+} 
 %end
 %end
 
@@ -1495,9 +1518,12 @@ int selectedTabIndex = 0;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsShareButton"] == YES) %init(gHideShortsShareButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kAutoFullScreen"] == YES) %init(gAutoFullScreen);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideYouTubeLogo"] == YES) %init(gHideYouTubeLogo);
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableEnhancedSearchBar"] == YES) %init(gEnableEnhancedSearchBar);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideTabBar"] == YES) %init(gHideTabBar);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES) %init(gDisableRelatedVideosInOverlay);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == YES) %init(gHideOverlayQuickActions);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBarVTwo"] == YES) {
+            %init(gAlwaysShowPlayerBar);
+        }
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == NO & [[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"] == YES) {
             %init(gShowStatusBarInOverlay);
         }
