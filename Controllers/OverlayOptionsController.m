@@ -1,9 +1,20 @@
 #import "OverlayOptionsController.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 #import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
 
 @interface OverlayOptionsController ()
 @end
+
+static BOOL hasDeviceNotch() {
+	if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+		return NO;
+	} else {
+		LAContext* context = [[LAContext alloc] init];
+		[context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+		return [context biometryType] == LABiometryTypeFaceID;
+	}
+}
 
 @implementation OverlayOptionsController
 
@@ -47,10 +58,15 @@
         if(indexPath.row == 0) {
             cell.textLabel.text = @"Show Status Bar In Overlay (Portrait Only)";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UISwitch *showStatusBarInOverlay = [[UISwitch alloc] initWithFrame:CGRectZero];
-            [showStatusBarInOverlay addTarget:self action:@selector(toggleShowStatusBarInOverlay:) forControlEvents:UIControlEventValueChanged];
-            showStatusBarInOverlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"];
-            cell.accessoryView = showStatusBarInOverlay;
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == YES || hasDeviceNotch() == YES) {
+                cell.accessoryType = UITableViewCellAccessoryDetailButton;
+            }
+            else {
+                UISwitch *showStatusBarInOverlay = [[UISwitch alloc] initWithFrame:CGRectZero];
+                [showStatusBarInOverlay addTarget:self action:@selector(toggleShowStatusBarInOverlay:) forControlEvents:UIControlEventValueChanged];
+                showStatusBarInOverlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"];
+                cell.accessoryView = showStatusBarInOverlay;
+            }
         }
         if(indexPath.row == 1) {
             cell.textLabel.text = @"Hide Previous Button In Overlay";
@@ -110,6 +126,24 @@
         }
     }
     return cell;
+}
+
+- (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
+    if (hasDeviceNotch()) {
+        UIAlertController *alertError = [UIAlertController alertControllerWithTitle:@"Notice" message:@"This option can't be enabled on notched idevices" preferredStyle:UIAlertControllerStyleAlert];
+
+        [alertError addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        }]];
+
+        [self presentViewController:alertError animated:YES completion:nil];
+    } else {
+        UIAlertController *alertError = [UIAlertController alertControllerWithTitle:@"Notice" message:@"This option can't be enabled with 'Enable iPad Style On iPhone' enabled" preferredStyle:UIAlertControllerStyleAlert];
+
+        [alertError addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        }]];
+
+        [self presentViewController:alertError animated:YES completion:nil];
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {        
