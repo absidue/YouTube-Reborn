@@ -541,19 +541,15 @@ NSURL *bestURL;
 %end
 
 %group gDisableVoiceSearch
+%hook YTColdConfig
+- (BOOL)isEnhancedSearchBarEnabled {
+    return NO;
+}
+%end
 %hook YTSearchTextField
 - (void)setVoiceSearchEnabled:(BOOL)arg1 {
     arg1 = NO;
 	%orig;
-}
-%end
-%hook YTSearchViewController
-- (void)viewDidLoad {
-    %orig();
-    MSHookIvar<UIButton *>(self, "_voiceButton").enabled = NO;
-    MSHookIvar<UIButton *>(self, "_voiceButton").frame = CGRectMake(0, 0, 0, 0);
-    MSHookIvar<UIView *>(self, "_voiceButtonContainerView").hidden = YES;
-    MSHookIvar<UIView *>(self, "_voiceButtonBackgroundView").hidden = YES;
 }
 %end
 %end
