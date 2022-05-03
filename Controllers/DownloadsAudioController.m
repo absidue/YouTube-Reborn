@@ -132,7 +132,6 @@ NSMutableArray *filePathsAudioArtworkArray;
 }
 
 - (void)setupAudioArrays {
-    NSFileManager *fm = [[NSFileManager alloc] init];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentsDirectory = [paths objectAtIndex:0];
 

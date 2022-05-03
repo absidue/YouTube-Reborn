@@ -5,9 +5,9 @@
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
 #import "Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
-// #import "MobileFFmpeg/MobileFFmpegConfig.h"
-// #import "MobileFFmpeg/MobileFFmpeg.h"
-#import "YouTube-Extractor-Kit/YouTubeExtractorKit.h"
+#import "MobileFFmpeg/MobileFFmpegConfig.h"
+#import "MobileFFmpeg/MobileFFmpeg.h"
+#import "YouTube-Extractor-Kit/YouTubeExtractorKit/YouTubeExtractorKit.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -217,6 +217,10 @@ NSURL *bestURL;
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self audioDownloaderCheck:videoIdentifier];
+    }]];
+
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self pictureInPicture:videoIdentifier];
@@ -233,6 +237,78 @@ NSURL *bestURL;
 
     UIViewController *menuViewController = self._viewControllerForAncestor;
     [menuViewController presentViewController:alertMenu animated:YES completion:nil];
+}
+
+%new;
+- (void)audioDownloaderCheck :(NSString *)videoID {
+    NSString *title = [NSString stringWithFormat:@"%@", [YouTubeExtractorKit title:videoID]];
+    NSURL *qhigh = [YouTubeExtractorKit audio:videoID:@"high"];
+    if (qhigh != nil) {
+        [self audioDownloader:title:qhigh];
+    } else {
+        NSURL *qmedium = [YouTubeExtractorKit audio:videoID:@"medium"];
+        if (qmedium != nil) {
+            [self audioDownloader:title:qmedium];
+        } else {
+            NSURL *qlow = [YouTubeExtractorKit audio:videoID:@"low"];
+            if (qlow != nil) {
+                [self audioDownloader:title:qlow];
+            } else {
+                UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to get video info\nThis video may not be supported by \"YouTube Extractor Kit\"" preferredStyle:UIAlertControllerStyleAlert];
+
+                [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+
+                UIViewController *failedViewController = self._viewControllerForAncestor;
+                [failedViewController presentViewController:alertFailed animated:YES completion:nil];
+            }
+        }
+    }
+}
+
+%new;
+- (void)audioDownloader :(NSString *)videoTitle :(NSURL *)videoURL {
+    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+    UIViewController *downloadingViewController = self._viewControllerForAncestor;
+    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        NSURLRequest *request = [NSURLRequest requestWithURL:videoURL];
+
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                float downloadPercent = downloadProgress.fractionCompleted * 100;
+                alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
+            });
+        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            [alertDownloading dismissViewControllerAnimated:YES completion:^{
+                UIAlertController *alertConverting = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Converting And Cleaning Up\nPlease Wait" preferredStyle:UIAlertControllerStyleAlert];
+
+                UIViewController *convertingViewController = self._viewControllerForAncestor;
+                [convertingViewController presentViewController:alertConverting animated:YES completion:^{
+                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                    NSString *documentsDirectory = [paths objectAtIndex:0];
+                    NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+                    [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:a libmp3lame -q:a 8 %@/%@.mp3", filePath, documentsDirectory, [[videoTitle componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""]]];
+                    [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
+                    
+                    [alertConverting dismissViewControllerAnimated:YES completion:^{
+                        UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+
+                        [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        }]];
+
+                        UIViewController *downloadedViewController = self._viewControllerForAncestor;
+                        [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                    }];
+                }];
+            }];
+        }];
+        [downloadTask resume];
+    }];
 }
 
 %new;
@@ -263,7 +339,7 @@ NSURL *bestURL;
                         bestURL = q144p;
                         [self presentPictureInPicture];
                     } else {
-                        UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to get video info\nThis video may not be supported by Picture In Picture" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertController *alertFailed = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Failed to get video info\nThis video may not be supported by \"YouTube Extractor Kit\"" preferredStyle:UIAlertControllerStyleAlert];
 
                         [alertFailed addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                         }]];

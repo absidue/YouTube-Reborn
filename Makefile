@@ -5,12 +5,11 @@ GO_EASY_ON_ME = 1
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = YouTubeReborn
-YouTubeReborn_FILES = Tweak.xm $(shell find Controllers -name '*.m') $(shell find AFNetworking -name '*.m') $(shell find Jailbreak-Detection-Lib -name '*.m') $(shell find Alderis -name '*.swift') $(shell find YouTube-Extractor-Kit -name '*.m')
+YouTubeReborn_FILES = Tweak.xm $(shell find Controllers -name '*.m') $(shell find AFNetworking -name '*.m') $(shell find Jailbreak-Detection-Lib -name '*.m') $(shell find Alderis -name '*.swift') $(shell find YouTube-Extractor-Kit/YouTubeExtractorKit -name '*.m')
 YouTubeReborn_CFLAGS = -fobjc-arc
-YouTubeReborn_FRAMEWORKS = UIKit Foundation AVFoundation AVKit Photos
-# YouTubeReborn_FRAMEWORKS = UIKit Foundation AVFoundation AVKit Photos Accelerate CoreMotion GameController VideoToolbox
-# YouTubeReborn_OBJ_FILES = $(shell find lib -name '*.a')
-# YouTubeReborn_LIBRARIES = bz2 c++ iconv z
+YouTubeReborn_FRAMEWORKS = UIKit Foundation AVFoundation AVKit Photos Accelerate CoreMotion GameController VideoToolbox
+YouTubeReborn_OBJ_FILES = $(shell find lib -name '*.a')
+YouTubeReborn_LIBRARIES = bz2 c++ iconv z
 ARCHS = arm64
 
 include $(THEOS_MAKE_PATH)/tweak.mk

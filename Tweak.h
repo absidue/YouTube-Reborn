@@ -39,6 +39,8 @@
 - (id)playPauseButton;
 - (void)didPressPause:(id)button;
 - (void)optionsAction;
+- (void)audioDownloaderCheck :(NSString *)videoID;
+- (void)audioDownloader :(NSString *)videoTitle :(NSURL *)videoURL;
 - (void)pictureInPicture :(NSString *)videoID;
 - (void)presentPictureInPicture;
 @end
