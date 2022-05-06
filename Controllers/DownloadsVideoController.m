@@ -49,14 +49,14 @@ NSMutableArray *filePathsVideoArtworkArray;
         }
     }
     cell.textLabel.text = [filePathsVideoArray objectAtIndex:indexPath.row];
-    /* @try {
+    @try {
         NSString *artworkFileName = filePathsVideoArtworkArray[indexPath.row];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [documentsDirectory stringByAppendingPathComponent:artworkFileName]]];
     }
     @catch (NSException *exception) {
-    } */
+    }
     return cell;
 }
 
@@ -87,7 +87,7 @@ NSMutableArray *filePathsVideoArtworkArray;
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
     NSString *currentVideoFileName = filePathsVideoArray[indexPath.row];
-    // NSString *currentArtworkFileName = filePathsVideoArtworkArray[indexPath.row];
+    NSString *currentArtworkFileName = filePathsVideoArtworkArray[indexPath.row];
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleAlert];
 
@@ -118,7 +118,7 @@ NSMutableArray *filePathsVideoArtworkArray;
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Delete Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentVideoFileName] error:nil];
-        // [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentArtworkFileName] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:currentArtworkFileName] error:nil];
 
         UIAlertController *alertDeleted = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Video Successfully Deleted" preferredStyle:UIAlertControllerStyleAlert];
 
@@ -165,7 +165,12 @@ NSMutableArray *filePathsVideoArtworkArray;
     filePathsVideoArray = [[NSMutableArray alloc] init];
     filePathsVideoArtworkArray = [[NSMutableArray alloc] init];
     for (id object in filePathsList) {
-        [filePathsVideoArray addObject:object];
+        if ([[object pathExtension] isEqualToString:@"mp4"]){
+            [filePathsVideoArray addObject:object];
+            NSString *cut = [object substringToIndex:[object length]-4];
+            NSString *jpg = [NSString stringWithFormat:@"%@.jpg", cut];
+            [filePathsVideoArtworkArray addObject:jpg];
+        }
     }
 }
 
