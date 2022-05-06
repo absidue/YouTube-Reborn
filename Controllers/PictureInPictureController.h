@@ -8,6 +8,7 @@
 @property (nonatomic, assign) NSURL *videoPath;
 
 - (void)setupPictureInPictureControllerView;
-- (void)setupPictureInPicture;
+- (void)startPictureInPicture:(NSTimer *)timer;
+- (void)closePictureInPicture;
 
 @end

@@ -34,7 +34,7 @@ UILabel *rebornPictureInPictureLoadingLabel;
     [self.view.layer addSublayer:rebornPlayerLayer];
 
     stopRebornPictureInPictureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [stopRebornPictureInPictureButton addTarget:self action:@selector(closePip) forControlEvents:UIControlEventTouchUpInside];
+    [stopRebornPictureInPictureButton addTarget:self action:@selector(closePictureInPicture) forControlEvents:UIControlEventTouchUpInside];
     stopRebornPictureInPictureButton.frame = self.view.bounds;
     stopRebornPictureInPictureButton.hidden = YES;
     [stopRebornPictureInPictureButton setTitle:@"Tap To Stop Picture-In-Picture" forState:UIControlStateNormal];
@@ -82,13 +82,22 @@ UILabel *rebornPictureInPictureLoadingLabel;
     } else if (object == rebornPlayer && [keyPath isEqualToString:@"timeControlStatus"]) {
         if (rebornPlayer.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
             if([AVPictureInPictureController isPictureInPictureSupported]) {
-                [rebornPictureInPictureController startPictureInPicture];
+                [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startPictureInPicture:) userInfo:nil repeats:YES];
             }
         }
     }
 }
 
-- (void)closePip {
+- (void)startPictureInPicture:(NSTimer *)timer {
+    if (![rebornPictureInPictureController isPictureInPictureActive]) {
+        [timer isValid];
+        [rebornPictureInPictureController startPictureInPicture];
+    } else if ([rebornPictureInPictureController isPictureInPictureActive]) {
+        [timer invalidate];
+    }
+}
+
+- (void)closePictureInPicture {
     if ([rebornPictureInPictureController isPictureInPictureActive]) {
         [rebornPictureInPictureController stopPictureInPicture];
     }
