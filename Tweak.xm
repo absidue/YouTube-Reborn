@@ -604,14 +604,6 @@ NSURL *bestURL;
 %end
 
 %group gNoVideoAds
-%hook YTAdsInnerTubeContextDecorator
-- (void)decorateContext:(id)arg1 {
-}
-%end
-%hook YTInnerTubeContextDecorator
-- (void)decorateContext:(id)arg1 {
-}
-%end
 %hook YTIPlayerResponse
 - (BOOL)isMonetized {
     return NO;
@@ -620,6 +612,10 @@ NSURL *bestURL;
 %hook YTDataUtils
 + (id)spamSignalsDictionary {
     return NULL;
+}
+%end
+%hook YTAdsInnerTubeContextDecorator
+- (void)decorateContext:(id)arg1 {
 }
 %end
 %end
@@ -1477,10 +1473,12 @@ NSURL *bestURL;
 %hook YTPlayerViewController
 - (void)loadWithPlayerTransition:(id)arg1 playbackConfig:(id)arg2 {
     %orig();
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        YTWatchController *watchController = [self valueForKey:@"_UIDelegate"];
-        [watchController showFullScreen];
-    });
+    [NSTimer scheduledTimerWithTimeInterval:0.75 target:self selector:@selector(autoFullscreen) userInfo:nil repeats:NO];
+}
+%new
+- (void)autoFullscreen {
+    YTWatchController *watchController = [self valueForKey:@"_UIDelegate"];
+    [watchController showFullScreen];
 }
 %end
 %end

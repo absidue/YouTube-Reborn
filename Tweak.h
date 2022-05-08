@@ -59,6 +59,7 @@
 - (void)scrubToTime:(CGFloat)time;
 - (NSString *)currentVideoID;
 - (CGFloat)currentVideoMediaTime;
+- (void)autoFullscreen;
 @end
 
 @interface YTLocalPlaybackController : NSObject
