@@ -1463,6 +1463,12 @@ NSURL *bestURL;
     MSHookIvar<UIView *>(self, "_bannerContainerView").backgroundColor = hexColour();
 }
 %end
+%hook YTDialogContainerScrollView
+- (void)setBackgroundColor:(UIColor *)color {
+    color = hexColour();
+    %orig;
+}
+%end
 %hook YTSearchSuggestionCollectionViewCell
 - (void)updateColors {
 }
