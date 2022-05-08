@@ -8,6 +8,7 @@
 #import "DownloadsController.h"
 #import "SponsorBlockOptionsController.h"
 #import "SearchOptionsController.h"
+#import "ChangelogsController.h"
 #import "../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
 #import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
@@ -56,7 +57,7 @@
         return 7;
     }
     if (section == 4) {
-        return 2;
+        return 3;
     }
     return 0;
 }
@@ -186,6 +187,10 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if(indexPath.row == 1) {
+                cell.textLabel.text = @"Changelogs";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            if(indexPath.row == 2) {
                 cell.textLabel.text = @"Credits";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
@@ -291,6 +296,11 @@
             [self presentViewController:rebornSettingsControllerView animated:YES completion:nil];
         }
         if(indexPath.row == 1) {
+            ChangelogsController *changelogsController = [[ChangelogsController alloc] init];
+
+            [self presentViewController:changelogsController animated:YES completion:nil];
+        }
+        if(indexPath.row == 2) {
             CreditsController *creditsController = [[CreditsController alloc] init];
             UINavigationController *creditsControllerView = [[UINavigationController alloc] initWithRootViewController:creditsController];
             creditsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -302,7 +312,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.0.2";
+        return @"Version: 3.0.3";
     }
     return nil;
 }
