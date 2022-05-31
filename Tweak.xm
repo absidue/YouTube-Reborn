@@ -5,8 +5,6 @@
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
 #import "JailbreakDetection/JailbreakDetection.h"
-#import "MobileFFmpeg/MobileFFmpegConfig.h"
-#import "MobileFFmpeg/MobileFFmpeg.h"
 #import "YouTubeExtractor/YouTubeExtractor.h"
 #import "Tweak.h"
 
@@ -158,9 +156,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 %end
 
-NSString *videoTime;
-NSURL *bestURL;
-
 %hook YTMainAppControlsOverlayView
 
 %property(retain, nonatomic) UIButton *overlayButtonOne;
@@ -265,6 +260,28 @@ NSURL *bestURL;
 
 %new;
 - (void)pictureInPicture :(NSString *)videoID {
+    NSString *videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
+    NSMutableDictionary *youtubeiiOSPlayerRequest = [YouTubeExtractor youtubeiiOSPlayerRequest:videoID];
+    NSURL *videoPath = [NSURL URLWithString:[NSString stringWithFormat:@"%@", youtubeiiOSPlayerRequest[@"streamingData"][@"hlsManifestUrl"]]];
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableBackgroundPlayback"] == YES) {
+        PictureInPictureController *pictureInPictureController = [[PictureInPictureController alloc] init];
+        pictureInPictureController.videoTime = videoTime;
+        pictureInPictureController.videoPath = videoPath;
+        UINavigationController *pictureInPictureControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureController];
+        pictureInPictureControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+
+        UIViewController *pictureInPictureViewController = self._viewControllerForAncestor;
+        [pictureInPictureViewController presentViewController:pictureInPictureControllerView animated:YES completion:nil];
+    } else {
+        UIAlertController *alertPip = [UIAlertController alertControllerWithTitle:@"Notice" message:@"You must enable 'Background Playback' in YouTube Reborn settings to use Picture-In-Picture" preferredStyle:UIAlertControllerStyleAlert];
+
+        [alertPip addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+
+        UIViewController *pipViewController = self._viewControllerForAncestor;
+        [pipViewController presentViewController:alertPip animated:YES completion:nil];
+    }
 }
 
 %new

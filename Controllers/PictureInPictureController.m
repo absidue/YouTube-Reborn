@@ -18,6 +18,8 @@ UILabel *rebornPictureInPictureLoadingLabel;
 
     [self setupPictureInPictureControllerView];
 
+    UIWindow *boundsWindow = [[UIApplication sharedApplication] keyWindow];
+
     AVPlayerItem *rebornPlayerItem = [[AVPlayerItem alloc] initWithURL:self.videoPath];
     rebornPlayer = [[AVPlayer alloc] initWithPlayerItem:rebornPlayerItem];
     float newTimeFloat = [self.videoTime floatValue];
@@ -28,8 +30,8 @@ UILabel *rebornPictureInPictureLoadingLabel;
     [rebornPlayer addObserver:self forKeyPath:@"timeControlStatus" options:0 context:nil];
 
     rebornPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:rebornPlayer];
-    rebornPlayerLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width * 9 / 16);
-    rebornPlayerLayer.hidden = YES;
+    rebornPlayerLayer.frame = CGRectMake(0, boundsWindow.safeAreaInsets.top, self.view.bounds.size.width, self.view.bounds.size.width * 9 / 16);
+    // rebornPlayerLayer.hidden = YES;
 
     [self.view.layer addSublayer:rebornPlayerLayer];
 

@@ -103,6 +103,3 @@
 @interface MLPlayerEventCenter : NSObject
 - (void)broadcastRateChange:(float)rate;
 @end
-
-extern NSString *videoTime;
-extern NSURL *bestURL;

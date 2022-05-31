@@ -4,8 +4,8 @@
 
 @interface PictureInPictureController : UIViewController <AVPlayerViewControllerDelegate, AVPictureInPictureControllerDelegate>
 
-@property (nonatomic, assign) NSString *videoTime;
-@property (nonatomic, assign) NSURL *videoPath;
+@property (nonatomic, strong) NSString *videoTime;
+@property (nonatomic, strong) NSURL *videoPath;
 
 - (void)setupPictureInPictureControllerView;
 - (void)startPictureInPicture:(NSTimer *)timer;
