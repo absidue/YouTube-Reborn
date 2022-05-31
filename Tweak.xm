@@ -158,43 +158,43 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 
 %hook YTMainAppControlsOverlayView
 
-%property(retain, nonatomic) UIButton *overlayButtonOne;
+%property(retain, nonatomic) UIButton *rebornOverlayButton;
 
 - (id)initWithDelegate:(id)delegate {
     self = %orig;
     if (self) {
-        self.overlayButtonOne = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.overlayButtonOne addTarget:self action:@selector(optionsAction) forControlEvents:UIControlEventTouchUpInside];
-        [self.overlayButtonOne setTitle:@"OP" forState:UIControlStateNormal];
+        self.rebornOverlayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.rebornOverlayButton addTarget:self action:@selector(rebornOptionsAction) forControlEvents:UIControlEventTouchUpInside];
+        [self.rebornOverlayButton setTitle:@"OP" forState:UIControlStateNormal];
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"] == YES) {
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == YES) {
-                self.overlayButtonOne.frame = CGRectMake(40, 9, 40.0, 30.0);
+                self.rebornOverlayButton.frame = CGRectMake(40, 9, 40.0, 30.0);
             } else {
-                self.overlayButtonOne.frame = CGRectMake(40, 24, 40.0, 30.0);
+                self.rebornOverlayButton.frame = CGRectMake(40, 24, 40.0, 30.0);
             }
         } else {
-            self.overlayButtonOne.frame = CGRectMake(40, 9, 40.0, 30.0);
+            self.rebornOverlayButton.frame = CGRectMake(40, 9, 40.0, 30.0);
         }
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideRebornOPButtonVTwo"] == YES) {
-            self.overlayButtonOne.hidden = YES;
+            self.rebornOverlayButton.hidden = YES;
         }
-        [self addSubview:self.overlayButtonOne];
+        [self addSubview:self.rebornOverlayButton];
     }
     return self;
 }
 
 - (void)setTopOverlayVisible:(BOOL)visible isAutonavCanceledState:(BOOL)canceledState {
     if (canceledState) {
-        if (!self.overlayButtonOne.hidden) {
-            self.overlayButtonOne.alpha = 0.0;
+        if (!self.rebornOverlayButton.hidden) {
+            self.rebornOverlayButton.alpha = 0.0;
         }
     } else {
-        if (!self.overlayButtonOne.hidden) {
+        if (!self.rebornOverlayButton.hidden) {
             int rotation = [layoutOut playerViewLayout];
             if (rotation == 2) {
-                self.overlayButtonOne.alpha = visible ? 1.0 : 0.0;
+                self.rebornOverlayButton.alpha = visible ? 1.0 : 0.0;
             } else {
-                self.overlayButtonOne.alpha = 0.0;
+                self.rebornOverlayButton.alpha = 0.0;
             }
         }
     }
@@ -202,7 +202,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 
 %new;
-- (void)optionsAction {
+- (void)rebornOptionsAction {
     NSInteger videoStatus = [stateOut playerState];
     if (videoStatus == 3) {
         [self didPressPause:[self playPauseButton]];
@@ -213,16 +213,15 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self audioDownloaderCheck:videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self videoDownloaderCheck:videoIdentifier];
+        [self rebornVideoDownloaderCheck:videoIdentifier];
     }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self pictureInPicture:videoIdentifier];
+            [self rebornPictureInPicture:videoIdentifier];
         }]];
     }
 
@@ -239,27 +238,79 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 
 %new;
-- (void)videoDownloaderCheck :(NSString *)videoID {
+- (void)rebornVideoDownloaderCheck :(NSString *)videoID {
+    NSMutableDictionary *youtubeiAndroidPlayerRequest = [YouTubeExtractor youtubeiAndroidPlayerRequest:videoID];
+    NSDictionary *innertubeAdaptiveFormats = youtubeiAndroidPlayerRequest[@"streamingData"][@"adaptiveFormats"];
+    NSURL *video2160p;
+    NSURL *video1440p;
+    NSURL *video1080p;
+    NSURL *video720p;
+    NSURL *video480p;
+    NSURL *video360p;
+    NSURL *video240p;
+    for (NSDictionary *format in innertubeAdaptiveFormats) {
+        if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"2160"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"quality"]] isEqual:@"hd2160"]) {
+            video2160p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"1440"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"quality"]] isEqual:@"hd1440"]) {
+            video1440p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"1080"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"quality"]] isEqual:@"hd1080"]) {
+            video1080p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"720"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"quality"]] isEqual:@"hd720"]) {
+            video720p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"480"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"qualityLabel"]] isEqual:@"480p"]) {
+            video480p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"360"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"qualityLabel"]] isEqual:@"360p"]) {
+            video360p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"240"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"qualityLabel"]] isEqual:@"240p"]) {
+            video240p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        }
+    }
+
+    UIAlertController *alertQualitySelector = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    if (video240p != nil) {
+        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+    }
+    if (video360p != nil) {
+        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"360p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+    }
+    if (video480p != nil) {
+        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+    }
+    if (video720p != nil) {
+        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+    }
+    if (video1080p != nil) {
+        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+    }
+    if (video1440p != nil) {
+        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+    }
+    if (video2160p != nil) {
+        [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+    }
+
+    [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    }]];
+
+    [alertQualitySelector setModalPresentationStyle:UIModalPresentationPopover];
+    UIPopoverPresentationController *popPresenter = [alertQualitySelector popoverPresentationController];
+    popPresenter.sourceView = self;
+    popPresenter.sourceRect = self.bounds;
+
+    UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
+    [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];
 }
 
 %new;
-- (void)videoDualDownloader :(NSString *)videoTitle :(NSURL *)videoURL {
-}
-
-%new;
-- (void)videoSplitDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL {
-}
-
-%new;
-- (void)audioDownloaderCheck :(NSString *)videoID {
-}
-
-%new;
-- (void)audioDownloader :(NSString *)videoTitle :(NSURL *)videoURL {
-}
-
-%new;
-- (void)pictureInPicture :(NSString *)videoID {
+- (void)rebornPictureInPicture :(NSString *)videoID {
     NSString *videoTime = [NSString stringWithFormat:@"%f", [resultOut mediaTime]];
     NSMutableDictionary *youtubeiiOSPlayerRequest = [YouTubeExtractor youtubeiiOSPlayerRequest:videoID];
     NSURL *videoPath = [NSURL URLWithString:[NSString stringWithFormat:@"%@", youtubeiiOSPlayerRequest[@"streamingData"][@"hlsManifestUrl"]]];
@@ -282,10 +333,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         UIViewController *pipViewController = self._viewControllerForAncestor;
         [pipViewController presentViewController:alertPip animated:YES completion:nil];
     }
-}
-
-%new
-- (void)presentPictureInPicture {
 }
 %end
 
@@ -1231,6 +1278,15 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
+%hook YTPlayerBarHeatwaveView
+- (id)initWithFrame:(CGRect)frame heatmap:(id)heat {
+    /* frame = CGRect(0, 0);
+    heat = NULL;
+    %orig; */
+    return NULL;
+}
+%end
+
 BOOL sponsorBlockEnabled;
 NSMutableArray *jsonSponsorValues = [[NSMutableArray alloc] init];
 NSMutableArray *jsonSelfPromoValues = [[NSMutableArray alloc] init];
@@ -1513,8 +1569,8 @@ int selectedTabIndex = 0;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBarVTwo"] == YES) {
             %init(gAlwaysShowPlayerBar);
         }
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == NO & hasDeviceNotch() == NO) {
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"] == YES) %init(gShowStatusBarInOverlay);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == NO & hasDeviceNotch() == NO & [[NSUserDefaults standardUserDefaults] boolForKey:@"kShowStatusBarInOverlay"] == YES) {
+            %init(gShowStatusBarInOverlay);
         }
         NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kYTRebornColourOptionsVThree"];
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:colorData error:nil];

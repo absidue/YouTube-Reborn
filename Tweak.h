@@ -35,17 +35,12 @@
 @property(readonly, nonatomic) YTQTMButton *nextButton;
 @property(readonly, nonatomic) ABCSwitch *autonavSwitch;
 @property(readonly, nonatomic) YTQTMButton *closedCaptionsOrSubtitlesButton;
-@property(retain, nonatomic) UIButton *overlayButtonOne;
+@property(retain, nonatomic) UIButton *rebornOverlayButton;
 - (id)playPauseButton;
 - (void)didPressPause:(id)button;
-- (void)optionsAction;
-- (void)videoDownloaderCheck :(NSString *)videoID;
-- (void)videoDualDownloader :(NSString *)videoTitle :(NSURL *)videoURL;
-- (void)videoSplitDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL;
-- (void)audioDownloaderCheck :(NSString *)videoID;
-- (void)audioDownloader :(NSString *)videoTitle :(NSURL *)videoURL;
-- (void)pictureInPicture :(NSString *)videoID;
-- (void)presentPictureInPicture;
+- (void)rebornOptionsAction;
+- (void)rebornVideoDownloaderCheck :(NSString *)videoID;
+- (void)rebornPictureInPicture :(NSString *)videoID;
 @end
 
 @interface YTMainAppSkipVideoButton
