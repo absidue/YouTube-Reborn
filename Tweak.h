@@ -41,6 +41,8 @@
 - (void)rebornOptionsAction;
 - (void)rebornVideoDownloaderCheck :(NSString *)videoID;
 - (void)rebornVideoDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL;
+- (void)rebornAudioDownloaderCheck :(NSString *)videoID;
+- (void)rebornAudioDownloader :(NSString *)videoTitle :(NSURL *)audioURL;
 - (void)rebornPictureInPicture :(NSString *)videoID;
 @end
 

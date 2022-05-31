@@ -215,6 +215,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self rebornAudioDownloaderCheck:videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -397,6 +398,81 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
                         }];
                     }];
                     [audioDownloadTask resume];
+                }];
+            }];
+        }];
+        [downloadTask resume];
+    }];
+}
+
+%new;
+- (void)rebornAudioDownloaderCheck :(NSString *)videoID {
+    NSMutableDictionary *youtubeiAndroidPlayerRequest = [YouTubeExtractor youtubeiAndroidPlayerRequest:videoID];
+    NSString *videoTitle = [NSString stringWithFormat:@"%@", youtubeiAndroidPlayerRequest[@"videoDetails"][@"title"]];
+    NSDictionary *innertubeAdaptiveFormats = youtubeiAndroidPlayerRequest[@"streamingData"][@"adaptiveFormats"];
+    NSURL *audioHigh;
+    NSURL *audioMedium;
+    NSURL *audioLow;
+    for (NSDictionary *format in innertubeAdaptiveFormats) {
+        if ([[format objectForKey:@"mimeType"] containsString:@"audio/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"audioQuality"]] isEqual:@"AUDIO_QUALITY_HIGH"]) {
+            audioHigh = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"audio/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"audioQuality"]] isEqual:@"AUDIO_QUALITY_MEDIUM"]) {
+            audioMedium = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"audio/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"audioQuality"]] isEqual:@"AUDIO_QUALITY_LOW"]) {
+            audioLow = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        }
+    }
+
+    NSURL *audioURL;
+    if (audioHigh != nil) {
+        audioURL = audioHigh;
+    } else if (audioMedium != nil) {
+        audioURL = audioMedium;
+    } else if (audioLow != nil) {
+        audioURL = audioLow;
+    }
+
+    [self rebornAudioDownloader:videoTitle:audioURL];
+}
+
+%new;
+- (void)rebornAudioDownloader :(NSString *)videoTitle :(NSURL *)audioURL {
+    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
+    UIViewController *downloadingViewController = self._viewControllerForAncestor;
+    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        NSURLRequest *request = [NSURLRequest requestWithURL:audioURL];
+
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                float downloadPercent = downloadProgress.fractionCompleted * 100;
+                alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
+            });
+        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            [alertDownloading dismissViewControllerAnimated:YES completion:^{
+                UIAlertController *alertConverting = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Converting And Cleaning Up\nPlease Wait" preferredStyle:UIAlertControllerStyleAlert];
+
+                UIViewController *convertingViewController = self._viewControllerForAncestor;
+                [convertingViewController presentViewController:alertConverting animated:YES completion:^{
+                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                    NSString *documentsDirectory = [paths objectAtIndex:0];
+                    NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+                    [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:a libmp3lame -q:a 8 %@/%@.mp3", filePath, documentsDirectory, [[videoTitle componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""]]];
+                    [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
+                    
+                    [alertConverting dismissViewControllerAnimated:YES completion:^{
+                        UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
+
+                        [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        }]];
+
+                        UIViewController *downloadedViewController = self._viewControllerForAncestor;
+                        [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
+                    }];
                 }];
             }];
         }];
