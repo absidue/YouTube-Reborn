@@ -240,6 +240,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %new;
 - (void)rebornVideoDownloaderCheck :(NSString *)videoID {
     NSMutableDictionary *youtubeiAndroidPlayerRequest = [YouTubeExtractor youtubeiAndroidPlayerRequest:videoID];
+    NSString *videoTitle = [NSString stringWithFormat:@"%@", youtubeiAndroidPlayerRequest[@"videoDetails"][@"title"]];
     NSDictionary *innertubeAdaptiveFormats = youtubeiAndroidPlayerRequest[@"streamingData"][@"adaptiveFormats"];
     NSURL *video2160p;
     NSURL *video1440p;
@@ -248,6 +249,9 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     NSURL *video480p;
     NSURL *video360p;
     NSURL *video240p;
+    NSURL *audioHigh;
+    NSURL *audioMedium;
+    NSURL *audioLow;
     for (NSDictionary *format in innertubeAdaptiveFormats) {
         if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"2160"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"quality"]] isEqual:@"hd2160"]) {
             video2160p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
@@ -263,37 +267,59 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             video360p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
         } else if ([[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"height"]] isEqual:@"240"] || [[format objectForKey:@"mimeType"] containsString:@"video/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"qualityLabel"]] isEqual:@"240p"]) {
             video240p = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"audio/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"audioQuality"]] isEqual:@"AUDIO_QUALITY_HIGH"]) {
+            audioHigh = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"audio/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"audioQuality"]] isEqual:@"AUDIO_QUALITY_MEDIUM"]) {
+            audioMedium = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
+        } else if ([[format objectForKey:@"mimeType"] containsString:@"audio/mp4"] & [[NSString stringWithFormat:@"%@", [format objectForKey:@"audioQuality"]] isEqual:@"AUDIO_QUALITY_LOW"]) {
+            audioLow = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [format objectForKey:@"url"]]];
         }
+    }
+
+    NSURL *audioURL;
+    if (audioHigh != nil) {
+        audioURL = audioHigh;
+    } else if (audioMedium != nil) {
+        audioURL = audioMedium;
+    } else if (audioLow != nil) {
+        audioURL = audioLow;
     }
 
     UIAlertController *alertQualitySelector = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (video240p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoTitle:video240p:audioURL];
         }]];
     }
     if (video360p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"360p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoTitle:video360p:audioURL];
         }]];
     }
     if (video480p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoTitle:video480p:audioURL];
         }]];
     }
     if (video720p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoTitle:video720p:audioURL];
         }]];
     }
     if (video1080p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoTitle:video1080p:audioURL];
         }]];
     }
     if (video1440p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoTitle:video1440p:audioURL];
         }]];
     }
     if (video2160p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoTitle:video2160p:audioURL];
         }]];
     }
 
@@ -307,6 +333,10 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 
     UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
     [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];
+}
+
+%new;
+- (void)rebornVideoDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL {
 }
 
 %new;

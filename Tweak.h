@@ -40,6 +40,7 @@
 - (void)didPressPause:(id)button;
 - (void)rebornOptionsAction;
 - (void)rebornVideoDownloaderCheck :(NSString *)videoID;
+- (void)rebornVideoDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL;
 - (void)rebornPictureInPicture :(NSString *)videoID;
 @end
 
