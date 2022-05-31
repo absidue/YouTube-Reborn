@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface JailbreakDetectionLib : NSObject
+@interface JailbreakDetection : NSObject
 + (BOOL)isJailbroken;
 @end

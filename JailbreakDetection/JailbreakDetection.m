@@ -1,6 +1,6 @@
-#import "JailbreakDetectionLib.h"
+#import "JailbreakDetection.h"
 
-@implementation JailbreakDetectionLib
+@implementation JailbreakDetection
 
 + (BOOL)isJailbroken {
 
