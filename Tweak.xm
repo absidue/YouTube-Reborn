@@ -1201,12 +1201,6 @@ NSURL *bestURL;
     }
     %orig;
 }
-- (void)layoutSubviews {
-    %orig();
-    if([self.nextResponder isKindOfClass:NSClassFromString(@"_ASDisplayView")]) {
-        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.0];
-    }
-}
 %end
 %hook YTAsyncCollectionView
 - (void)setBackgroundColor:(UIColor *)color {

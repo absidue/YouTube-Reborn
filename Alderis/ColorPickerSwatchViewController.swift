@@ -26,6 +26,7 @@ internal class ColorPickerSwatchViewController: ColorPickerTabViewController {
 		}
 	}
 
+	static let title = "Swatch"
 	static let imageName = "square.grid.4x3.fill"
 
 	static let colorSwatch = [
@@ -218,7 +219,7 @@ internal class ColorPickerSwatchViewController: ColorPickerTabViewController {
 		view.addSubview(selectionView)
 
 		containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: 0)
-		selectionViewWidthConstraint = selectionView.widthAnchor.constraint(equalToConstant: 20)
+		selectionViewWidthConstraint = selectionView.widthAnchor.constraint(equalToConstant: UIFloat(20))
 		let selectionViewBaseXConstraint = selectionView.leftAnchor.constraint(equalTo: view.leftAnchor)
 		selectionViewBaseXConstraint.priority = .defaultLow
 		let selectionViewBaseYConstraint = selectionView.topAnchor.constraint(equalTo: view.topAnchor)

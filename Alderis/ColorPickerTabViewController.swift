@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal protocol ColorPickerTabDelegate: class {
+internal protocol ColorPickerTabDelegate: AnyObject {
 	func colorPickerTab(_ tab: ColorPickerTabViewControllerBase, didSelect color: Color)
 }
 
@@ -19,14 +19,15 @@ internal class ColorPickerTabViewControllerBase: UIViewController {
 	private(set) var configuration: ColorPickerConfiguration
 
 	private(set) var color: Color {
-		didSet {
-			colorDidChange()
-		}
+		didSet { colorDidChange() }
 	}
 
 	func colorDidChange() {}
 
 	func setColor(_ color: Color, shouldBroadcast: Bool = true) {
+		if self.color == color {
+			return
+		}
 		self.color = color
 		if shouldBroadcast {
 			tabDelegate.colorPickerTab(self, didSelect: color)
@@ -47,11 +48,13 @@ internal class ColorPickerTabViewControllerBase: UIViewController {
 }
 
 internal protocol ColorPickerTabViewControllerProtocol: ColorPickerTabViewControllerBase {
+	static var title: String { get }
 	static var imageName: String { get }
 	static var image: UIImage { get }
 }
+
 extension ColorPickerTabViewControllerProtocol {
-	static var image: UIImage { Assets.systemImage(named: imageName, fontSize: 20)! }
+	static var image: UIImage { Assets.systemImage(named: imageName, font: .systemFont(ofSize: UIFloat(20), weight: .medium)) ?? UIImage() }
 }
 
 internal typealias ColorPickerTabViewController = ColorPickerTabViewControllerBase & ColorPickerTabViewControllerProtocol

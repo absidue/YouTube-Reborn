@@ -14,29 +14,28 @@ internal class ColorPickerMapSlider: ColorPickerComponentSlider {
 		super.init(component: component, overrideSmartInvert: overrideSmartInvert)
 
 		stackView.alignment = .center
-		stackView.spacing = 10
-
-		let imageTintColor: UIColor
-		if #available(iOS 13, *) {
-			imageTintColor = .secondaryLabel
-		} else {
-			imageTintColor = UIColor(white: 60 / 255, alpha: 0.6)
-		}
+		stackView.spacing = UIFloat(13)
 
 		let leftImageView = UIImageView(image: Assets.systemImage(named: minImageName))
 		leftImageView.translatesAutoresizingMaskIntoConstraints = false
-		leftImageView.contentMode = .scaleAspectFit
-		leftImageView.tintColor = imageTintColor
+		leftImageView.contentMode = .center
+		leftImageView.tintColor = Assets.secondaryLabelColor
 		stackView.insertArrangedSubview(leftImageView, at: 0)
 
-		let rightImageView = UIImageView(image: Assets.systemImage(named: minImageName))
+		let rightImageView = UIImageView(image: Assets.systemImage(named: maxImageName))
 		rightImageView.translatesAutoresizingMaskIntoConstraints = false
-		rightImageView.contentMode = .scaleAspectFit
-		rightImageView.tintColor = imageTintColor
+		rightImageView.contentMode = .center
+		rightImageView.tintColor = Assets.secondaryLabelColor
 		stackView.addArrangedSubview(rightImageView)
 
+		if #available(iOS 13, *) {
+			let symbolConfig = UIImage.SymbolConfiguration(font: .systemFont(ofSize: UIFloat(18), weight: .medium), scale: .medium)
+			leftImageView.preferredSymbolConfiguration = symbolConfig
+			rightImageView.preferredSymbolConfiguration = symbolConfig
+		}
+
 		NSLayoutConstraint.activate([
-			leftImageView.widthAnchor.constraint(equalToConstant: 22),
+			leftImageView.widthAnchor.constraint(equalToConstant: UIFloat(22)),
 			leftImageView.widthAnchor.constraint(equalTo: rightImageView.widthAnchor),
 			leftImageView.heightAnchor.constraint(equalTo: leftImageView.widthAnchor),
 			rightImageView.heightAnchor.constraint(equalTo: rightImageView.widthAnchor)

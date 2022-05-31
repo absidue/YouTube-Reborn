@@ -33,7 +33,7 @@ public extension UIColor {
 	/// The value is expected to be one of:
 	///
 	/// * An array of 3 or 4 integer RGB or RGBA color components, with values between 0 and 255 (e.g.
-	///   `[ 218, 192, 222 ]`)
+	///   `[218, 192, 222]`)
 	/// * A CSS-style hex string, with an optional alpha component (e.g. `#DAC0DE` or `#DACODE55`)
 	/// * A short CSS-style hex string, with an optional alpha component (e.g. `#DC0` or `#DC05`)
 	///
@@ -46,7 +46,7 @@ public extension UIColor {
 	/// - see: `propertyListValue`
 	@nonobjc convenience init?(propertyListValue: ColorPropertyListValue?) {
 		if let array = propertyListValue as? [Int], array.count == 3 || array.count == 4 {
-			let floats = array.map { CGFloat($0) }
+			let floats = array.map(CGFloat.init(_:))
 			self.init(red: floats[0] / 255,
 								green: floats[1] / 255,
 								blue: floats[2] / 255,
@@ -58,7 +58,7 @@ public extension UIColor {
 				let g = String(repeating: string[string.index(string.startIndex, offsetBy: 2)], count: 2)
 				let b = String(repeating: string[string.index(string.startIndex, offsetBy: 3)], count: 2)
 				let a = string.count == 5 ? String(repeating: string[string.index(string.startIndex, offsetBy: 4)], count: 2) : "FF"
-				string = String(format: "%@%@%@%@", r, g, b, a)
+				string = r + g + b + a
 			}
 
 			var hex: UInt64 = 0
@@ -67,7 +67,6 @@ public extension UIColor {
 						scanner.scanHexInt64(&hex) else {
 				return nil
 			}
-
 
 			if string.count == 9 {
 				self.init(red: CGFloat((hex & 0xFF000000) >> 24) / 255,
@@ -135,5 +134,66 @@ public extension UIColor {
 		let alphaString = alpha == 1 ? "" : String(format: ":%.5G", alpha)
 		return "\(hexString)\(alphaString)"
 	}
+
+	/// Returns a hexadecimal string that represents the color.
+	///
+	/// The output is a string in the format `#AABBCCDD`, where the initial `#AABBCC` portion is a
+	/// 6-character CSS-style hex string, and the final `DD` portion is the hexadecimal representation
+	/// of the alpha value, supported by [recent web browsers](https://caniuse.com/css-rrggbbaa).
+	///
+	/// If the color is dynamic, for instance if it is a UIKit system color, or initialised via
+	/// `UIColor(dynamicProvider:)`, the color that matches the current trait collection is used.
+	///
+	/// - returns: A string representing the color, in the format discussed above.
+	@objc(hbcp_hexString)
+	var hexString: String { Color(uiColor: self).hexString }
+
+	/// Returns an RGB string that represents the color.
+	///
+	/// The output is a string in the format of `rgba(170, 187, 204, 0.5)`, or `rgb(170, 187, 204)` if
+	/// the color’s alpha value is `1`.
+	///
+	/// If the color is dynamic, for instance if it is a UIKit system color, or initialised via
+	/// `UIColor(dynamicProvider:)`, the color that matches the current trait collection is used.
+	///
+	/// - returns: A string representing the color, in the format discussed above.
+	@objc(hbcp_rgbString)
+	var rgbString: String { Color(uiColor: self).rgbString }
+
+	/// Returns an HSL string that represents the color.
+	///
+	/// The output is a string in the format of `hsla(170, 187, 204, 0.5)`, or `hsl(170, 187, 204)` if
+	/// the color’s alpha value is `1`.
+	///
+	/// If the color is dynamic, for instance if it is a UIKit system color, or initialised via
+	/// `UIColor(dynamicProvider:)`, the color that matches the current trait collection is used.
+	///
+	/// - returns: A string representing the color, in the format discussed above.
+	@objc(hbcp_hslString)
+	var hslString: String { Color(uiColor: self).hslString }
+
+	/// Returns an Objective-C UIColor string that represents the color.
+	///
+	/// The output is a string in the format of
+	/// `[UIColor colorWithRed:0.667 green:0.733 blue:0.800 alpha:1.00]`.
+	///
+	/// If the color is dynamic, for instance if it is a UIKit system color, or initialised via
+	/// `UIColor(dynamicProvider:)`, the color that matches the current trait collection is used.
+	///
+	/// - returns: A string representing the color, in the format discussed above.
+	@objc(hbcp_objcString)
+	var objcString: String { Color(uiColor: self).objcString }
+
+	/// Returns a Swift UIColor string that represents the color.
+	///
+	/// The output is a string in the format of
+	/// `UIColor(red: 0.667, green: 0.733, blue: 0.800, alpha: 1.00)`.
+	///
+	/// If the color is dynamic, for instance if it is a UIKit system color, or initialised via
+	/// `UIColor(dynamicProvider:)`, the color that matches the current trait collection is used.
+	///
+	/// - returns: A string representing the color, in the format discussed above.
+	@objc(hbcp_swiftString)
+	var swiftString: String { Color(uiColor: self).swiftString }
 
 }

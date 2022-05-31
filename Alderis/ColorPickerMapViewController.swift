@@ -10,6 +10,7 @@ import UIKit
 
 internal class ColorPickerMapViewController: ColorPickerTabViewController {
 
+	static let title = "Color Wheel"
 	static let imageName = "slider.horizontal.below.rectangle"
 
 	private var wheelView: ColorPickerWheelView!
@@ -36,7 +37,7 @@ internal class ColorPickerMapViewController: ColorPickerTabViewController {
 			$0.addTarget(self, action: #selector(sliderChanged(_:)), for: .valueChanged)
 		}
 
-		let mainStackView = UIStackView(arrangedSubviews: [ wheelView ] + sliders)
+		let mainStackView = UIStackView(arrangedSubviews: [wheelView] + sliders)
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
 		mainStackView.axis = .vertical
 		mainStackView.alignment = .fill
@@ -44,10 +45,10 @@ internal class ColorPickerMapViewController: ColorPickerTabViewController {
 		view.addSubview(mainStackView)
 
 		NSLayoutConstraint.activate([
-			mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-			mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+			mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIFloat(15)),
+			mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: UIFloat(-15)),
 			mainStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-			mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
+			mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: UIFloat(-10))
 		])
 	}
 
