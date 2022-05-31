@@ -31,7 +31,7 @@ UILabel *rebornPictureInPictureLoadingLabel;
 
     rebornPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:rebornPlayer];
     rebornPlayerLayer.frame = CGRectMake(0, boundsWindow.safeAreaInsets.top, self.view.bounds.size.width, self.view.bounds.size.width * 9 / 16);
-    // rebornPlayerLayer.hidden = YES;
+    rebornPlayerLayer.hidden = YES;
 
     [self.view.layer addSublayer:rebornPlayerLayer];
 
