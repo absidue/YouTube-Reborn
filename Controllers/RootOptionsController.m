@@ -9,11 +9,12 @@
 #import "SponsorBlockOptionsController.h"
 #import "SearchOptionsController.h"
 #import "ChangelogsController.h"
-#import "../Jailbreak-Detection-Lib/JailbreakDetectionLib.h"
+#import "../JailbreakDetection/JailbreakDetection.h"
 #import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
 
 @interface RootOptionsController ()
+- (void)setupRootOptionsControllerView;
 @end
 
 @implementation RootOptionsController
@@ -35,16 +36,16 @@
 	}
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 5;
 }
 
-- (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
     }
     if (section == 1) {
-        if ([JailbreakDetectionLib isJailbroken]) {
+        if ([JailbreakDetection isJailbroken]) {
             return 2;
         } else {
             return 1;
@@ -199,8 +200,8 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.patreon.com/lillieweeb"] options:@{} completionHandler:nil];
@@ -312,7 +313,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.0.3";
+        return @"Version: 3.0.4";
     }
     return nil;
 }
@@ -362,7 +363,7 @@
 
 @end
 
-@implementation RootOptionsController(Privates)
+@implementation RootOptionsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
