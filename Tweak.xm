@@ -6,6 +6,8 @@
 #import "Controllers/PictureInPictureController.h"
 #import "JailbreakDetection/JailbreakDetection.h"
 #import "YouTubeExtractor/YouTubeExtractor.h"
+#import "MobileFFmpeg/MobileFFmpegConfig.h"
+#import "MobileFFmpeg/MobileFFmpeg.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
