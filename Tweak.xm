@@ -1449,13 +1449,12 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
+%group gHidePlayerBarHeatwave
 %hook YTPlayerBarHeatwaveView
 - (id)initWithFrame:(CGRect)frame heatmap:(id)heat {
-    /* frame = CGRect(0, 0);
-    heat = NULL;
-    %orig; */
     return NULL;
 }
+%end
 %end
 
 BOOL sponsorBlockEnabled;
@@ -1737,6 +1736,7 @@ int selectedTabIndex = 0;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES) %init(gDisableRelatedVideosInOverlay);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == YES) %init(gHideOverlayQuickActions);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == YES) %init(gEnableiPadStyleOniPhone);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePlayerBarHeatwave"] == YES) %init(gHidePlayerBarHeatwave);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBarVTwo"] == YES) {
             %init(gAlwaysShowPlayerBar);
         }

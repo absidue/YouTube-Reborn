@@ -116,6 +116,14 @@
             hideChannelWatermark.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideChannelWatermark"];
             cell.accessoryView = hideChannelWatermark;
         }
+        if(indexPath.row == 8) {
+            cell.textLabel.text = @"Hide Player Bar Heatwave";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UISwitch *hidePlayerBarHeatwave = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [hidePlayerBarHeatwave addTarget:self action:@selector(toggleHidePlayerBarHeatwave:) forControlEvents:UIControlEventValueChanged];
+            hidePlayerBarHeatwave.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePlayerBarHeatwave"];
+            cell.accessoryView = hidePlayerBarHeatwave;
+        }
         if(indexPath.row == 9) {
             cell.textLabel.text = @"Always Show Player Bar";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -270,6 +278,16 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideChannelWatermark"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)toggleHidePlayerBarHeatwave:(UISwitch *)sender {
+    if ([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHidePlayerBarHeatwave"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHidePlayerBarHeatwave"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
