@@ -44,6 +44,7 @@
 - (void)rebornAudioDownloaderCheck :(NSString *)videoID;
 - (void)rebornAudioDownloader :(NSString *)videoTitle :(NSURL *)audioURL;
 - (void)rebornPictureInPicture :(NSString *)videoID;
+- (void)rebornPlayInExternalApp :(NSString *)videoID;
 @end
 
 @interface YTMainAppSkipVideoButton

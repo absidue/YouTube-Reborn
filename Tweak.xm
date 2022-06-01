@@ -228,6 +228,10 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         }]];
     }
 
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Play In External App" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self rebornPlayInExternalApp:videoIdentifier];
+    }]];
+
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
     }]];
 
@@ -530,6 +534,28 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         UIViewController *pipViewController = self._viewControllerForAncestor;
         [pipViewController presentViewController:alertPip animated:YES completion:nil];
     }
+}
+
+%new;
+- (void)rebornPlayInExternalApp :(NSString *)videoID {
+    NSMutableDictionary *youtubeiiOSPlayerRequest = [YouTubeExtractor youtubeiiOSPlayerRequest:videoID];
+    NSURL *videoPath = [NSURL URLWithString:[NSString stringWithFormat:@"%@", youtubeiiOSPlayerRequest[@"streamingData"][@"hlsManifestUrl"]]];
+
+    UIAlertController *alertApp = [UIAlertController alertControllerWithTitle:@"Choose App" message:nil preferredStyle:UIAlertControllerStyleAlert];
+
+    [alertApp addAction:[UIAlertAction actionWithTitle:@"Play In Infuse" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"infuse://x-callback-url/play?url=%@", videoPath]] options:@{} completionHandler:nil];
+    }]];
+
+    [alertApp addAction:[UIAlertAction actionWithTitle:@"Play In VLC" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"vlc-x-callback://x-callback-url/stream?url=%@", videoPath]] options:@{} completionHandler:nil];
+    }]];
+
+    [alertApp addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    }]];
+
+    UIViewController *alertAppViewController = self._viewControllerForAncestor;
+    [alertAppViewController presentViewController:alertApp animated:YES completion:nil];
 }
 %end
 
