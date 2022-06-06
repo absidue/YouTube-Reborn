@@ -17,7 +17,7 @@
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
 static BOOL hasDeviceNotch() {
-	if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
 		return NO;
 	} else {
 		LAContext* context = [[LAContext alloc] init];

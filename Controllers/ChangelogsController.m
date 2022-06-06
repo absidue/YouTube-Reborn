@@ -1,6 +1,4 @@
 #import "ChangelogsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface ChangelogsController ()
 @end
