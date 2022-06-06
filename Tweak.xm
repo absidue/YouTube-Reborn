@@ -218,9 +218,11 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         [self rebornAudioDownloaderCheck:videoIdentifier];
     }]];
 
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self rebornVideoDownloaderCheck:videoIdentifier];
-    }]];
+    if (SYSTEM_VERSION_LESS_THAN(@"16.0")) {
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloaderCheck:videoIdentifier];
+        }]];
+    }
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
