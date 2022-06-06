@@ -89,7 +89,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             [self.youtubeRebornButton setImage:[UIImage imageWithContentsOfFile:youtubeRebornLightSettingsPath] forState:UIControlStateNormal];
         }
         
-        [self.youtubeRebornButton addTarget:self action:@selector(rootOptionsAction) forControlEvents:UIControlEventTouchUpInside];
+        [self.youtubeRebornButton addTarget:self action:@selector(rebornRootOptionsAction) forControlEvents:UIControlEventTouchUpInside];
         [retVal insertObject:self.youtubeRebornButton atIndex:0];
     }
     return retVal;
@@ -105,7 +105,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     return retVal;
 }
 %new;
-- (void)rootOptionsAction {
+- (void)rebornRootOptionsAction {
     RootOptionsController *rootOptionsController = [[RootOptionsController alloc] init];
     UINavigationController *rootOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:rootOptionsController];
     rootOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;

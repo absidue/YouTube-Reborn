@@ -26,7 +26,7 @@
 @property(readonly, nonatomic) YTQTMButton *notificationButton;
 @property (strong, nonatomic) YTQTMButton *youtubeRebornButton;
 - (void)setLeadingPadding:(CGFloat)arg1;
-- (void)rootOptionsAction;
+- (void)rebornRootOptionsAction;
 @end
 
 @interface YTMainAppControlsOverlayView : UIView
