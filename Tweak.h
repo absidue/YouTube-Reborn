@@ -1,7 +1,3 @@
-@interface UIView ()
-- (UIViewController *)_viewControllerForAncestor;
-@end
-
 @interface YTQTMButton : UIButton
 @property (strong, nonatomic) UIImageView *imageView;
 + (instancetype)iconButton;
@@ -21,6 +17,7 @@
 @end
 
 @interface YTRightNavigationButtons : UIView
+- (id)_viewControllerForAncestor;
 @property(readonly, nonatomic) YTQTMButton *MDXButton;
 @property(readonly, nonatomic) YTQTMButton *searchButton;
 @property(readonly, nonatomic) YTQTMButton *notificationButton;
@@ -30,6 +27,7 @@
 @end
 
 @interface YTMainAppControlsOverlayView : UIView
+- (id)_viewControllerForAncestor;
 @property(readonly, nonatomic) YTQTMButton *playbackRouteButton;
 @property(readonly, nonatomic) YTQTMButton *previousButton;
 @property(readonly, nonatomic) YTQTMButton *nextButton;

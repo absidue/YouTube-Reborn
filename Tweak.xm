@@ -110,7 +110,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     UINavigationController *rootOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:rootOptionsController];
     rootOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
-    UIViewController *rootPrefsViewController = self._viewControllerForAncestor;
+    UIViewController *rootPrefsViewController = [self _viewControllerForAncestor];
     [rootPrefsViewController presentViewController:rootOptionsControllerView animated:YES completion:nil];
 }
 %end
@@ -240,7 +240,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     popPresenter.sourceView = self;
     popPresenter.sourceRect = self.bounds;
 
-    UIViewController *menuViewController = self._viewControllerForAncestor;
+    UIViewController *menuViewController = [self _viewControllerForAncestor];
     [menuViewController presentViewController:alertMenu animated:YES completion:nil];
 }
 
@@ -358,7 +358,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     popPresenter.sourceView = self;
     popPresenter.sourceRect = self.bounds;
 
-    UIViewController *qualitySelectorViewController = self._viewControllerForAncestor;
+    UIViewController *qualitySelectorViewController = [self _viewControllerForAncestor];
     [qualitySelectorViewController presentViewController:alertQualitySelector animated:YES completion:nil];
 }
 
@@ -427,7 +427,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         [alertPip addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
 
-        UIViewController *pipViewController = self._viewControllerForAncestor;
+        UIViewController *pipViewController = [self _viewControllerForAncestor];
         [pipViewController presentViewController:alertPip animated:YES completion:nil];
     }
 }
@@ -450,7 +450,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     [alertApp addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
     }]];
 
-    UIViewController *alertAppViewController = self._viewControllerForAncestor;
+    UIViewController *alertAppViewController = [self _viewControllerForAncestor];
     [alertAppViewController presentViewController:alertApp animated:YES completion:nil];
 }
 %end
