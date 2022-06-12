@@ -218,11 +218,9 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         [self rebornAudioDownloaderCheck:videoIdentifier];
     }]];
 
-    if (SYSTEM_VERSION_LESS_THAN(@"16.0")) {
-        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloaderCheck:videoIdentifier];
-        }]];
-    }
+    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self rebornVideoDownloaderCheck:videoIdentifier];
+    }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -366,69 +364,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 
 %new;
 - (void)rebornVideoDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL {
-    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Video (Part 1/2) Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-    UIViewController *downloadingViewController = self._viewControllerForAncestor;
-    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-        NSURLRequest *videoRequest = [NSURLRequest requestWithURL:videoURL];
-        NSURLRequest *audioRequest = [NSURLRequest requestWithURL:audioURL];
-
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:videoRequest progress:^(NSProgress * _Nonnull downloadProgress) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                float downloadPercent = downloadProgress.fractionCompleted * 100;
-                alertDownloading.message = [NSString stringWithFormat:@"Video (Part 1/2) Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-            });
-        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            [alertDownloading dismissViewControllerAnimated:YES completion:^{
-                UIAlertController *alertAudioDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Video (Part 2/2) Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-                UIViewController *audioDownloadingViewController = self._viewControllerForAncestor;
-                [audioDownloadingViewController presentViewController:alertAudioDownloading animated:YES completion:^{
-                    NSURLSessionDownloadTask *audioDownloadTask = [manager downloadTaskWithRequest:audioRequest progress:^(NSProgress * _Nonnull downloadProgress) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            float downloadPercent = downloadProgress.fractionCompleted * 100;
-                            alertAudioDownloading.message = [NSString stringWithFormat:@"Video (Part 2/2) Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-                        });
-                    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-                        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-                    } completionHandler:^(NSURLResponse *audioResponse, NSURL *audioFilePath, NSError *audioError) {
-                        [alertAudioDownloading dismissViewControllerAnimated:YES completion:^{
-                            UIAlertController *alertConverting = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Converting And Cleaning Up\nPlease Wait" preferredStyle:UIAlertControllerStyleAlert];
-
-                            UIViewController *convertingViewController = self._viewControllerForAncestor;
-                            [convertingViewController presentViewController:alertConverting animated:YES completion:^{
-                                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                                NSString *documentsDirectory = [paths objectAtIndex:0];
-                                NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
-                                [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:a libmp3lame -q:a 8 %@/videoplayback.mp3", audioFilePath, documentsDirectory]];
-                                [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -i %@/videoplayback.mp3 -c:v copy -c:a aac %@/output.mp4", filePath, documentsDirectory, documentsDirectory]];
-                                [[NSFileManager defaultManager] moveItemAtPath:[NSString stringWithFormat:@"%@/output.mp4", documentsDirectory] toPath:[NSString stringWithFormat:@"%@/%@.mp4", documentsDirectory, [[videoTitle componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""]] error:nil];
-                                [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
-                                [[NSFileManager defaultManager] removeItemAtPath:[audioFilePath path] error:nil];
-                                [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/videoplayback.mp3", documentsDirectory] error:nil];
-
-                                [alertConverting dismissViewControllerAnimated:YES completion:^{
-                                    UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Video Download Complete" preferredStyle:UIAlertControllerStyleAlert];
-
-                                    [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                                    }]];
-
-                                    UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                                    [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
-                                }];
-                            }];
-                        }];
-                    }];
-                    [audioDownloadTask resume];
-                }];
-            }];
-        }];
-        [downloadTask resume];
-    }];
 }
 
 %new;
@@ -469,47 +404,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 
 %new;
 - (void)rebornAudioDownloader :(NSString *)videoTitle :(NSURL *)audioURL {
-    UIAlertController *alertDownloading = [UIAlertController alertControllerWithTitle:@"Notice" message:[NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: 0.00%% \n\nDon't Exit The App"] preferredStyle:UIAlertControllerStyleAlert];
-    UIViewController *downloadingViewController = self._viewControllerForAncestor;
-    [downloadingViewController presentViewController:alertDownloading animated:YES completion:^{
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-        NSURLRequest *request = [NSURLRequest requestWithURL:audioURL];
-
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                float downloadPercent = downloadProgress.fractionCompleted * 100;
-                alertDownloading.message = [NSString stringWithFormat:@"Audio Is Downloading \n\nProgress: %.02f%% \n\nDon't Exit The App", downloadPercent];
-            });
-        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            [alertDownloading dismissViewControllerAnimated:YES completion:^{
-                UIAlertController *alertConverting = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Converting And Cleaning Up\nPlease Wait" preferredStyle:UIAlertControllerStyleAlert];
-
-                UIViewController *convertingViewController = self._viewControllerForAncestor;
-                [convertingViewController presentViewController:alertConverting animated:YES completion:^{
-                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                    NSString *documentsDirectory = [paths objectAtIndex:0];
-                    NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
-                    [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:a libmp3lame -q:a 8 %@/%@.mp3", filePath, documentsDirectory, [[videoTitle componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""]]];
-                    [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
-                    
-                    [alertConverting dismissViewControllerAnimated:YES completion:^{
-                        UIAlertController *alertDownloaded = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Audio Download Complete" preferredStyle:UIAlertControllerStyleAlert];
-
-                        [alertDownloaded addAction:[UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                        }]];
-
-                        UIViewController *downloadedViewController = self._viewControllerForAncestor;
-                        [downloadedViewController presentViewController:alertDownloaded animated:YES completion:nil];
-                    }];
-                }];
-            }];
-        }];
-        [downloadTask resume];
-    }];
 }
 
 %new;

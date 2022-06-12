@@ -73,59 +73,58 @@
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
             cell.textLabel.textColor = [UIColor blackColor];
-        }
-        else {
+        } else {
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.section == 0) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Donate";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
-        if(indexPath.section == 1) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 1) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"View Downloads";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 1) {
+            if (indexPath.row == 1) {
                 cell.textLabel.text = @"View Downloads In Filza";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
-        if(indexPath.section == 2) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 2) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Video Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 1) {
+            if (indexPath.row == 1) {
                 cell.textLabel.text = @"Overlay Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 2) {
+            if (indexPath.row == 2) {
                 cell.textLabel.text = @"Tab Bar Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 3) {
+            if (indexPath.row == 3) {
                 cell.textLabel.text = @"Colour Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 4) {
+            if (indexPath.row == 4) {
                 cell.textLabel.text = @"Search Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 5) {
+            if (indexPath.row == 5) {
                 cell.textLabel.text = @"Shorts Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 6) {
+            if (indexPath.row == 6) {
                 cell.textLabel.text = @"SponsorBlock Options (Beta)";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
-        if(indexPath.section == 3) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 3) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Enable iPad Style On iPhone";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *enableiPadStyleOniPhone = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -133,7 +132,7 @@
                 enableiPadStyleOniPhone.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"];
                 cell.accessoryView = enableiPadStyleOniPhone;
             }
-            if(indexPath.row == 1) {
+            if (indexPath.row == 1) {
                 cell.textLabel.text = @"No Cast Button";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *noCastButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -141,7 +140,7 @@
                 noCastButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoCastButton"];
                 cell.accessoryView = noCastButton;
             }
-            if(indexPath.row == 2) {
+            if (indexPath.row == 2) {
                 cell.textLabel.text = @"No Notification Button";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *noNotificationButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -149,7 +148,7 @@
                 noNotificationButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoNotificationButton"];
                 cell.accessoryView = noNotificationButton;
             }
-            if(indexPath.row == 3) {
+            if (indexPath.row == 3) {
                 cell.textLabel.text = @"No Search Button";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *noSearchButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -157,7 +156,7 @@
                 noSearchButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoSearchButton"];
                 cell.accessoryView = noSearchButton;
             }
-            if(indexPath.row == 4) {
+            if (indexPath.row == 4) {
                 cell.textLabel.text = @"Disable YouTube Kids";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *disableYouTubeKidsPopup = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -165,7 +164,7 @@
                 disableYouTubeKidsPopup.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableYouTubeKidsPopup"];
                 cell.accessoryView = disableYouTubeKidsPopup;
             }
-            if(indexPath.row == 5) {
+            if (indexPath.row == 5) {
                 cell.textLabel.text = @"Disable Hints";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *disableHints = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -173,7 +172,7 @@
                 disableHints.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableHints"];
                 cell.accessoryView = disableHints;
             }
-            if(indexPath.row == 6) {
+            if (indexPath.row == 6) {
                 cell.textLabel.text = @"Hide YouTube Logo";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideYouTubeLogo = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -182,16 +181,16 @@
                 cell.accessoryView = hideYouTubeLogo;
             }
         }
-        if(indexPath.section == 4) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 4) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Reborn Settings";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 1) {
+            if (indexPath.row == 1) {
                 cell.textLabel.text = @"Changelogs";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
-            if(indexPath.row == 2) {
+            if (indexPath.row == 2) {
                 cell.textLabel.text = @"Credits";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
@@ -202,20 +201,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if(indexPath.section == 0) {
-        if(indexPath.row == 0) {
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.patreon.com/lillieweeb"] options:@{} completionHandler:nil];
         }
     }
-    if(indexPath.section == 1) {
-        if(indexPath.row == 0) {    
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {    
             DownloadsController *downloadsController = [[DownloadsController alloc] init];
             UINavigationController *downloadsControllerView = [[UINavigationController alloc] initWithRootViewController:downloadsController];
             downloadsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:downloadsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 1) {
+        if (indexPath.row == 1) {
             NSFileManager *fm = [[NSFileManager alloc] init];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -227,29 +226,29 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:path] options:@{} completionHandler:nil];
         }
     }
-    if(indexPath.section == 2) {
-        if(indexPath.row == 0) {    
+    if (indexPath.section == 2) {
+        if (indexPath.row == 0) {    
             VideoOptionsController *videoOptionsController = [[VideoOptionsController alloc] init];
             UINavigationController *videoOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:videoOptionsController];
             videoOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:videoOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 1) {
+        if (indexPath.row == 1) {
             OverlayOptionsController *overlayOptionsController = [[OverlayOptionsController alloc] init];
             UINavigationController *overlayOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:overlayOptionsController];
             overlayOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:overlayOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 2) {
+        if (indexPath.row == 2) {
             TabBarOptionsController *tabBarOptionsController = [[TabBarOptionsController alloc] init];
             UINavigationController *tabBarOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:tabBarOptionsController];
             tabBarOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:tabBarOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 3) {
+        if (indexPath.row == 3) {
             HBColorPickerViewController *alderisViewController = [[HBColorPickerViewController alloc] init];
             alderisViewController.delegate = self;
             alderisViewController.popoverPresentationController.sourceView = self.view;
@@ -266,21 +265,21 @@
             alderisViewController.configuration = configuration;
             [self presentViewController:alderisViewController animated:YES completion:nil];
         }
-        if(indexPath.row == 4) {
+        if (indexPath.row == 4) {
             SearchOptionsController *searchOptionsController = [[SearchOptionsController alloc] init];
             UINavigationController *searchOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:searchOptionsController];
             searchOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:searchOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 5) {
+        if (indexPath.row == 5) {
             ShortsOptionsController *shortsOptionsController = [[ShortsOptionsController alloc] init];
             UINavigationController *shortsOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:shortsOptionsController];
             shortsOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:shortsOptionsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 6) {
+        if (indexPath.row == 6) {
             SponsorBlockOptionsController *sponsorBlockOptionsController = [[SponsorBlockOptionsController alloc] init];
             UINavigationController *sponsorBlockOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:sponsorBlockOptionsController];
             sponsorBlockOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -288,20 +287,20 @@
             [self presentViewController:sponsorBlockOptionsControllerView animated:YES completion:nil];
         }
     }
-    if(indexPath.section == 4) {
-        if(indexPath.row == 0) {
+    if (indexPath.section == 4) {
+        if (indexPath.row == 0) {
             RebornSettingsController *rebornSettingsController = [[RebornSettingsController alloc] init];
             UINavigationController *rebornSettingsControllerView = [[UINavigationController alloc] initWithRootViewController:rebornSettingsController];
             rebornSettingsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:rebornSettingsControllerView animated:YES completion:nil];
         }
-        if(indexPath.row == 1) {
+        if (indexPath.row == 1) {
             ChangelogsController *changelogsController = [[ChangelogsController alloc] init];
 
             [self presentViewController:changelogsController animated:YES completion:nil];
         }
-        if(indexPath.row == 2) {
+        if (indexPath.row == 2) {
             CreditsController *creditsController = [[CreditsController alloc] init];
             UINavigationController *creditsControllerView = [[UINavigationController alloc] initWithRootViewController:creditsController];
             creditsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -313,7 +312,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.0.6";
+        return @"Version: 3.0.7 (Beta)";
     }
     return nil;
 }
@@ -332,8 +331,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
         view.tintColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
-    }
-    else {
+    } else {
         view.tintColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
     }
     UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
@@ -378,8 +376,7 @@
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    }
-    else {
+    } else {
         self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
