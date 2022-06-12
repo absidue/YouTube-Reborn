@@ -1403,6 +1403,12 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     return NULL;
 }
 %end
+%hook YTPlayerBarController
+- (void)setHeatmap:(id)arg1 {
+    arg1 = NULL;
+    %orig;
+}
+%end
 %end
 
 BOOL sponsorBlockEnabled;
