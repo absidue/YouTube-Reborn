@@ -7,8 +7,4 @@
 @property (nonatomic, strong) NSString *videoTime;
 @property (nonatomic, strong) NSURL *videoPath;
 
-- (void)setupPictureInPictureControllerView;
-- (void)startPictureInPicture:(NSTimer *)timer;
-- (void)closePictureInPicture;
-
 @end
