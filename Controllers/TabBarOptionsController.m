@@ -58,7 +58,7 @@
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.section == 0) {
+        if (indexPath.section == 0) {
             cell.textLabel.text = @"Startup Page";
             if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageInt"]) {
                 cell.detailTextLabel.text = @"Home";
@@ -87,8 +87,8 @@
                 }
             }
         }
-        if(indexPath.section == 1) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 1) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Hide Tab Bar";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideTabBar = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -97,8 +97,8 @@
                 cell.accessoryView = hideTabBar;
             }
         }
-        if(indexPath.section == 2) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 2) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Hide Tab Bar Labels";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideTabBarLabels = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -106,7 +106,7 @@
                 hideTabBarLabels.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideTabBarLabels"];
                 cell.accessoryView = hideTabBarLabels;
             }
-            if(indexPath.row == 1) {
+            if (indexPath.row == 1) {
                 cell.textLabel.text = @"Hide Shorts/Explore Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideExploreTab = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -114,7 +114,7 @@
                 hideExploreTab.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideExploreTab"];
                 cell.accessoryView = hideExploreTab;
             }
-            if(indexPath.row == 2) {
+            if (indexPath.row == 2) {
                 cell.textLabel.text = @"Hide Create/Upload (+) Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideUploadTab = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -122,7 +122,7 @@
                 hideUploadTab.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideUploadTab"];
                 cell.accessoryView = hideUploadTab;
             }
-            if(indexPath.row == 3) {
+            if (indexPath.row == 3) {
                 cell.textLabel.text = @"Hide Subscriptions Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideSubscriptionsTab = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -130,7 +130,7 @@
                 hideSubscriptionsTab.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideSubscriptionsTab"];
                 cell.accessoryView = hideSubscriptionsTab;
             }
-            if(indexPath.row == 4) {
+            if (indexPath.row == 4) {
                 cell.textLabel.text = @"Hide Library Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideLibraryTab = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -145,8 +145,8 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if(indexPath.section == 0) {
-        if(indexPath.row == 0) {
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
             StartupPageOptionsController *startupPageOptionsController = [[StartupPageOptionsController alloc] init];
             UINavigationController *startupPageOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:startupPageOptionsController];
             startupPageOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -177,11 +177,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kHideTabBar"]) {
-        if(section == 2) {
+        if (section == 2) {
             return 10;
         }
     } else {
-        if(section == 1) {
+        if (section == 1) {
             return 10;
         }
     }

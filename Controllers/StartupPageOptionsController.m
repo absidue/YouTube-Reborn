@@ -52,43 +52,43 @@ int selectedIndex;
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.row == 0) {
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Home";
             if (selectedIndex == 0) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
-        if(indexPath.row == 1) {
+        if (indexPath.row == 1) {
             cell.textLabel.text = @"Explore";
             if (selectedIndex == 1) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
-        if(indexPath.row == 2) {
+        if (indexPath.row == 2) {
             cell.textLabel.text = @"Shorts";
             if (selectedIndex == 2) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
-        if(indexPath.row == 3) {
+        if (indexPath.row == 3) {
             cell.textLabel.text = @"Create/Upload (+)";
             if (selectedIndex == 3) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
-        if(indexPath.row == 4) {
+        if (indexPath.row == 4) {
             cell.textLabel.text = @"Subscriptions";
             if (selectedIndex == 4) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
-        if(indexPath.row == 5) {
+        if (indexPath.row == 5) {
             cell.textLabel.text = @"Library";
             if (selectedIndex == 5) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
-        if(indexPath.row == 6) {
+        if (indexPath.row == 6) {
             cell.textLabel.text = @"Trending";
             if (selectedIndex == 6) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;

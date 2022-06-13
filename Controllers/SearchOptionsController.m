@@ -44,7 +44,7 @@
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.row == 0) {
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Disable Voice Search";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *disableVoiceSearch = [[UISwitch alloc] initWithFrame:CGRectZero];

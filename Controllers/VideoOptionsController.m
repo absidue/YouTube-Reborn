@@ -44,7 +44,7 @@
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.row == 0) {
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Enable No Ads (Video/HomeScreen)";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *enableNoVideoAds = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -52,7 +52,7 @@
             enableNoVideoAds.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableNoVideoAds"];
             cell.accessoryView = enableNoVideoAds;
         }
-        if(indexPath.row == 1) {
+        if (indexPath.row == 1) {
             cell.textLabel.text = @"Enable Background Playback";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *enableBackgroundPlayback = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -60,7 +60,7 @@
             enableBackgroundPlayback.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableBackgroundPlayback"];
             cell.accessoryView = enableBackgroundPlayback;
         }
-        if(indexPath.row == 2) {
+        if (indexPath.row == 2) {
             cell.textLabel.text = @"Allow HD On Cellular Data";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *allowHDOnCellularData = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -68,7 +68,7 @@
             allowHDOnCellularData.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kAllowHDOnCellularData"];
             cell.accessoryView = allowHDOnCellularData;
         }
-        if(indexPath.row == 3) {
+        if (indexPath.row == 3) {
             cell.textLabel.text = @"Auto Play In FullScreen";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *autoFullScreen = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -76,7 +76,7 @@
             autoFullScreen.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kAutoFullScreen"];
             cell.accessoryView = autoFullScreen;
         }
-        if(indexPath.row == 4) {
+        if (indexPath.row == 4) {
             cell.textLabel.text = @"Disable Video Endscreen Popups";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *disableVideoEndscreenPopups = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -84,7 +84,7 @@
             disableVideoEndscreenPopups.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableVideoEndscreenPopups"];
             cell.accessoryView = disableVideoEndscreenPopups;
         }
-        if(indexPath.row == 5) {
+        if (indexPath.row == 5) {
             cell.textLabel.text = @"Disable Video Info Cards";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *disableVideoInfoCards = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -92,7 +92,7 @@
             disableVideoInfoCards.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableVideoInfoCards"];
             cell.accessoryView = disableVideoInfoCards;
         }
-        if(indexPath.row == 6) {
+        if (indexPath.row == 6) {
             cell.textLabel.text = @"Disable Video AutoPlay";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *disableVideoAutoPlay = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -100,7 +100,7 @@
             disableVideoAutoPlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableVideoAutoPlay"];
             cell.accessoryView = disableVideoAutoPlay;
         }
-        if(indexPath.row == 7) {
+        if (indexPath.row == 7) {
             cell.textLabel.text = @"Disable Double Tap To Skip";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *disableDoubleTapToSkip = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -108,7 +108,7 @@
             disableDoubleTapToSkip.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableDoubleTapToSkip"];
             cell.accessoryView = disableDoubleTapToSkip;
         }
-        if(indexPath.row == 8) {
+        if (indexPath.row == 8) {
             cell.textLabel.text = @"Hide Channel Watermark";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideChannelWatermark = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -116,7 +116,7 @@
             hideChannelWatermark.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideChannelWatermark"];
             cell.accessoryView = hideChannelWatermark;
         }
-        if(indexPath.row == 8) {
+        if (indexPath.row == 8) {
             cell.textLabel.text = @"Hide Player Bar Heatwave";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hidePlayerBarHeatwave = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -124,7 +124,7 @@
             hidePlayerBarHeatwave.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePlayerBarHeatwave"];
             cell.accessoryView = hidePlayerBarHeatwave;
         }
-        if(indexPath.row == 9) {
+        if (indexPath.row == 9) {
             cell.textLabel.text = @"Always Show Player Bar";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == NO || [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == NO) {
@@ -136,7 +136,7 @@
                 cell.accessoryView = alwaysShowPlayerBar;
             }
         }
-        if(indexPath.row == 10) {
+        if (indexPath.row == 10) {
             cell.textLabel.text = @"Enable Extra Speed Options";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *enableExtraSpeedOptions = [[UISwitch alloc] initWithFrame:CGRectZero];

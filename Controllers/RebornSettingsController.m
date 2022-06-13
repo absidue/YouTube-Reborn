@@ -50,14 +50,14 @@
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.section == 0) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Reset Colour Options";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
-        if(indexPath.section == 1) {
-            if(indexPath.row == 0) {
+        if (indexPath.section == 1) {
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Hide Overlay 'OP' Button";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideRebornOPButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -72,8 +72,8 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if(indexPath.section == 0) {
-        if(indexPath.row == 0) {
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Are you sure you want to delete your set colour?" preferredStyle:UIAlertControllerStyleAlert];
 
             [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

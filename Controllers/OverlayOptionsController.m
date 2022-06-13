@@ -7,7 +7,7 @@
 @end
 
 static BOOL hasDeviceNotch() {
-	if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
 		return NO;
 	} else {
 		LAContext* context = [[LAContext alloc] init];
@@ -55,7 +55,7 @@ static BOOL hasDeviceNotch() {
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.row == 0) {
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Show Status Bar In Overlay (Portrait Only)";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == YES || hasDeviceNotch() == YES) {
@@ -68,7 +68,7 @@ static BOOL hasDeviceNotch() {
                 cell.accessoryView = showStatusBarInOverlay;
             }
         }
-        if(indexPath.row == 1) {
+        if (indexPath.row == 1) {
             cell.textLabel.text = @"Hide Previous Button In Overlay";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hidePreviousButtonInOverlay = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -76,7 +76,7 @@ static BOOL hasDeviceNotch() {
             hidePreviousButtonInOverlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePreviousButtonInOverlay"];
             cell.accessoryView = hidePreviousButtonInOverlay;
         }
-        if(indexPath.row == 2) {
+        if (indexPath.row == 2) {
             cell.textLabel.text = @"Hide Next Button In Overlay";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideNextButtonInOverlay = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -84,7 +84,7 @@ static BOOL hasDeviceNotch() {
             hideNextButtonInOverlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideNextButtonInOverlay"];
             cell.accessoryView = hideNextButtonInOverlay;
         }
-        if(indexPath.row == 3) {
+        if (indexPath.row == 3) {
             cell.textLabel.text = @"Hide AutoPlay Switch In Overlay";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideAutoPlaySwitchInOverlay = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -92,7 +92,7 @@ static BOOL hasDeviceNotch() {
             hideAutoPlaySwitchInOverlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideAutoPlaySwitchInOverlay"];
             cell.accessoryView = hideAutoPlaySwitchInOverlay;
         }
-        if(indexPath.row == 4) {
+        if (indexPath.row == 4) {
             cell.textLabel.text = @"Hide Captions/Subtitles Button In Overlay";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideCaptionsSubtitlesButtonInOverlay = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -100,7 +100,7 @@ static BOOL hasDeviceNotch() {
             hideCaptionsSubtitlesButtonInOverlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideCaptionsSubtitlesButtonInOverlay"];
             cell.accessoryView = hideCaptionsSubtitlesButtonInOverlay;
         }
-        if(indexPath.row == 5) {
+        if (indexPath.row == 5) {
             cell.textLabel.text = @"Disable Related Videos In Overlay";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *disableRelatedVideosInOverlay = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -108,7 +108,7 @@ static BOOL hasDeviceNotch() {
             disableRelatedVideosInOverlay.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"];
             cell.accessoryView = disableRelatedVideosInOverlay;
         }
-        if(indexPath.row == 6) {
+        if (indexPath.row == 6) {
             cell.textLabel.text = @"Hide Overlay Dark Background";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideOverlayDarkBackground = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -116,7 +116,7 @@ static BOOL hasDeviceNotch() {
             hideOverlayDarkBackground.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayDarkBackground"];
             cell.accessoryView = hideOverlayDarkBackground;
         }
-        if(indexPath.row == 7) {
+        if (indexPath.row == 7) {
             cell.textLabel.text = @"Hide Overlay Quick Actions";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideOverlayQuickActions = [[UISwitch alloc] initWithFrame:CGRectZero];

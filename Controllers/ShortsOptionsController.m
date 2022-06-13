@@ -44,7 +44,7 @@
             cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.row == 0) {
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Hide Camera Button";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsCameraButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -52,7 +52,7 @@
             hideShortsCameraButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsCameraButton"];
             cell.accessoryView = hideShortsCameraButton;
         }
-        if(indexPath.row == 1) {
+        if (indexPath.row == 1) {
             cell.textLabel.text = @"Hide More Actions Button";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsMoreActionsButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -60,7 +60,7 @@
             hideShortsMoreActionsButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsMoreActionsButton"];
             cell.accessoryView = hideShortsMoreActionsButton;
         }
-        if(indexPath.row == 2) {
+        if (indexPath.row == 2) {
             cell.textLabel.text = @"Hide Like Button";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsLikeButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -68,7 +68,7 @@
             hideShortsLikeButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsLikeButton"];
             cell.accessoryView = hideShortsLikeButton;
         }
-        if(indexPath.row == 3) {
+        if (indexPath.row == 3) {
             cell.textLabel.text = @"Hide Dislike Button";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsDislikeButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -76,7 +76,7 @@
             hideShortsDislikeButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsDislikeButton"];
             cell.accessoryView = hideShortsDislikeButton;
         }
-        if(indexPath.row == 4) {
+        if (indexPath.row == 4) {
             cell.textLabel.text = @"Hide Comments Button";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsCommentsButton = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -84,7 +84,7 @@
             hideShortsCommentsButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsCommentsButton"];
             cell.accessoryView = hideShortsCommentsButton;
         }
-        if(indexPath.row == 5) {
+        if (indexPath.row == 5) {
             cell.textLabel.text = @"Hide Share Button";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsShareButton = [[UISwitch alloc] initWithFrame:CGRectZero];

@@ -70,7 +70,7 @@ UILabel *rebornPictureInPictureLoadingLabel;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == rebornPlayer && [keyPath isEqualToString:@"status"]) {
         if (rebornPlayer.status == AVPlayerStatusReadyToPlay) {
-            if([AVPictureInPictureController isPictureInPictureSupported]) {
+            if ([AVPictureInPictureController isPictureInPictureSupported]) {
                 rebornPictureInPictureController = [[AVPictureInPictureController alloc] initWithPlayerLayer:rebornPlayerLayer];
                 rebornPictureInPictureController.delegate = self;
                 if ([rebornPictureInPictureController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
@@ -83,7 +83,7 @@ UILabel *rebornPictureInPictureLoadingLabel;
         }
     } else if (object == rebornPlayer && [keyPath isEqualToString:@"timeControlStatus"]) {
         if (rebornPlayer.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
-            if([AVPictureInPictureController isPictureInPictureSupported]) {
+            if ([AVPictureInPictureController isPictureInPictureSupported]) {
                 [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(startPictureInPicture:) userInfo:nil repeats:YES];
             }
         }
