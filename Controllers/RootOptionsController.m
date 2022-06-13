@@ -7,7 +7,6 @@
 #import "RebornSettingsController.h"
 #import "DownloadsController.h"
 #import "SponsorBlockOptionsController.h"
-#import "SearchOptionsController.h"
 #import "ChangelogsController.h"
 #import "../JailbreakDetection/JailbreakDetection.h"
 #import "../TheosLinuxFix.h"
@@ -52,7 +51,7 @@
         }
     }
     if (section == 2) {
-        return 7;
+        return 6;
     }
     if (section == 3) {
         return 7;
@@ -80,49 +79,39 @@
             }
         }
         if (indexPath.section == 0) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"Donate";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
         if (indexPath.section == 1) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"View Downloads";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row == 1) {
                 cell.textLabel.text = @"View Downloads In Filza";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
         if (indexPath.section == 2) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"Video Options";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row == 1) {
                 cell.textLabel.text = @"Overlay Options";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row == 2) {
                 cell.textLabel.text = @"Tab Bar Options";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row == 3) {
                 cell.textLabel.text = @"Colour Options";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row == 4) {
-                cell.textLabel.text = @"Search Options";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.textLabel.text = @"Shorts Options";
             }
             if (indexPath.row == 5) {
-                cell.textLabel.text = @"Shorts Options";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            if (indexPath.row == 6) {
                 cell.textLabel.text = @"SponsorBlock Options (Beta)";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
         if (indexPath.section == 3) {
@@ -184,17 +173,15 @@
             }
         }
         if (indexPath.section == 4) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"Reborn Settings";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row == 1) {
                 cell.textLabel.text = @"Changelogs";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row == 2) {
                 cell.textLabel.text = @"Credits";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
     }
@@ -268,20 +255,13 @@
             [self presentViewController:alderisViewController animated:YES completion:nil];
         }
         if (indexPath.row == 4) {
-            SearchOptionsController *searchOptionsController = [[SearchOptionsController alloc] init];
-            UINavigationController *searchOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:searchOptionsController];
-            searchOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
-
-            [self presentViewController:searchOptionsControllerView animated:YES completion:nil];
-        }
-        if (indexPath.row == 5) {
             ShortsOptionsController *shortsOptionsController = [[ShortsOptionsController alloc] init];
             UINavigationController *shortsOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:shortsOptionsController];
             shortsOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:shortsOptionsControllerView animated:YES completion:nil];
         }
-        if (indexPath.row == 6) {
+        if (indexPath.row == 5) {
             SponsorBlockOptionsController *sponsorBlockOptionsController = [[SponsorBlockOptionsController alloc] init];
             UINavigationController *sponsorBlockOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:sponsorBlockOptionsController];
             sponsorBlockOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
