@@ -77,6 +77,9 @@
                 cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
                 cell.textLabel.textColor = [UIColor whiteColor];
             }
+        } else {
+            cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+            cell.textLabel.textColor = [UIColor blackColor];
         }
         if (indexPath.section == 0) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -317,6 +320,8 @@
         } else {
             view.tintColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
         }
+    } else {
+        view.tintColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
     }
     UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
     [footer.textLabel setTextColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"tableSection"]]];
@@ -366,6 +371,10 @@
             [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
             self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         }
+    } else {
+        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     }
 }
 

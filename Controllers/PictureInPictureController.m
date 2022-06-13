@@ -69,6 +69,8 @@ UILabel *rebornPictureInPictureLoadingLabel;
         } else {
             self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
         }
+    } else {
+        self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
     }
 }
 
