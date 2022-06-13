@@ -2,6 +2,4 @@
 
 @interface StartupPageOptionsController : UITableViewController
 
-- (void)setupStartupPageOptionsControllerView;
-
 @end

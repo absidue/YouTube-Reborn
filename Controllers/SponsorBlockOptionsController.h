@@ -2,6 +2,4 @@
 
 @interface SponsorBlockOptionsController : UITableViewController
 
-- (void)setupSponsorBlockOptionsControllerView;
-
 @end

@@ -2,6 +2,4 @@
 
 @interface ShortsOptionsController : UITableViewController
 
-- (void)setupShortsOptionsControllerView;
-
 @end
