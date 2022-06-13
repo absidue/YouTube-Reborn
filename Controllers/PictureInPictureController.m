@@ -1,4 +1,5 @@
 #import "PictureInPictureController.h"
+#import "../TheosLinuxFix.h"
 
 @interface PictureInPictureController ()
 - (void)setupPictureInPictureControllerView;
@@ -77,7 +78,7 @@ UILabel *rebornPictureInPictureLoadingLabel;
             if ([AVPictureInPictureController isPictureInPictureSupported]) {
                 rebornPictureInPictureController = [[AVPictureInPictureController alloc] initWithPlayerLayer:rebornPlayerLayer];
                 rebornPictureInPictureController.delegate = self;
-                if ([rebornPictureInPictureController respondsToSelector:@selector(setCanStartPictureInPictureAutomaticallyFromInline:)]) {
+                if (@available(iOS 14.2, *)) {
                     rebornPictureInPictureController.canStartPictureInPictureAutomaticallyFromInline = YES;
                 }
             }
