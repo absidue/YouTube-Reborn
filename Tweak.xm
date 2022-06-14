@@ -6,7 +6,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
-#import "YouTubeDownloader/YouTubeDownloadController.h"
+#import "Controllers/YouTubeDownloadController.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
