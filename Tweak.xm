@@ -8,6 +8,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "Controllers/RootOptionsController.h"
 #import "Controllers/PictureInPictureController.h"
+#import "YouTubeDownloader/YouTubeDownloadController.h"
 #import "Tweak.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -215,11 +216,11 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self rebornAudioDownloaderCheck:videoIdentifier];
+        [self rebornAudioDownloader:videoIdentifier];
     }]];
 
     [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self rebornVideoDownloaderCheck:videoIdentifier];
+        [self rebornVideoDownloader:videoIdentifier];
     }]];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
@@ -245,7 +246,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 
 %new;
-- (void)rebornVideoDownloaderCheck :(NSString *)videoID {
+- (void)rebornVideoDownloader :(NSString *)videoID {
     NSMutableDictionary *youtubeiAndroidPlayerRequest = [YouTubeExtractor youtubeiAndroidPlayerRequest:videoID];
     NSString *videoTitle = [NSString stringWithFormat:@"%@", youtubeiAndroidPlayerRequest[@"videoDetails"][@"title"]];
     NSDictionary *innertubeAdaptiveFormats = youtubeiAndroidPlayerRequest[@"streamingData"][@"adaptiveFormats"];
@@ -316,37 +317,79 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     
     if (video240p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"240p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloader:videoTitle:video240p:audioURL];
+            YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+            rebornYouTubeDownloadController.downloadTitle = videoTitle;
+            rebornYouTubeDownloadController.videoURL = video240p;
+            rebornYouTubeDownloadController.audioURL = audioURL;
+
+            UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+            [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
         }]];
     }
     if (video360p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"360p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloader:videoTitle:video360p:audioURL];
+            YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+            rebornYouTubeDownloadController.downloadTitle = videoTitle;
+            rebornYouTubeDownloadController.videoURL = video360p;
+            rebornYouTubeDownloadController.audioURL = audioURL;
+
+            UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+            [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
         }]];
     }
     if (video480p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"480p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloader:videoTitle:video480p:audioURL];
+            YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+            rebornYouTubeDownloadController.downloadTitle = videoTitle;
+            rebornYouTubeDownloadController.videoURL = video480p;
+            rebornYouTubeDownloadController.audioURL = audioURL;
+
+            UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+            [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
         }]];
     }
     if (video720p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"720p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloader:videoTitle:video720p:audioURL];
+            YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+            rebornYouTubeDownloadController.downloadTitle = videoTitle;
+            rebornYouTubeDownloadController.videoURL = video720p;
+            rebornYouTubeDownloadController.audioURL = audioURL;
+
+            UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+            [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
         }]];
     }
     if (video1080p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1080p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloader:videoTitle:video1080p:audioURL];
+            YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+            rebornYouTubeDownloadController.downloadTitle = videoTitle;
+            rebornYouTubeDownloadController.videoURL = video1080p;
+            rebornYouTubeDownloadController.audioURL = audioURL;
+
+            UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+            [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
         }]];
     }
     if (video1440p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"1440p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloader:videoTitle:video1440p:audioURL];
+            YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+            rebornYouTubeDownloadController.downloadTitle = videoTitle;
+            rebornYouTubeDownloadController.videoURL = video1440p;
+            rebornYouTubeDownloadController.audioURL = audioURL;
+
+            UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+            [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
         }]];
     }
     if (video2160p != nil) {
         [alertQualitySelector addAction:[UIAlertAction actionWithTitle:@"2160p" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self rebornVideoDownloader:videoTitle:video2160p:audioURL];
+            YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+            rebornYouTubeDownloadController.downloadTitle = videoTitle;
+            rebornYouTubeDownloadController.videoURL = video2160p;
+            rebornYouTubeDownloadController.audioURL = audioURL;
+
+            UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+            [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
         }]];
     }
 
@@ -363,11 +406,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 
 %new;
-- (void)rebornVideoDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL {
-}
-
-%new;
-- (void)rebornAudioDownloaderCheck :(NSString *)videoID {
+- (void)rebornAudioDownloader :(NSString *)videoID {
     NSMutableDictionary *youtubeiAndroidPlayerRequest = [YouTubeExtractor youtubeiAndroidPlayerRequest:videoID];
     NSString *videoTitle = [NSString stringWithFormat:@"%@", youtubeiAndroidPlayerRequest[@"videoDetails"][@"title"]];
     NSDictionary *innertubeAdaptiveFormats = youtubeiAndroidPlayerRequest[@"streamingData"][@"adaptiveFormats"];
@@ -399,11 +438,13 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         audioURL = audioLow;
     }
 
-    [self rebornAudioDownloader:videoTitle:audioURL];
-}
+    YouTubeDownloadController *rebornYouTubeDownloadController = [[YouTubeDownloadController alloc] init];
+    rebornYouTubeDownloadController.downloadTitle = videoTitle;
+    rebornYouTubeDownloadController.videoURL = nil;
+    rebornYouTubeDownloadController.audioURL = audioURL;
 
-%new;
-- (void)rebornAudioDownloader :(NSString *)videoTitle :(NSURL *)audioURL {
+    UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
+    [rebornYouTubeDownloadViewController presentViewController:rebornYouTubeDownloadController animated:YES completion:nil];
 }
 
 %new;

@@ -37,10 +37,8 @@
 - (id)playPauseButton;
 - (void)didPressPause:(id)button;
 - (void)rebornOptionsAction;
-- (void)rebornVideoDownloaderCheck :(NSString *)videoID;
-- (void)rebornVideoDownloader :(NSString *)videoTitle :(NSURL *)videoURL :(NSURL *)audioURL;
-- (void)rebornAudioDownloaderCheck :(NSString *)videoID;
-- (void)rebornAudioDownloader :(NSString *)videoTitle :(NSURL *)audioURL;
+- (void)rebornVideoDownloader :(NSString *)videoID;
+- (void)rebornAudioDownloader :(NSString *)videoID;
 - (void)rebornPictureInPicture :(NSString *)videoID;
 - (void)rebornPlayInExternalApp :(NSString *)videoID;
 @end
