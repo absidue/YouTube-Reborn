@@ -247,6 +247,8 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 - (void)rebornVideoDownloader :(NSString *)videoID {
     NSMutableDictionary *youtubeiAndroidPlayerRequest = [YouTubeExtractor youtubeiAndroidPlayerRequest:videoID];
     NSString *videoTitle = [NSString stringWithFormat:@"%@", youtubeiAndroidPlayerRequest[@"videoDetails"][@"title"]];
+    NSArray *videoArtworkArray = youtubeiAndroidPlayerRequest[@"videoDetails"][@"thumbnail"][@"thumbnails"];
+    NSURL *videoArtwork = [NSURL URLWithString:[NSString stringWithFormat:@"%@", videoArtworkArray[([videoArtworkArray count] - 1)][@"url"]]];
     NSDictionary *innertubeAdaptiveFormats = youtubeiAndroidPlayerRequest[@"streamingData"][@"adaptiveFormats"];
     NSURL *video2160p;
     NSURL *video1440p;
@@ -319,6 +321,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             rebornYouTubeDownloadController.downloadTitle = videoTitle;
             rebornYouTubeDownloadController.videoURL = video240p;
             rebornYouTubeDownloadController.audioURL = audioURL;
+            rebornYouTubeDownloadController.artworkURL = videoArtwork;
             rebornYouTubeDownloadController.downloadOption = 0;
 
             UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
@@ -331,6 +334,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             rebornYouTubeDownloadController.downloadTitle = videoTitle;
             rebornYouTubeDownloadController.videoURL = video360p;
             rebornYouTubeDownloadController.audioURL = audioURL;
+            rebornYouTubeDownloadController.artworkURL = videoArtwork;
             rebornYouTubeDownloadController.downloadOption = 0;
 
             UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
@@ -343,6 +347,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             rebornYouTubeDownloadController.downloadTitle = videoTitle;
             rebornYouTubeDownloadController.videoURL = video480p;
             rebornYouTubeDownloadController.audioURL = audioURL;
+            rebornYouTubeDownloadController.artworkURL = videoArtwork;
             rebornYouTubeDownloadController.downloadOption = 0;
 
             UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
@@ -355,6 +360,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             rebornYouTubeDownloadController.downloadTitle = videoTitle;
             rebornYouTubeDownloadController.videoURL = video720p;
             rebornYouTubeDownloadController.audioURL = audioURL;
+            rebornYouTubeDownloadController.artworkURL = videoArtwork;
             rebornYouTubeDownloadController.downloadOption = 0;
 
             UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
@@ -367,6 +373,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             rebornYouTubeDownloadController.downloadTitle = videoTitle;
             rebornYouTubeDownloadController.videoURL = video1080p;
             rebornYouTubeDownloadController.audioURL = audioURL;
+            rebornYouTubeDownloadController.artworkURL = videoArtwork;
             rebornYouTubeDownloadController.downloadOption = 0;
 
             UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
@@ -379,6 +386,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             rebornYouTubeDownloadController.downloadTitle = videoTitle;
             rebornYouTubeDownloadController.videoURL = video1440p;
             rebornYouTubeDownloadController.audioURL = audioURL;
+            rebornYouTubeDownloadController.artworkURL = videoArtwork;
             rebornYouTubeDownloadController.downloadOption = 0;
 
             UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
@@ -391,6 +399,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
             rebornYouTubeDownloadController.downloadTitle = videoTitle;
             rebornYouTubeDownloadController.videoURL = video2160p;
             rebornYouTubeDownloadController.audioURL = audioURL;
+            rebornYouTubeDownloadController.artworkURL = videoArtwork;
             rebornYouTubeDownloadController.downloadOption = 0;
 
             UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
@@ -414,6 +423,8 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 - (void)rebornAudioDownloader :(NSString *)videoID {
     NSMutableDictionary *youtubeiAndroidPlayerRequest = [YouTubeExtractor youtubeiAndroidPlayerRequest:videoID];
     NSString *videoTitle = [NSString stringWithFormat:@"%@", youtubeiAndroidPlayerRequest[@"videoDetails"][@"title"]];
+    NSArray *videoArtworkArray = youtubeiAndroidPlayerRequest[@"videoDetails"][@"thumbnail"][@"thumbnails"];
+    NSURL *videoArtwork = [NSURL URLWithString:[NSString stringWithFormat:@"%@", videoArtworkArray[([videoArtworkArray count] - 1)][@"url"]]];
     NSDictionary *innertubeAdaptiveFormats = youtubeiAndroidPlayerRequest[@"streamingData"][@"adaptiveFormats"];
     NSURL *audioHigh;
     NSURL *audioMedium;
@@ -447,6 +458,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     rebornYouTubeDownloadController.downloadTitle = videoTitle;
     rebornYouTubeDownloadController.videoURL = nil;
     rebornYouTubeDownloadController.audioURL = audioURL;
+    rebornYouTubeDownloadController.artworkURL = videoArtwork;
     rebornYouTubeDownloadController.downloadOption = 1;
 
     UIViewController *rebornYouTubeDownloadViewController = self._viewControllerForAncestor;
