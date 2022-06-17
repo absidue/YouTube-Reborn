@@ -16,6 +16,6 @@
     "content_scripts": [{
         "js": ["jquery-3.6.0.js", "modifier.js"],
         "matches": ["https://youtube.com/*", "https://www.youtube.com/*"],
-        "run_at": "document_end"
+        "run_at": "document_idle"
     }]
 }
