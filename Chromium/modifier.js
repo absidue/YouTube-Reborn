@@ -14,7 +14,10 @@ const callback = function() {
         hideMiniplayerButtonOption: false,
         hideTheaterModeButtonOption: false,
         hidePreviousButtonOption: false,
-        hideNextButtonOption: false
+        hideNextButtonOption: false,
+        // Other Options
+        hideRelatedVideosSectionOption: false,
+        hideCommentsSectionOption: false
     }, function(items) {
         // Video Options
 
@@ -73,6 +76,17 @@ const callback = function() {
         // Hide Next Button
         if (items.hideNextButtonOption == true) {
             $(".ytp-next-button").remove();
+        }
+
+        // Other Options
+
+        // Hide Related Videos
+        if (items.hideRelatedVideosSectionOption) {
+            $("#related").remove();
+        }
+        // Hide Comments
+        if (items.hideCommentsSectionOption) {
+            $(".ytd-comments[section-identifier='comment-item-section']").remove();
         }
     });
 }

@@ -14,7 +14,10 @@ function save_options() {
         hideMiniplayerButtonOption: document.getElementById('hideMiniplayerButtonCheckBox').checked,
         hideTheaterModeButtonOption: document.getElementById('hideTheaterModeButtonCheckBox').checked,
         hidePreviousButtonOption: document.getElementById('hidePreviousButtonCheckBox').checked,
-        hideNextButtonOption: document.getElementById('hideNextButtonCheckBox').checked
+        hideNextButtonOption: document.getElementById('hideNextButtonCheckBox').checked,
+        // Other Options
+        hideRelatedVideosSectionOption: document.getElementById('hideRelatedVideosSectionCheckBox').checked,
+        hideCommentsSectionOption: document.getElementById('hideCommentsSectionCheckBox').checked
     }, function() {
         var status = document.getElementById('status');
         status.textContent = 'Options Saved';
@@ -40,7 +43,10 @@ function restore_options() {
         hideMiniplayerButtonOption: false,
         hideTheaterModeButtonOption: false,
         hidePreviousButtonOption: false,
-        hideNextButtonOption: false
+        hideNextButtonOption: false,
+        // Other Options
+        hideRelatedVideosSectionOption: false,
+        hideCommentsSectionOption: false
     }, function(items) {
         // Video Options
         document.getElementById('enablePictureInPictureButtonCheckBox').checked = items.enablePictureInPictureButtonOption;
@@ -57,6 +63,9 @@ function restore_options() {
         document.getElementById('hideTheaterModeButtonCheckBox').checked = items.hideTheaterModeButtonOption;
         document.getElementById('hidePreviousButtonCheckBox').checked = items.hidePreviousButtonOption;
         document.getElementById('hideNextButtonCheckBox').checked = items.hideNextButtonOption;
+        // Other Options
+        document.getElementById('hideRelatedVideosSectionCheckBox').checked = items.hideRelatedVideosSectionOption;
+        document.getElementById('hideCommentsSectionCheckBox').checked = items.hideCommentsSectionOption;
     });
 }
   
