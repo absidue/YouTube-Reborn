@@ -1,5 +1,7 @@
 const callback = function() {
     chrome.storage.sync.get({
+        // Global Options
+        blockAdsOption: true,
         // Video Options
         enablePictureInPictureButtonOption: true,
         disableAutoPlayOption: false,
@@ -19,6 +21,23 @@ const callback = function() {
         hideRelatedVideosSectionOption: false,
         hideCommentsSectionOption: false
     }, function(items) {
+        // Global Options
+
+        // Block Ads
+        if (items.blockAdsOption == true) {
+            $(".video-ads").remove();
+            $(".ytp-ad-module").remove();
+            $("#player-ads").remove();
+            let player = $(".html5-video-player");
+            player.removeClass("ad-created");
+            player.removeClass("ad-showing");
+            player.removeClass("ad-interrupting");
+            player.removeClass("paused-mode");
+            $("ytd-promoted-sparkles-web-renderer").remove();
+            $(".ytd-player-legacy-desktop-watch-ads-renderer").remove();
+            $(".ytd-banner-promo-renderer").remove();
+        }
+        
         // Video Options
 
         // Enable Picture In Picture Button
@@ -89,6 +108,8 @@ const callback = function() {
             $(".ytd-comments[section-identifier='comment-item-section']").remove();
         }
     });
+
+    // ytp-heat-map
 }
 
 new MutationObserver(callback).observe(document.body, {childList: true, subtree: true });
