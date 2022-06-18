@@ -1,35 +1,20 @@
 function save_options() {
-    // Video Options
-    var enablePictureInPictureButtonOption = document.getElementById('enablePictureInPictureButtonCheckBox').checked;
-    var disableAutoPlayOption = document.getElementById('disableAutoPlayCheckBox').checked;
-    var disableCaptionsOption = document.getElementById('disableCaptionsCheckBox').checked;
-    // NavBar Options
-    var hideVoiceSearchButtonOption = document.getElementById('hideVoiceSearchButtonCheckBox').checked;
-    var hideCountrySymbolNextToLogoOption = document.getElementById('hideCountrySymbolNextToLogoCheckBox').checked;
-    // Overlay Options
-    var hideAutoPlaySwitchOption = document.getElementById('hideAutoPlaySwitchCheckBox').checked;
-    var hideCaptionsButtonOption = document.getElementById('hideCaptionsButtonCheckBox').checked;
-    var hideInfoCardButtonOption = document.getElementById('hideInfoCardButtonCheckBox').checked;
-    var hideMiniplayerButtonOption = document.getElementById('hideMiniplayerButtonCheckBox').checked;
-    var hideTheaterModeButtonOption = document.getElementById('hideTheaterModeButtonCheckBox').checked;
-    var hidePreviousButtonOption = document.getElementById('hidePreviousButtonCheckBox').checked;
-    var hideNextButtonOption = document.getElementById('hideNextButtonCheckBox').checked;
     chrome.storage.sync.set({
         // Video Options
-        enablePictureInPictureButtonOption: enablePictureInPictureButtonOption,
-        disableAutoPlayOption: disableAutoPlayOption,
-        disableCaptionsOption: disableCaptionsOption,
+        enablePictureInPictureButtonOption: document.getElementById('enablePictureInPictureButtonCheckBox').checked,
+        disableAutoPlayOption: document.getElementById('disableAutoPlayCheckBox').checked,
+        disableCaptionsOption: document.getElementById('disableCaptionsCheckBox').checked,
         // NavBar Options
-        hideVoiceSearchButtonOption: hideVoiceSearchButtonOption,
-        hideCountrySymbolNextToLogoOption: hideCountrySymbolNextToLogoOption,
+        hideVoiceSearchButtonOption: document.getElementById('hideVoiceSearchButtonCheckBox').checked,
+        hideCountrySymbolNextToLogoOption: document.getElementById('hideCountrySymbolNextToLogoCheckBox').checked,
         // Overlay Options
-        hideAutoPlaySwitchOption: hideAutoPlaySwitchOption,
-        hideCaptionsButtonOption: hideCaptionsButtonOption,
-        hideInfoCardButtonOption: hideInfoCardButtonOption,
-        hideMiniplayerButtonOption: hideMiniplayerButtonOption,
-        hideTheaterModeButtonOption: hideTheaterModeButtonOption,
-        hidePreviousButtonOption: hidePreviousButtonOption,
-        hideNextButtonOption: hideNextButtonOption
+        hideAutoPlaySwitchOption: document.getElementById('hideAutoPlaySwitchCheckBox').checked,
+        hideCaptionsButtonOption: document.getElementById('hideCaptionsButtonCheckBox').checked,
+        hideInfoCardButtonOption: document.getElementById('hideInfoCardButtonCheckBox').checked,
+        hideMiniplayerButtonOption: document.getElementById('hideMiniplayerButtonCheckBox').checked,
+        hideTheaterModeButtonOption: document.getElementById('hideTheaterModeButtonCheckBox').checked,
+        hidePreviousButtonOption: document.getElementById('hidePreviousButtonCheckBox').checked,
+        hideNextButtonOption: document.getElementById('hideNextButtonCheckBox').checked
     }, function() {
         var status = document.getElementById('status');
         status.textContent = 'Options Saved';
