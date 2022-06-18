@@ -9,6 +9,7 @@ chrome.storage.sync.get({
     }
     if (items.hideAutoPlaySwitchOption == true) {
         $(".ytp-autonav-toggle-button-container").remove();
+        $("[data-tooltip-target-id='ytp-autonav-toggle-button']").remove();
     }
     if (items.hideCaptionsButtonOption == true) {
         $(".ytp-subtitles-button").remove();
