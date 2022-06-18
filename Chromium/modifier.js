@@ -1,4 +1,4 @@
-function run() { 
+const callback = function() {
     chrome.storage.sync.get({
         // Video Options
         enablePictureInPictureButtonOption: true,
@@ -77,5 +77,4 @@ function run() {
     });
 }
 
-window.onload = run;
-window.addEventListener('yt-navigate-start', run, true);
+new MutationObserver(callback).observe(document.body, {childList: true, subtree: true });
