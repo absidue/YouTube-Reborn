@@ -27,6 +27,7 @@ const callback = function() {
 
         // Block Ads
         if (items.blockAdsOption == true) {
+            $(".ytp-ad-skip-button.ytp-button").click();
             $(".video-ads").remove();
             $(".ytp-ad-module").remove();
             $("#player-ads").remove();
@@ -37,6 +38,8 @@ const callback = function() {
             $("ytd-promoted-sparkles-web-renderer").remove();
             $(".ytd-player-legacy-desktop-watch-ads-renderer").remove();
             $(".ytd-banner-promo-renderer").remove();
+            $(".ytp-ad-persistent-progress-bar-container").remove();
+            $(".ytp-paid-content-overlay").remove();
         }
         
         // Video Options
@@ -111,6 +114,7 @@ const callback = function() {
         // Hide Related Videos
         if (items.hideRelatedVideosSectionOption) {
             $("#related").remove();
+            $("#secondary").remove();
         }
         // Hide Comments
         if (items.hideCommentsSectionOption) {
