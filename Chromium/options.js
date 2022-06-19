@@ -6,8 +6,10 @@ function save_options() {
         enablePictureInPictureButtonOption: document.getElementById('enablePictureInPictureButtonCheckBox').checked,
         disableAutoPlayOption: document.getElementById('disableAutoPlayCheckBox').checked,
         disableCaptionsOption: document.getElementById('disableCaptionsCheckBox').checked,
+        disableHeatwaveOption: document.getElementById('disableHeatwaveCheckBox').checked,
         // NavBar Options
         hideVoiceSearchButtonOption: document.getElementById('hideVoiceSearchButtonCheckBox').checked,
+        hideYouTubeLogoOption: document.getElementById('hideYouTubeLogoCheckBox').checked,
         hideCountrySymbolNextToLogoOption: document.getElementById('hideCountrySymbolNextToLogoCheckBox').checked,
         // Overlay Options
         hideAutoPlaySwitchOption: document.getElementById('hideAutoPlaySwitchCheckBox').checked,
@@ -36,8 +38,10 @@ function restore_options() {
         enablePictureInPictureButtonOption: true,
         disableAutoPlayOption: false,
         disableCaptionsOption: false,
+        disableHeatwaveOption: false,
         // NavBar Options
         hideVoiceSearchButtonOption: false,
+        hideYouTubeLogoOption: false,
         hideCountrySymbolNextToLogoOption: false,
         // Overlay Options
         hideAutoPlaySwitchOption: false,
@@ -57,8 +61,10 @@ function restore_options() {
         document.getElementById('enablePictureInPictureButtonCheckBox').checked = items.enablePictureInPictureButtonOption;
         document.getElementById('disableAutoPlayCheckBox').checked = items.disableAutoPlayOption;
         document.getElementById('disableCaptionsCheckBox').checked = items.disableCaptionsOption;
+        document.getElementById('disableHeatwaveCheckBox').checked = items.disableHeatwaveOption;
         // NavBar Options
         document.getElementById('hideVoiceSearchButtonCheckBox').checked = items.hideVoiceSearchButtonOption;
+        document.getElementById('hideYouTubeLogoCheckBox').checked = items.hideYouTubeLogoOption;
         document.getElementById('hideCountrySymbolNextToLogoCheckBox').checked = items.hideCountrySymbolNextToLogoOption;
         // Overlay Options
         document.getElementById('hideAutoPlaySwitchCheckBox').checked = items.hideAutoPlaySwitchOption;

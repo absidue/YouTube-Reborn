@@ -6,8 +6,10 @@ const callback = function() {
         enablePictureInPictureButtonOption: true,
         disableAutoPlayOption: false,
         disableCaptionsOption: false,
+        disableHeatwaveOption: false,
         // NavBar Options
         hideVoiceSearchButtonOption: false,
+        hideYouTubeLogoOption: false,
         hideCountrySymbolNextToLogoOption: false,
         // Overlay Options
         hideAutoPlaySwitchOption: false,
@@ -32,7 +34,6 @@ const callback = function() {
             player.removeClass("ad-created");
             player.removeClass("ad-showing");
             player.removeClass("ad-interrupting");
-            player.removeClass("paused-mode");
             $("ytd-promoted-sparkles-web-renderer").remove();
             $(".ytd-player-legacy-desktop-watch-ads-renderer").remove();
             $(".ytd-banner-promo-renderer").remove();
@@ -54,12 +55,20 @@ const callback = function() {
         if (items.disableCaptionsOption == true) {
             $(".ytp-subtitles-button[aria-pressed='true']").click();
         }
+        // Disable Heatwave
+        if (items.disableHeatwaveOption == true) {
+            $(".ytp-heat-map-container").remove();
+        }
 
         // NavBar Options
 
         // Hide Voice Search Button
         if (items.hideVoiceSearchButtonOption == true) {
             $("#voice-search-button").remove();
+        }
+        // Disable YouTube Logo
+        if (items.hideYouTubeLogoOption == true) {
+            $("ytd-topbar-logo-renderer").remove();
         }
         // Hide Country Symbol Next To Logo
         if (items.hideCountrySymbolNextToLogoOption == true) {
@@ -107,9 +116,9 @@ const callback = function() {
         if (items.hideCommentsSectionOption) {
             $(".ytd-comments[section-identifier='comment-item-section']").remove();
         }
-    });
 
-    // ytp-heat-map
+        $("ytd-metadata-row-header-renderer.ytd-metadata-row-container-renderer > h4#content > yt-formatted-string.ytd-metadata-row-header-renderer > a[href='/premium']").remove();
+    });
 }
 
 new MutationObserver(callback).observe(document.body, {childList: true, subtree: true });
