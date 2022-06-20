@@ -141,9 +141,38 @@ var qualityObserver = new MutationObserver(function() {
     var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
 
     for (var i = 0; i < qualityButtons.length; i++) {
-        if (qualityButtons[i].innerHTML.includes('1080p')) {
+        if (qualityButtons[i].innerHTML.includes('2160p')) {
             qualityButtons[i].click();
             qualityObserver.disconnect();
+            break;
+        } else if (qualityButtons[i].innerHTML.includes('1440p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+            break;
+        } else if (qualityButtons[i].innerHTML.includes('1080p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+            break;
+        } else if (qualityButtons[i].innerHTML.includes('720p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+            break;
+        } else if (qualityButtons[i].innerHTML.includes('480p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+            break;
+        } else if (qualityButtons[i].innerHTML.includes('360p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+            break;
+        } else if (qualityButtons[i].innerHTML.includes('240p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+            break;
+        } else if (qualityButtons[i].innerHTML.includes('144p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+            break;
         }
     }
 });
