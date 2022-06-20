@@ -27,7 +27,7 @@ const callback = function() {
 
         // Block Ads
         if (items.blockAdsOption == true) {
-            $(".ytp-ad-skip-button.ytp-button").click();
+            /* $(".ytp-ad-skip-button.ytp-button").click();
             $(".video-ads").remove();
             $(".ytp-ad-module").remove();
             $("#player-ads").remove();
@@ -39,7 +39,7 @@ const callback = function() {
             $(".ytd-player-legacy-desktop-watch-ads-renderer").remove();
             $(".ytd-banner-promo-renderer").remove();
             $(".ytp-ad-persistent-progress-bar-container").remove();
-            $(".ytp-paid-content-overlay").remove();
+            $(".ytp-paid-content-overlay").remove(); */
         }
         
         // Video Options
@@ -125,4 +125,34 @@ const callback = function() {
     });
 }
 
+var qualityObserver = new MutationObserver(function() {
+    $(".ytp-settings-button")[0].click();
+
+    var menuButtons = $(".ytp-menuitem-label");
+
+    for (var i = 0; i < menuButtons.length; i++) {
+        if (menuButtons[i].innerHTML === 'Quality') {
+            menuButtons[i].click();
+        }
+    }
+
+    // $(".ytp-quality-menu .ytp-menuitem-label")[0].click();
+
+    var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+    for (var i = 0; i < qualityButtons.length; i++) {
+        if (qualityButtons[i].innerHTML.includes('1080p')) {
+            qualityButtons[i].click();
+            qualityObserver.disconnect();
+        }
+    }
+});
+
 new MutationObserver(callback).observe(document.body, {childList: true, subtree: true });
+
+function run() {
+    qualityObserver.observe(document.body, {childList: true, subtree: true });
+}
+
+window.onload = run;
+window.addEventListener('yt-navigate-start', run, true);
