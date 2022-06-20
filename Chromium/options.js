@@ -2,6 +2,7 @@ function save_options() {
     chrome.storage.sync.set({
         // Global Options
         blockAdsOption: document.getElementById('blockAdsCheckBox').checked,
+        qualityOption: document.getElementById('qualities').value,
         // Video Options
         enablePictureInPictureButtonOption: document.getElementById('enablePictureInPictureButtonCheckBox').checked,
         disableAutoPlayOption: document.getElementById('disableAutoPlayCheckBox').checked,
@@ -34,6 +35,7 @@ function save_options() {
 function restore_options() {
     chrome.storage.sync.get({
         blockAdsOption: true,
+        qualityOption: "auto",
         // Video Options
         enablePictureInPictureButtonOption: true,
         disableAutoPlayOption: false,
@@ -57,6 +59,7 @@ function restore_options() {
     }, function(items) {
         // Global Options
         document.getElementById('blockAdsCheckBox').checked = items.blockAdsOption;
+        document.getElementById('qualities').value = items.qualityOption,
         // Video Options
         document.getElementById('enablePictureInPictureButtonCheckBox').checked = items.enablePictureInPictureButtonOption;
         document.getElementById('disableAutoPlayCheckBox').checked = items.disableAutoPlayOption;

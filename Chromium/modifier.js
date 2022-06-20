@@ -27,10 +27,7 @@ const callback = function() {
 
         // Block Ads
         if (items.blockAdsOption == true) {
-            /* $(".ytp-ad-skip-button.ytp-button").click();
-            $(".video-ads").remove();
-            $(".ytp-ad-module").remove();
-            $("#player-ads").remove();
+            $(".ytp-ad-skip-button.ytp-button").click();
             let player = $(".html5-video-player");
             player.removeClass("ad-created");
             player.removeClass("ad-showing");
@@ -39,7 +36,7 @@ const callback = function() {
             $(".ytd-player-legacy-desktop-watch-ads-renderer").remove();
             $(".ytd-banner-promo-renderer").remove();
             $(".ytp-ad-persistent-progress-bar-container").remove();
-            $(".ytp-paid-content-overlay").remove(); */
+            $(".ytp-paid-content-overlay").remove();
         }
         
         // Video Options
@@ -126,55 +123,222 @@ const callback = function() {
 }
 
 var qualityObserver = new MutationObserver(function() {
-    $(".ytp-settings-button")[0].click();
+    chrome.storage.sync.get({
+        // Global Options
+        qualityOption: "auto"
+    }, function(items) {
+        // Global Options
+        if (items.qualityOption != "auto") {
+            $(".ytp-settings-button")[0].click();
 
-    var menuButtons = $(".ytp-menuitem-label");
+            var menuButtons = $(".ytp-menuitem-label");
 
-    for (var i = 0; i < menuButtons.length; i++) {
-        if (menuButtons[i].innerHTML === 'Quality') {
-            menuButtons[i].click();
+            for (var i = 0; i < menuButtons.length; i++) {
+                if (menuButtons[i].innerHTML === 'Quality') {
+                    menuButtons[i].click();
+                }
+            }
+
+            if (items.qualityOption == "best") {
+                $(".ytp-quality-menu .ytp-menuitem-label")[0].click();
+                qualityObserver.disconnect();
+            } else if (items.qualityOption == "2160p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('2160p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('1440p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('1080p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('720p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('480p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('360p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('240p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            } else if (items.qualityOption == "1440p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('1440p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('1080p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('720p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('480p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('360p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('240p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            } else if (items.qualityOption == "1080p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('1080p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('720p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('480p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('360p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('240p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            } else if (items.qualityOption == "720p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('720p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('480p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('360p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('240p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            } else if (items.qualityOption == "480p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('480p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('360p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('240p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            } else if (items.qualityOption == "360p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('360p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('240p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            } else if (items.qualityOption == "240p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('240p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    } else if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            } else if (items.qualityOption == "144p") {
+                var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
+
+                for (var i = 0; i < qualityButtons.length; i++) {
+                    if (qualityButtons[i].innerHTML.includes('144p')) {
+                        qualityButtons[i].click();
+                        qualityObserver.disconnect();
+                        break;
+                    }
+                }
+            }
+        } else {
+            qualityObserver.disconnect();
         }
-    }
-
-    // $(".ytp-quality-menu .ytp-menuitem-label")[0].click();
-
-    var qualityButtons = $(".ytp-quality-menu .ytp-menuitem-label");
-
-    for (var i = 0; i < qualityButtons.length; i++) {
-        if (qualityButtons[i].innerHTML.includes('2160p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        } else if (qualityButtons[i].innerHTML.includes('1440p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        } else if (qualityButtons[i].innerHTML.includes('1080p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        } else if (qualityButtons[i].innerHTML.includes('720p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        } else if (qualityButtons[i].innerHTML.includes('480p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        } else if (qualityButtons[i].innerHTML.includes('360p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        } else if (qualityButtons[i].innerHTML.includes('240p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        } else if (qualityButtons[i].innerHTML.includes('144p')) {
-            qualityButtons[i].click();
-            qualityObserver.disconnect();
-            break;
-        }
-    }
+    });
 });
 
 new MutationObserver(callback).observe(document.body, {childList: true, subtree: true });
