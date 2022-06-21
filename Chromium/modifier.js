@@ -111,7 +111,6 @@ const callback = function() {
         // Hide Related Videos
         if (items.hideRelatedVideosSectionOption) {
             $("#related").remove();
-            $("#secondary").remove();
         }
         // Hide Comments
         if (items.hideCommentsSectionOption) {
