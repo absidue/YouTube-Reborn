@@ -79,7 +79,13 @@ const callback = function() {
 
         // Hide AutoPlay Switch
         if (items.hideAutoPlaySwitchOption == true) {
-            $(".ytp-button[data-tooltip-target-id='ytp-autonav-toggle-button']").remove();
+            if (items.disableAutoPlayOption == true) {
+                if ($(".ytp-autonav-toggle-button").attr("aria-checked") === "false") {
+                    $(".ytp-button[data-tooltip-target-id='ytp-autonav-toggle-button']").remove();
+                }
+            } else {
+                $(".ytp-button[data-tooltip-target-id='ytp-autonav-toggle-button']").remove();
+            }
         }
         // Hide Captions Button
         if (items.hideCaptionsButtonOption == true) {
@@ -118,6 +124,27 @@ const callback = function() {
         }
 
         $("ytd-metadata-row-header-renderer.ytd-metadata-row-container-renderer > h4#content > yt-formatted-string.ytd-metadata-row-header-renderer > a[href='/premium']").remove();
+
+        $("div#button.ytd-topbar-menu-button-renderer > a.ytd-topbar-menu-button-renderer > yt-icon-button#button.ytd-topbar-menu-button-renderer > #button.yt-icon-button[aria-label='Create']").remove();
+        $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead")[0].remove();
+        var navbarRightButtons = $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead");
+        for (var i = 0; i < test.length; i++) {
+            if (navbarRightButtons[i].innerHTML.includes('Create')) {
+                navbarRightButtons[i].remove();
+                break;
+            }
+            if (navbarRightButtons[i].innerHTML.includes('YouTube apps')) {
+                navbarRightButtons[i].remove();
+                break;
+            }
+        }
+
+        $("ytd-notification-topbar-button-renderer.ytd-masthead").remove();
+
+        /* $(".ytp-play-progress.ytp-swatch-background-color").css("background-color", "orange");
+        $(".ytp-scrubber-button.ytp-swatch-background-color").css("background-color", "orange");
+
+        $("#progress.ytd-thumbnail-overlay-resume-playback-renderer").css("background-color", "orange"); */
     });
 }
 
