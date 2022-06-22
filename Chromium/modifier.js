@@ -161,6 +161,8 @@ const callback = function() {
         $("video.video-stream.html5-main-video").attr("controls", true);
 
         $(".ytp-chrome-bottom").css("visibility", "hidden"); */
+
+        // $("video.html5-main-video")[0].pause();
     });
 }
 
