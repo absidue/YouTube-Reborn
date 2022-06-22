@@ -128,13 +128,25 @@ const callback = function() {
         /* $("div#button.ytd-topbar-menu-button-renderer > a.ytd-topbar-menu-button-renderer > yt-icon-button#button.ytd-topbar-menu-button-renderer > #button.yt-icon-button[aria-label='Create']").remove();
         $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead")[0].remove();
         var navbarRightButtons = $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead");
-        for (var i = 0; i < test.length; i++) {
+        for (var i = 0; i < navbarRightButtons.length; i++) {
             if (navbarRightButtons[i].innerHTML.includes('Create')) {
                 navbarRightButtons[i].remove();
                 break;
             }
             if (navbarRightButtons[i].innerHTML.includes('YouTube apps')) {
                 navbarRightButtons[i].remove();
+                break;
+            }
+        }
+
+        var menuLeftButtons = $("ytd-guide-entry-renderer.ytd-guide-section-renderer");
+        for (var i = 0; i < menuLeftButtons.length; i++) {
+            if (menuLeftButtons[i].innerHTML.includes('Explore')) {
+                menuLeftButtons[i].remove();
+                break;
+            }
+            if (menuLeftButtons[i].innerHTML.includes('Shorts')) {
+                menuLeftButtons[i].remove();
                 break;
             }
         }
