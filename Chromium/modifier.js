@@ -37,6 +37,7 @@ const callback = function() {
             $(".ytd-banner-promo-renderer").remove();
             $(".ytp-ad-persistent-progress-bar-container").remove();
             $(".ytp-paid-content-overlay").remove();
+            $("ytd-metadata-row-header-renderer.ytd-metadata-row-container-renderer > h4#content > yt-formatted-string.ytd-metadata-row-header-renderer > a[href='/premium']").remove();
         }
         
         // Video Options
@@ -57,6 +58,7 @@ const callback = function() {
         }
         // Disable Heatwave
         if (items.disableHeatwaveOption == true) {
+            $(".html5-video-player").removeClass("ytp-heat-map");
             $(".ytp-heat-map-container").remove();
         }
 
@@ -123,9 +125,7 @@ const callback = function() {
             $(".ytd-comments[section-identifier='comment-item-section']").remove();
         }
 
-        $("ytd-metadata-row-header-renderer.ytd-metadata-row-container-renderer > h4#content > yt-formatted-string.ytd-metadata-row-header-renderer > a[href='/premium']").remove();
-
-        $("div#button.ytd-topbar-menu-button-renderer > a.ytd-topbar-menu-button-renderer > yt-icon-button#button.ytd-topbar-menu-button-renderer > #button.yt-icon-button[aria-label='Create']").remove();
+        /* $("div#button.ytd-topbar-menu-button-renderer > a.ytd-topbar-menu-button-renderer > yt-icon-button#button.ytd-topbar-menu-button-renderer > #button.yt-icon-button[aria-label='Create']").remove();
         $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead")[0].remove();
         var navbarRightButtons = $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead");
         for (var i = 0; i < test.length; i++) {
@@ -141,10 +141,14 @@ const callback = function() {
 
         $("ytd-notification-topbar-button-renderer.ytd-masthead").remove();
 
-        /* $(".ytp-play-progress.ytp-swatch-background-color").css("background-color", "orange");
+        $(".ytp-play-progress.ytp-swatch-background-color").css("background-color", "orange");
         $(".ytp-scrubber-button.ytp-swatch-background-color").css("background-color", "orange");
 
-        $("#progress.ytd-thumbnail-overlay-resume-playback-renderer").css("background-color", "orange"); */
+        $("#progress.ytd-thumbnail-overlay-resume-playback-renderer").css("background-color", "orange");
+
+        $("video.video-stream.html5-main-video").attr("controls", true);
+
+        $(".ytp-chrome-bottom").css("visibility", "hidden"); */
     });
 }
 

@@ -5,11 +5,11 @@
     "manifest_version": 3,
     "permissions": ["storage"],
     "action": {
-        "default_icon": "youtubereborn.png"
+        "default_icon": "images/youtubereborn.png"
     },
-    "options_page": "options.html",
+    "options_page": "options/options.html",
     "content_scripts": [{
-        "js": ["jquery-3.6.0.js", "modifier.js"],
+        "js": ["modifier.js", "js/jquery-3.6.0.js"],
         "matches": ["https://youtube.com/*", "https://www.youtube.com/*"],
         "run_at": "document_idle"
     }]
