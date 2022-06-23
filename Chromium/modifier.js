@@ -117,11 +117,11 @@ const callback = function() {
         // Other Options
 
         // Hide Related Videos
-        if (items.hideRelatedVideosSectionOption) {
+        if (items.hideRelatedVideosSectionOption == true) {
             $("#related").remove();
         }
         // Hide Comments
-        if (items.hideCommentsSectionOption) {
+        if (items.hideCommentsSectionOption == true) {
             $(".ytd-comments[section-identifier='comment-item-section']").remove();
         }
 
@@ -161,10 +161,24 @@ const callback = function() {
         $("video.video-stream.html5-main-video").attr("controls", true);
 
         $(".ytp-chrome-bottom").css("visibility", "hidden"); */
-
-        // $("video.html5-main-video")[0].pause();
     });
 }
+
+var startObserver = new MutationObserver(function() {
+    chrome.storage.sync.get({
+        disablePlayOnStartOption: false
+    }, function(items) {
+        if (items.disablePlayOnStartOption == true) {
+            var video = $("video.html5-main-video");
+            if (video[0].readyState === 4) {
+                video[0].pause();
+                startObserver.disconnect();
+            }
+        } else {
+            startObserver.disconnect();
+        }
+    });
+});
 
 var qualityObserver = new MutationObserver(function() {
     chrome.storage.sync.get({
@@ -388,6 +402,7 @@ var qualityObserver = new MutationObserver(function() {
 new MutationObserver(callback).observe(document.body, {childList: true, subtree: true });
 
 function run() {
+    startObserver.observe(document.body, {childList: true, subtree: true });
     qualityObserver.observe(document.body, {childList: true, subtree: true });
 }
 
