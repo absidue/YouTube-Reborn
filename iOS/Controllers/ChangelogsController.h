@@ -3,6 +3,6 @@
 
 @interface ChangelogsController : UIViewController
 
-@property(strong,nonatomic) WKWebView *rebornChangelogsWebView;
+@property (nonatomic, strong) WKWebView *rebornChangelogsWebView;
 
 @end
