@@ -27,7 +27,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return 11;
+    return 12;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -121,7 +121,7 @@
             hideChannelWatermark.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideChannelWatermark"];
             cell.accessoryView = hideChannelWatermark;
         }
-        if (indexPath.row == 8) {
+        if (indexPath.row == 9) {
             cell.textLabel.text = @"Hide Player Bar Heatwave";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hidePlayerBarHeatwave = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -129,7 +129,7 @@
             hidePlayerBarHeatwave.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePlayerBarHeatwave"];
             cell.accessoryView = hidePlayerBarHeatwave;
         }
-        if (indexPath.row == 9) {
+        if (indexPath.row == 10) {
             cell.textLabel.text = @"Always Show Player Bar";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == NO || [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == NO) {
@@ -141,7 +141,7 @@
                 cell.accessoryView = alwaysShowPlayerBar;
             }
         }
-        if (indexPath.row == 10) {
+        if (indexPath.row == 11) {
             cell.textLabel.text = @"Enable Extra Speed Options";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *enableExtraSpeedOptions = [[UISwitch alloc] initWithFrame:CGRectZero];
