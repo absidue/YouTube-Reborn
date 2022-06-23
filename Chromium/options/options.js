@@ -21,6 +21,9 @@ function save_options() {
         hideTheaterModeButtonOption: document.getElementById('hideTheaterModeButtonCheckBox').checked,
         hidePreviousButtonOption: document.getElementById('hidePreviousButtonCheckBox').checked,
         hideNextButtonOption: document.getElementById('hideNextButtonCheckBox').checked,
+        // Colour Options
+        playerBarColourCheckBoxOption: document.getElementById('playerBarColourCheckBox').checked,
+        playerBarColourOption: document.getElementById('playerBarColour').value,
         // Other Options
         hideRelatedVideosSectionOption: document.getElementById('hideRelatedVideosSectionCheckBox').checked,
         hideCommentsSectionOption: document.getElementById('hideCommentsSectionCheckBox').checked
@@ -55,6 +58,9 @@ function restore_options() {
         hideTheaterModeButtonOption: false,
         hidePreviousButtonOption: false,
         hideNextButtonOption: false,
+        // Colour Options
+        playerBarColourCheckBoxOption: false,
+        playerBarColourOption: "#000000",
         // Other Options
         hideRelatedVideosSectionOption: false,
         hideCommentsSectionOption: false
@@ -80,6 +86,9 @@ function restore_options() {
         document.getElementById('hideTheaterModeButtonCheckBox').checked = items.hideTheaterModeButtonOption;
         document.getElementById('hidePreviousButtonCheckBox').checked = items.hidePreviousButtonOption;
         document.getElementById('hideNextButtonCheckBox').checked = items.hideNextButtonOption;
+        // Colour Options
+        document.getElementById('playerBarColourCheckBox').value = items.playerBarColourCheckBoxOption,
+        document.getElementById('playerBarColour').value = items.playerBarColourOption,
         // Other Options
         document.getElementById('hideRelatedVideosSectionCheckBox').checked = items.hideRelatedVideosSectionOption;
         document.getElementById('hideCommentsSectionCheckBox').checked = items.hideCommentsSectionOption;

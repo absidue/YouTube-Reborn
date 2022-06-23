@@ -19,6 +19,9 @@ const callback = function() {
         hideTheaterModeButtonOption: false,
         hidePreviousButtonOption: false,
         hideNextButtonOption: false,
+        // Colour Options
+        playerBarColourCheckBoxOption: false,
+        playerBarColourOption: "#000000",
         // Other Options
         hideRelatedVideosSectionOption: false,
         hideCommentsSectionOption: false
@@ -114,6 +117,14 @@ const callback = function() {
             $(".ytp-next-button").remove();
         }
 
+        // Colour Options
+
+        // Player Bar
+        if (items.playerBarColourCheckBoxOption == true) {
+            $(".ytp-play-progress.ytp-swatch-background-color").css("background-color", items.playerBarColourOption);
+            $(".ytp-scrubber-button.ytp-swatch-background-color").css("background-color", items.playerBarColourOption);
+        }
+
         // Other Options
 
         // Hide Related Videos
@@ -124,43 +135,6 @@ const callback = function() {
         if (items.hideCommentsSectionOption == true) {
             $(".ytd-comments[section-identifier='comment-item-section']").remove();
         }
-
-        /* $("div#button.ytd-topbar-menu-button-renderer > a.ytd-topbar-menu-button-renderer > yt-icon-button#button.ytd-topbar-menu-button-renderer > #button.yt-icon-button[aria-label='Create']").remove();
-        $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead")[0].remove();
-        var navbarRightButtons = $("div#buttons.ytd-masthead > ytd-topbar-menu-button-renderer.ytd-masthead");
-        for (var i = 0; i < navbarRightButtons.length; i++) {
-            if (navbarRightButtons[i].innerHTML.includes('Create')) {
-                navbarRightButtons[i].remove();
-                break;
-            }
-            if (navbarRightButtons[i].innerHTML.includes('YouTube apps')) {
-                navbarRightButtons[i].remove();
-                break;
-            }
-        }
-
-        var menuLeftButtons = $("ytd-guide-entry-renderer.ytd-guide-section-renderer");
-        for (var i = 0; i < menuLeftButtons.length; i++) {
-            if (menuLeftButtons[i].innerHTML.includes('Explore')) {
-                menuLeftButtons[i].remove();
-                break;
-            }
-            if (menuLeftButtons[i].innerHTML.includes('Shorts')) {
-                menuLeftButtons[i].remove();
-                break;
-            }
-        }
-
-        $("ytd-notification-topbar-button-renderer.ytd-masthead").remove();
-
-        $(".ytp-play-progress.ytp-swatch-background-color").css("background-color", "orange");
-        $(".ytp-scrubber-button.ytp-swatch-background-color").css("background-color", "orange");
-
-        $("#progress.ytd-thumbnail-overlay-resume-playback-renderer").css("background-color", "orange");
-
-        $("video.video-stream.html5-main-video").attr("controls", true);
-
-        $(".ytp-chrome-bottom").css("visibility", "hidden"); */
     });
 }
 
