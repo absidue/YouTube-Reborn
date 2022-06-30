@@ -178,7 +178,7 @@
 
 @end
 
-@implementation VideoOptionsController(Privates)
+@implementation VideoOptionsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

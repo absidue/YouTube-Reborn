@@ -228,7 +228,7 @@
 
 @end
 
-@implementation SponsorBlockOptionsController(Privates)
+@implementation SponsorBlockOptionsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

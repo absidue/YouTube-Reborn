@@ -2,6 +2,4 @@
 
 @interface CreditsController : UITableViewController
 
-- (void)setupCreditsControllerView;
-
 @end

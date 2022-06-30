@@ -127,7 +127,7 @@ int selectedIndex;
 
 @end
 
-@implementation StartupPageOptionsController(Privates)
+@implementation StartupPageOptionsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

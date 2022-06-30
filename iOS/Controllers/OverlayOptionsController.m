@@ -167,7 +167,7 @@ static BOOL hasDeviceNotch() {
 
 @end
 
-@implementation OverlayOptionsController(Privates)
+@implementation OverlayOptionsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

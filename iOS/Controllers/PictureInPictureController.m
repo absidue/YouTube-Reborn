@@ -60,7 +60,7 @@ UILabel *rebornPictureInPictureLoadingLabel;
 
 @end
 
-@implementation PictureInPictureController(Privates)
+@implementation PictureInPictureController (Privates)
 
 - (void)setupPictureInPictureControllerView {
     if (@available(iOS 13.0, *)) {

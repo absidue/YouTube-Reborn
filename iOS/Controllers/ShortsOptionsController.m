@@ -114,7 +114,7 @@
 
 @end
 
-@implementation ShortsOptionsController(Privates)
+@implementation ShortsOptionsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

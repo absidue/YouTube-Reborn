@@ -125,7 +125,7 @@
 
 @end
 
-@implementation RebornSettingsController(Privates)
+@implementation RebornSettingsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

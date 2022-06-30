@@ -201,7 +201,7 @@
 
 @end
 
-@implementation TabBarOptionsController(Privates)
+@implementation TabBarOptionsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
