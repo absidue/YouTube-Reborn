@@ -45,6 +45,9 @@
                 cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
                 cell.textLabel.textColor = [UIColor whiteColor];
             }
+        } else {
+            cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+            cell.textLabel.textColor = [UIColor blackColor];
         }
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Hide Camera Button";
