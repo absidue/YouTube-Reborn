@@ -782,7 +782,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     NSMutableArray <YTIPivotBarSupportedRenderers *> *items = [renderer itemsArray];
 
     NSUInteger index = [items indexOfObjectPassingTest:^BOOL(YTIPivotBarSupportedRenderers *renderers, NSUInteger idx, BOOL *stop) {
-        return [[[renderers pivotBarIconOnlyItemRenderer] pivotIdentifier] isEqualToString:@"FEexplore"];
+        return [[[renderers pivotBarItemRenderer] pivotIdentifier] isEqualToString:@"FEexplore"];
     }];
     if (index != NSNotFound) [items removeObjectAtIndex:index];
 
@@ -797,7 +797,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     NSMutableArray <YTIPivotBarSupportedRenderers *> *items = [renderer itemsArray];
 
     NSUInteger index = [items indexOfObjectPassingTest:^BOOL(YTIPivotBarSupportedRenderers *renderers, NSUInteger idx, BOOL *stop) {
-        return [[[renderers pivotBarIconOnlyItemRenderer] pivotIdentifier] isEqualToString:@"FEshorts"];
+        return [[[renderers pivotBarItemRenderer] pivotIdentifier] isEqualToString:@"FEshorts"];
     }];
     if (index != NSNotFound) [items removeObjectAtIndex:index];
 
@@ -827,7 +827,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     NSMutableArray <YTIPivotBarSupportedRenderers *> *items = [renderer itemsArray];
 
     NSUInteger index = [items indexOfObjectPassingTest:^BOOL(YTIPivotBarSupportedRenderers *renderers, NSUInteger idx, BOOL *stop) {
-        return [[[renderers pivotBarIconOnlyItemRenderer] pivotIdentifier] isEqualToString:@"FEsubscriptions"];
+        return [[[renderers pivotBarItemRenderer] pivotIdentifier] isEqualToString:@"FEsubscriptions"];
     }];
     if (index != NSNotFound) [items removeObjectAtIndex:index];
 
@@ -842,7 +842,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     NSMutableArray <YTIPivotBarSupportedRenderers *> *items = [renderer itemsArray];
 
     NSUInteger index = [items indexOfObjectPassingTest:^BOOL(YTIPivotBarSupportedRenderers *renderers, NSUInteger idx, BOOL *stop) {
-        return [[[renderers pivotBarIconOnlyItemRenderer] pivotIdentifier] isEqualToString:@"FElibrary"];
+        return [[[renderers pivotBarItemRenderer] pivotIdentifier] isEqualToString:@"FElibrary"];
     }];
     if (index != NSNotFound) [items removeObjectAtIndex:index];
 

@@ -7,6 +7,7 @@
 #import "RebornSettingsController.h"
 #import "DownloadsController.h"
 #import "SponsorBlockOptionsController.h"
+#import "ChangelogsController.h"
 #import "../JailbreakDetection/JailbreakDetection.h"
 #import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
@@ -62,7 +63,7 @@
         return 7;
     }
     if (section == 4) {
-        return 2;
+        return 3;
     }
     return 0;
 }
@@ -295,6 +296,11 @@
             [self presentViewController:rebornSettingsControllerView animated:YES completion:nil];
         }
         if (indexPath.row == 1) {
+            ChangelogsController *changelogsController = [[ChangelogsController alloc] init];
+
+            [self presentViewController:changelogsController animated:YES completion:nil];
+        }
+        if (indexPath.row == 2) {
             CreditsController *creditsController = [[CreditsController alloc] init];
             UINavigationController *creditsControllerView = [[UINavigationController alloc] initWithRootViewController:creditsController];
             creditsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -306,7 +312,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.1.0 (Beta)";
+        return @"Version: 3.1.0";
     }
     return nil;
 }

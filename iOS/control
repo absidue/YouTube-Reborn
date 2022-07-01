@@ -1,6 +1,6 @@
 Package: h.ryan.youtubereborn
 Name: YouTube Reborn
-Version: 3.0.6
+Version: 3.1.0
 Architecture: iphoneos-arm
 Description: YouTube Customizer
 Maintainer: Lillie
@@ -10,4 +10,3 @@ Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 12.0)
 Conflicts: net.sarahh12099.youtubereborn, com.twickd.sarahh12099.youtube-reborn, com.yourepo.jpet26.youtubetools1, com.justinpetkovic.youtubetools, com.johnzaro.perfectyoutube, com.ichitaso.youtubepatcher, com.yourepo.ikghd.youtubekiller, com.yourepo.ikghd.youtubekillers, com.sinfool.youtopia, com.google.ios.ytadblock, prasa.youtubeplus, com.unlimapps.ytpp, com.twickd.laki.raspberry, com.laki.raspberry, com.twickd.lazar.raspberry, 0xcc.woodfairy.noytads, weeb.lillie.enhancerforyoutubepremium, weeb.lillie.youtubepremiumplus, com.miro.uyou, com.ps.uyoucompat, com.ps.ytsystemappearance, com.galacticdev.isponsorblock, com.yourepo.mohadu31.dzyoutube, com.lyvendia.ytspeed, com.miro.uyouimport, com.ichitaso.uyouplus
 Replaces: net.sarahh12099.youtubereborn, com.twickd.sarahh12099.youtube-reborn
 Provides: net.sarahh12099.youtubereborn, com.twickd.sarahh12099.youtube-reborn
-Depiction: https://repo.lillieh.gay/depictions/youtubereborn.html

@@ -102,11 +102,16 @@
 @interface GPBMessage : NSObject
 @end
 
+@interface YTIPivotBarItemRenderer : NSObject
+- (NSString *)pivotIdentifier;
+@end
+
 @interface YTIPivotBarIconOnlyItemRenderer : GPBMessage
 - (NSString *)pivotIdentifier;
 @end
 
 @interface YTIPivotBarSupportedRenderers : NSObject
+- (YTIPivotBarItemRenderer *)pivotBarItemRenderer;
 - (YTIPivotBarIconOnlyItemRenderer *)pivotBarIconOnlyItemRenderer;
 @end
 
