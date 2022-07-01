@@ -27,7 +27,7 @@
 
     UIWindow *boundsWindow = [[UIApplication sharedApplication] keyWindow];
 
-    artworkImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top, self.view.bounds.size.width, 360)];
+    artworkImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top, self.view.bounds.size.width, 310)];
     UIImage *artwork = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.artworkURL]];
     artworkImage.image = artwork;
 
@@ -35,12 +35,11 @@
         [self.view addSubview:artworkImage];
     }
 
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 360, self.view.bounds.size.width, 50)];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 310, self.view.bounds.size.width, 50)];
     titleLabel.text = self.downloadTitle;
     titleLabel.numberOfLines = 2;
     titleLabel.adjustsFontSizeToFitWidth = YES;
-    // titleLabel.textAlignment = NSTextAlignmentCenter;
-    /* if (@available(iOS 13.0, *)) {
+    if (@available(iOS 13.0, *)) {
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             titleLabel.textColor = [UIColor blackColor];
         } else {
@@ -48,15 +47,14 @@
         }
     } else {
         titleLabel.textColor = [UIColor blackColor];
-    } */
+    }
 
     [self.view addSubview:titleLabel];
 
-    downloadPercentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 360 + titleLabel.frame.size.height, self.view.bounds.size.width, 50)];
+    downloadPercentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 310 + titleLabel.frame.size.height, self.view.bounds.size.width, 50)];
     downloadPercentLabel.numberOfLines = 1;
     downloadPercentLabel.adjustsFontSizeToFitWidth = YES;
-    // downloadPercentLabel.textAlignment = NSTextAlignmentCenter;
-    /* if (@available(iOS 13.0, *)) {
+    if (@available(iOS 13.0, *)) {
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             downloadPercentLabel.textColor = [UIColor blackColor];
         } else {
@@ -64,7 +62,7 @@
         }
     } else {
         downloadPercentLabel.textColor = [UIColor blackColor];
-    } */
+    }
 
     [self.view addSubview:downloadPercentLabel];
 }
@@ -159,7 +157,7 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     [self setupYouTubeDownloadControllerView];
-    /* if (@available(iOS 13.0, *)) {
+    if (@available(iOS 13.0, *)) {
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             titleLabel.textColor = [UIColor blackColor];
             downloadPercentLabel.textColor = [UIColor blackColor];
@@ -170,7 +168,7 @@
     } else {
         titleLabel.textColor = [UIColor blackColor];
         downloadPercentLabel.textColor = [UIColor blackColor];
-    } */
+    }
 }
 
 @end
