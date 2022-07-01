@@ -24,11 +24,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kHideTabBar"]) {
-        return 3;
-    } else {
-        return 2;
-    }
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -36,10 +32,7 @@
         return 1;
     }
     if (section == 1) {
-        return 1;
-    }
-    if (section == 2) {
-        return 5;
+        return 6;
     }
     return 0;
 }
@@ -88,16 +81,6 @@
         }
         if (indexPath.section == 1) {
             if (indexPath.row == 0) {
-                cell.textLabel.text = @"Hide Tab Bar";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *hideTabBar = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [hideTabBar addTarget:self action:@selector(toggleHideTabBar:) forControlEvents:UIControlEventValueChanged];
-                hideTabBar.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideTabBar"];
-                cell.accessoryView = hideTabBar;
-            }
-        }
-        if (indexPath.section == 2) {
-            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Hide Tab Bar Labels";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideTabBarLabels = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -106,7 +89,7 @@
                 cell.accessoryView = hideTabBarLabels;
             }
             if (indexPath.row == 1) {
-                cell.textLabel.text = @"Hide Shorts/Explore Tab";
+                cell.textLabel.text = @"Hide Explore Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideExploreTab = [[UISwitch alloc] initWithFrame:CGRectZero];
                 [hideExploreTab addTarget:self action:@selector(toggleHideExploreTab:) forControlEvents:UIControlEventValueChanged];
@@ -114,6 +97,14 @@
                 cell.accessoryView = hideExploreTab;
             }
             if (indexPath.row == 2) {
+                cell.textLabel.text = @"Hide Shorts Tab";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                UISwitch *hideShortsTab = [[UISwitch alloc] initWithFrame:CGRectZero];
+                [hideShortsTab addTarget:self action:@selector(toggleHideShortsTab:) forControlEvents:UIControlEventValueChanged];
+                hideShortsTab.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsTab"];
+                cell.accessoryView = hideShortsTab;
+            }
+            if (indexPath.row == 3) {
                 cell.textLabel.text = @"Hide Create/Upload (+) Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideUploadTab = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -121,7 +112,7 @@
                 hideUploadTab.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideUploadTab"];
                 cell.accessoryView = hideUploadTab;
             }
-            if (indexPath.row == 3) {
+            if (indexPath.row == 4) {
                 cell.textLabel.text = @"Hide Subscriptions Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideSubscriptionsTab = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -129,7 +120,7 @@
                 hideSubscriptionsTab.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideSubscriptionsTab"];
                 cell.accessoryView = hideSubscriptionsTab;
             }
-            if (indexPath.row == 4) {
+            if (indexPath.row == 5) {
                 cell.textLabel.text = @"Hide Library Tab";
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UISwitch *hideLibraryTab = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -175,14 +166,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kHideTabBar"]) {
-        if (section == 2) {
-            return 10;
-        }
-    } else {
-        if (section == 1) {
-            return 10;
-        }
+    if (section == 1) {
+        return 10;
     }
     return 0;
 }
@@ -219,18 +204,6 @@
     }
 }
 
-- (void)toggleHideTabBar:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHideTabBar"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.tableView reloadData];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideTabBar"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.tableView reloadData];
-    }
-}
-
 - (void)toggleHideTabBarLabels:(UISwitch *)sender {
     if ([sender isOn]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHideTabBarLabels"];
@@ -247,6 +220,16 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideExploreTab"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)toggleHideShortsTab:(UISwitch *)sender {
+    if ([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHideShortsTab"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideShortsTab"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

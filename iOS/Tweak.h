@@ -98,3 +98,18 @@
 @interface MLPlayerEventCenter : NSObject
 - (void)broadcastRateChange:(float)rate;
 @end
+
+@interface GPBMessage : NSObject
+@end
+
+@interface YTIPivotBarIconOnlyItemRenderer : GPBMessage
+- (NSString *)pivotIdentifier;
+@end
+
+@interface YTIPivotBarSupportedRenderers : NSObject
+- (YTIPivotBarIconOnlyItemRenderer *)pivotBarIconOnlyItemRenderer;
+@end
+
+@interface YTIPivotBarRenderer : NSObject
+- (NSMutableArray <YTIPivotBarSupportedRenderers *> *)itemsArray;
+@end
