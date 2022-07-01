@@ -1415,37 +1415,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
-%group gHideTabBar
-%hook YTPivotBarView
-- (BOOL)isHidden {
-    return YES;
-}
-- (void)layoutSubviews {
-	%orig();
-    MSHookIvar<YTPivotBarItemView *>(self, "_itemView1").hidden = YES;
-    MSHookIvar<YTPivotBarItemView *>(self, "_itemView2").hidden = YES;
-    MSHookIvar<YTPivotBarItemView *>(self, "_itemView3").hidden = YES;
-    MSHookIvar<YTPivotBarItemView *>(self, "_itemView4").hidden = YES;
-	MSHookIvar<YTPivotBarItemView *>(self, "_itemView5").hidden = YES;
-}
-- (YTPivotBarItemView *)itemView1 {
-	return 1 ? 0 : %orig;
-}
-- (YTPivotBarItemView *)itemView2 {
-	return 1 ? 0 : %orig;
-}
-- (YTPivotBarItemView *)itemView3 {
-	return 1 ? 0 : %orig;
-}
-- (YTPivotBarItemView *)itemView4 {
-	return 1 ? 0 : %orig;
-}
-- (YTPivotBarItemView *)itemView5 {
-	return 1 ? 0 : %orig;
-}
-%end
-%end
-
 %group gHideOverlayQuickActions
 %hook YTFullscreenActionsView
 - (id)initWithElementView:(id)arg1 {
