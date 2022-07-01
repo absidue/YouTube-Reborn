@@ -4,7 +4,4 @@
 
 @interface DownloadsAudioController : UITableViewController <AVPlayerViewControllerDelegate>
 
-- (void)setupDownloadsAudioControllerView;
-- (void)setupAudioArrays;
-
 @end

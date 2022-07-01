@@ -4,7 +4,4 @@
 
 @interface DownloadsVideoController : UITableViewController <AVPlayerViewControllerDelegate>
 
-- (void)setupDownloadsVideoControllerView;
-- (void)setupVideoArrays;
-
 @end

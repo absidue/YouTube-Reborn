@@ -5,6 +5,7 @@
 #import "../iOS15Fix.h"
 
 @interface DownloadsController ()
+- (void)setupDownloadsControllerView;
 @end
 
 @implementation DownloadsController
@@ -38,22 +39,28 @@
 
 @end
 
-@implementation DownloadsController(Privates)
+@implementation DownloadsController (Privates)
 
 - (void)done {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)setupDownloadsControllerView {
-    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+    if (@available(iOS 13.0, *)) {
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+            self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
+            [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+            self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+        }
+        else {
+            self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+            [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        }
+    } else {
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     }
 }
 

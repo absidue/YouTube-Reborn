@@ -3,6 +3,8 @@
 #import "../iOS15Fix.h"
 
 @interface DownloadsAudioController ()
+- (void)setupDownloadsAudioControllerView;
+- (void)setupAudioArrays;
 @end
 
 @implementation DownloadsAudioController
@@ -38,13 +40,18 @@ NSMutableArray *filePathsAudioArtworkArray;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
         cell.textLabel.adjustsFontSizeToFitWidth = true;
         cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+        if (@available(iOS 13.0, *)) {
+            if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+                cell.textLabel.textColor = [UIColor blackColor];
+            }
+            else {
+                cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
+                cell.textLabel.textColor = [UIColor whiteColor];
+            }
+        } else {
             cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
             cell.textLabel.textColor = [UIColor blackColor];
-        }
-        else {
-            cell.backgroundColor = [UIColor colorWithRed:0.110 green:0.110 blue:0.118 alpha:1.0];
-            cell.textLabel.textColor = [UIColor whiteColor];
         }
     }
     cell.textLabel.text = [filePathsAudioArray objectAtIndex:indexPath.row];
@@ -123,11 +130,15 @@ NSMutableArray *filePathsAudioArtworkArray;
 @implementation DownloadsAudioController(Privates)
 
 - (void)setupDownloadsAudioControllerView {
-    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+    if (@available(iOS 13.0, *)) {
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+            self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
+        }
+        else {
+            self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+        }
+    } else {
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
     }
 }
 
