@@ -9,6 +9,7 @@
     UIImageView *artworkImage;
     UILabel *titleLabel;
     UILabel *downloadPercentLabel;
+    UILabel *noticeLabel;
 }
 - (void)setupYouTubeDownloadControllerView;
 - (void)videoDownloaderPartOne;
@@ -27,7 +28,7 @@
 
     UIWindow *boundsWindow = [[UIApplication sharedApplication] keyWindow];
 
-    artworkImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top, self.view.bounds.size.width, 310)];
+    artworkImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top, self.view.bounds.size.width, 300)];
     UIImage *artwork = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.artworkURL]];
     artworkImage.image = artwork;
 
@@ -35,7 +36,7 @@
         [self.view addSubview:artworkImage];
     }
 
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 310, self.view.bounds.size.width, 50)];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 300, self.view.bounds.size.width, 50)];
     titleLabel.text = self.downloadTitle;
     titleLabel.numberOfLines = 2;
     titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -51,7 +52,7 @@
 
     [self.view addSubview:titleLabel];
 
-    downloadPercentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 310 + titleLabel.frame.size.height, self.view.bounds.size.width, 50)];
+    downloadPercentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 300 + titleLabel.frame.size.height, self.view.bounds.size.width, 50)];
     downloadPercentLabel.numberOfLines = 1;
     downloadPercentLabel.adjustsFontSizeToFitWidth = YES;
     if (@available(iOS 13.0, *)) {
@@ -65,6 +66,22 @@
     }
 
     [self.view addSubview:downloadPercentLabel];
+
+    noticeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, boundsWindow.safeAreaInsets.top + 300 + titleLabel.frame.size.height + downloadPercentLabel.frame.size.height, self.view.bounds.size.width, 50)];
+    noticeLabel.text = @"Don't Exit The App\nThis will automatically close on completion";
+    noticeLabel.numberOfLines = 2;
+    noticeLabel.adjustsFontSizeToFitWidth = YES;
+    if (@available(iOS 13.0, *)) {
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+            noticeLabel.textColor = [UIColor blackColor];
+        } else {
+            noticeLabel.textColor = [UIColor whiteColor];
+        }
+    } else {
+        noticeLabel.textColor = [UIColor blackColor];
+    }
+
+    [self.view addSubview:noticeLabel];
 }
 
 - (void)viewDidLoad {
@@ -88,7 +105,7 @@
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
         dispatch_async(dispatch_get_main_queue(), ^{
             float downloadPercent = downloadProgress.fractionCompleted * 100;
-            downloadPercentLabel.text = [NSString stringWithFormat:@"Progress: %.02f%%", downloadPercent];
+            downloadPercentLabel.text = [NSString stringWithFormat:@"Progress (Part 1/2): %.02f%%", downloadPercent];
         });
     } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
@@ -110,18 +127,20 @@
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
         dispatch_async(dispatch_get_main_queue(), ^{
             float downloadPercent = downloadProgress.fractionCompleted * 100;
-            downloadPercentLabel.text = [NSString stringWithFormat:@"Progress: %.02f%%", downloadPercent];
+            downloadPercentLabel.text = [NSString stringWithFormat:@"Progress (Part 2/2): %.02f%%", downloadPercent];
         });
     } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        downloadPercentLabel.text = @"Convert Files";
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSCharacterSet *notAllowedChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
         [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@ -c:a libmp3lame -q:a 8 %@/audio.mp3", filePath, documentsDirectory]];
         [MobileFFmpeg execute:[NSString stringWithFormat:@"-i %@/video.mp4 -i %@/audio.mp3 -c:v copy -c:a aac %@/output.mp4", documentsDirectory, documentsDirectory, documentsDirectory]];
         [[NSFileManager defaultManager] moveItemAtPath:[NSString stringWithFormat:@"%@/output.mp4", documentsDirectory] toPath:[NSString stringWithFormat:@"%@/%@.mp4", documentsDirectory, [[self.downloadTitle componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""]] error:nil];
+        downloadPercentLabel.text = @"Cleaning Up";
         [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
         [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/video.mp4", documentsDirectory] error:nil];
         [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/audio.mp3", documentsDirectory] error:nil];
@@ -161,13 +180,16 @@
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             titleLabel.textColor = [UIColor blackColor];
             downloadPercentLabel.textColor = [UIColor blackColor];
+            noticeLabel.textColor = [UIColor blackColor];
         } else {
             titleLabel.textColor = [UIColor whiteColor];
             downloadPercentLabel.textColor = [UIColor whiteColor];
+            noticeLabel.textColor = [UIColor whiteColor];
         }
     } else {
         titleLabel.textColor = [UIColor blackColor];
         downloadPercentLabel.textColor = [UIColor blackColor];
+        noticeLabel.textColor = [UIColor blackColor];
     }
 }
 
