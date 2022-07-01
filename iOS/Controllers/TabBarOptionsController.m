@@ -65,10 +65,10 @@
         }
         if (indexPath.section == 0) {
             cell.textLabel.text = @"Startup Page";
-            if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageInt"]) {
+            if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageIntVTwo"]) {
                 cell.detailTextLabel.text = @"Home";
             } else {
-                int selectedTab = [[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageInt"];
+                int selectedTab = [[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageIntVTwo"];
                 if (selectedTab == 0) {
                     cell.detailTextLabel.text = @"Home";
                 }
@@ -79,16 +79,10 @@
                     cell.detailTextLabel.text = @"Shorts";
                 }
                 if (selectedTab == 3) {
-                    cell.detailTextLabel.text = @"Create/Upload (+)";
-                }
-                if (selectedTab == 4) {
                     cell.detailTextLabel.text = @"Subscriptions";
                 }
-                if (selectedTab == 5) {
+                if (selectedTab == 4) {
                     cell.detailTextLabel.text = @"Library";
-                }
-                if (selectedTab == 6) {
-                    cell.detailTextLabel.text = @"Trending";
                 }
             }
         }

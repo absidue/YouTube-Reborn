@@ -23,10 +23,10 @@ int selectedIndex;
     	[self.tableView setSectionHeaderTopPadding:0.0f];
 	}
 
-    if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageInt"]) {
+    if (![[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageIntVTwo"]) {
         selectedIndex = 0;
     } else {
-        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageInt"];
+        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageIntVTwo"];
     }
 }
 
@@ -35,7 +35,7 @@ int selectedIndex;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,26 +76,14 @@ int selectedIndex;
             }
         }
         if (indexPath.row == 3) {
-            cell.textLabel.text = @"Create/Upload (+)";
+            cell.textLabel.text = @"Subscriptions";
             if (selectedIndex == 3) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
         if (indexPath.row == 4) {
-            cell.textLabel.text = @"Subscriptions";
-            if (selectedIndex == 4) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
-        }
-        if (indexPath.row == 5) {
             cell.textLabel.text = @"Library";
-            if (selectedIndex == 5) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
-        }
-        if (indexPath.row == 6) {
-            cell.textLabel.text = @"Trending";
-            if (selectedIndex == 6) {
+            if (selectedIndex == 4) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
@@ -106,7 +94,7 @@ int selectedIndex;
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     selectedIndex = indexPath.row;
-    [[NSUserDefaults standardUserDefaults] setInteger:selectedIndex forKey:@"kStartupPageInt"];
+    [[NSUserDefaults standardUserDefaults] setInteger:selectedIndex forKey:@"kStartupPageIntVTwo"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.tableView reloadData];
 }

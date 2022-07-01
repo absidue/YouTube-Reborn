@@ -1629,8 +1629,8 @@ int selectedTabIndex = 0;
 %hook YTPivotBarViewController
 - (void)viewDidAppear:(BOOL)animated {
     %orig();
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageInt"]) {
-        int selectedTab = [[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageInt"];
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageIntVTwo"]) {
+        int selectedTab = [[NSUserDefaults standardUserDefaults] integerForKey:@"kStartupPageIntVTwo"];
         if (selectedTab == 0 && selectedTabIndex == 0) {
             [self selectItemWithPivotIdentifier:@"FEwhat_to_watch"];
             selectedTabIndex = 1;
@@ -1644,19 +1644,11 @@ int selectedTabIndex = 0;
             selectedTabIndex = 1;
         }
         if (selectedTab == 3 && selectedTabIndex == 0) {
-            [self selectItemWithPivotIdentifier:@"FEuploads"];
-            selectedTabIndex = 1;
-        }
-        if (selectedTab == 4 && selectedTabIndex == 0) {
             [self selectItemWithPivotIdentifier:@"FEsubscriptions"];
             selectedTabIndex = 1;
         }
-        if (selectedTab == 5 && selectedTabIndex == 0) {
+        if (selectedTab == 4 && selectedTabIndex == 0) {
             [self selectItemWithPivotIdentifier:@"FElibrary"];
-            selectedTabIndex = 1;
-        }
-        if (selectedTab == 6 && selectedTabIndex == 0) {
-            [self selectItemWithPivotIdentifier:@"FEtrending"];
             selectedTabIndex = 1;
         }
     }
