@@ -538,6 +538,9 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     [rebornOverlayButton addTarget:self action:@selector(rebornOptionsAction) forControlEvents:UIControlEventTouchUpInside];
     [rebornOverlayButton setTitle:@"OP" forState:UIControlStateNormal];
     rebornOverlayButton.frame = CGRectMake(40, 5, 40.0, 30.0);
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideRebornShortsOPButton"] == YES) {
+        rebornOverlayButton.hidden = YES;
+    }
     [self addSubview:rebornOverlayButton];
 }
 

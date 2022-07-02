@@ -31,7 +31,7 @@
         return 1;
     }
     if (section == 1) {
-        return 1;
+        return 2;
     }
     return 0;
 }
@@ -62,13 +62,20 @@
             }
         }
         if (indexPath.section == 1) {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if (indexPath.row == 0) {
-                cell.textLabel.text = @"Hide Overlay 'OP' Button";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.textLabel.text = @"Hide Video Overlay 'OP' Button";
                 UISwitch *hideRebornOPButton = [[UISwitch alloc] initWithFrame:CGRectZero];
                 [hideRebornOPButton addTarget:self action:@selector(toggleHideRebornOPButton:) forControlEvents:UIControlEventValueChanged];
                 hideRebornOPButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideRebornOPButtonVTwo"];
                 cell.accessoryView = hideRebornOPButton;
+            }
+            if (indexPath.row == 1) {
+                cell.textLabel.text = @"Hide Shorts Overlay 'OP' Button";
+                UISwitch *hideRebornShortsOPButton = [[UISwitch alloc] initWithFrame:CGRectZero];
+                [hideRebornShortsOPButton addTarget:self action:@selector(toggleHideRebornShortsOPButton:) forControlEvents:UIControlEventValueChanged];
+                hideRebornShortsOPButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideRebornShortsOPButton"];
+                cell.accessoryView = hideRebornShortsOPButton;
             }
         }
     }
@@ -155,6 +162,16 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideRebornOPButtonVTwo"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)toggleHideRebornShortsOPButton:(UISwitch *)sender {
+    if ([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHideRebornShortsOPButton"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideRebornShortsOPButton"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
