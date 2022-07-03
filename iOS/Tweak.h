@@ -131,3 +131,6 @@
 - (void)rebornPictureInPicture :(NSString *)videoID;
 - (void)rebornPlayInExternalApp :(NSString *)videoID;
 @end
+
+@interface YTReelPlayerMoreButton : YTQTMButton
+@end

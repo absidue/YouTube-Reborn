@@ -22,12 +22,12 @@
 	}
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -37,6 +37,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
         cell.textLabel.adjustsFontSizeToFitWidth = true;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (@available(iOS 13.0, *)) {
             if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
                 cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
@@ -50,52 +51,39 @@
             cell.textLabel.textColor = [UIColor blackColor];
         }
         if (indexPath.row == 0) {
-            cell.textLabel.text = @"Hide Camera Button";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UISwitch *hideShortsCameraButton = [[UISwitch alloc] initWithFrame:CGRectZero];
-            [hideShortsCameraButton addTarget:self action:@selector(toggleHideShortsCameraButton:) forControlEvents:UIControlEventValueChanged];
-            hideShortsCameraButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsCameraButton"];
-            cell.accessoryView = hideShortsCameraButton;
-        }
-        if (indexPath.row == 1) {
-            cell.textLabel.text = @"Hide More Actions Button";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UISwitch *hideShortsMoreActionsButton = [[UISwitch alloc] initWithFrame:CGRectZero];
-            [hideShortsMoreActionsButton addTarget:self action:@selector(toggleHideShortsMoreActionsButton:) forControlEvents:UIControlEventValueChanged];
-            hideShortsMoreActionsButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsMoreActionsButton"];
-            cell.accessoryView = hideShortsMoreActionsButton;
-        }
-        if (indexPath.row == 2) {
             cell.textLabel.text = @"Hide Like Button";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsLikeButton = [[UISwitch alloc] initWithFrame:CGRectZero];
             [hideShortsLikeButton addTarget:self action:@selector(toggleHideShortsLikeButton:) forControlEvents:UIControlEventValueChanged];
             hideShortsLikeButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsLikeButton"];
             cell.accessoryView = hideShortsLikeButton;
         }
-        if (indexPath.row == 3) {
+        if (indexPath.row == 1) {
             cell.textLabel.text = @"Hide Dislike Button";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsDislikeButton = [[UISwitch alloc] initWithFrame:CGRectZero];
             [hideShortsDislikeButton addTarget:self action:@selector(toggleHideShortsDislikeButton:) forControlEvents:UIControlEventValueChanged];
             hideShortsDislikeButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsDislikeButton"];
             cell.accessoryView = hideShortsDislikeButton;
         }
-        if (indexPath.row == 4) {
+        if (indexPath.row == 2) {
             cell.textLabel.text = @"Hide Comments Button";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsCommentsButton = [[UISwitch alloc] initWithFrame:CGRectZero];
             [hideShortsCommentsButton addTarget:self action:@selector(toggleHideShortsCommentsButton:) forControlEvents:UIControlEventValueChanged];
             hideShortsCommentsButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsCommentsButton"];
             cell.accessoryView = hideShortsCommentsButton;
         }
-        if (indexPath.row == 5) {
+        if (indexPath.row == 3) {
             cell.textLabel.text = @"Hide Share Button";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *hideShortsShareButton = [[UISwitch alloc] initWithFrame:CGRectZero];
             [hideShortsShareButton addTarget:self action:@selector(toggleHideShortsShareButton:) forControlEvents:UIControlEventValueChanged];
             hideShortsShareButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsShareButton"];
             cell.accessoryView = hideShortsShareButton;
+        }
+        if (indexPath.row == 4) {
+            cell.textLabel.text = @"Hide More Actions Button";
+            UISwitch *hideShortsMoreActionsButton = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [hideShortsMoreActionsButton addTarget:self action:@selector(toggleHideShortsMoreActionsButton:) forControlEvents:UIControlEventValueChanged];
+            hideShortsMoreActionsButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsMoreActionsButton"];
+            cell.accessoryView = hideShortsMoreActionsButton;
         }
     }
     return cell;
@@ -138,16 +126,6 @@
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    }
-}
-
-- (void)toggleHideShortsCameraButton:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHideShortsCameraButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideShortsCameraButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 

@@ -1251,20 +1251,11 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
-%group gHideShortsCameraButton
-%hook YTReelWatchPlaybackOverlayView
-- (void)layoutSubviews {
-	%orig();
-	MSHookIvar<YTQTMButton *>(self, "_cameraOrSearchButton").hidden = YES;
-}
-%end
-%end
-
 %group gHideShortsMoreActionsButton
 %hook YTReelWatchPlaybackOverlayView
 - (void)layoutSubviews {
 	%orig();
-	MSHookIvar<YTQTMButton *>(self, "_overflowButton").hidden = YES;
+	MSHookIvar<YTReelPlayerMoreButton *>(self, "_moreButton").hidden = YES;
 }
 %end
 %end
@@ -1928,7 +1919,6 @@ int selectedTabIndex = 0;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableVideoInfoCards"] == YES) %init(gDisableVideoInfoCards);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoSearchButton"] == YES) %init(gNoSearchButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideChannelWatermark"] == YES) %init(gHideChannelWatermark);
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsCameraButton"] == YES) %init(gHideShortsCameraButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsMoreActionsButton"] == YES) %init(gHideShortsMoreActionsButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsLikeButton"] == YES) %init(gHideShortsLikeButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideShortsDislikeButton"] == YES) %init(gHideShortsDislikeButton);
