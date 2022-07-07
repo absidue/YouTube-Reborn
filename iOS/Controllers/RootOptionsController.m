@@ -226,21 +226,21 @@
     }
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {    
-            VideoOptionsController *videoOptionsController = [[VideoOptionsController alloc] init];
+            VideoOptionsController *videoOptionsController = [[VideoOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *videoOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:videoOptionsController];
             videoOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:videoOptionsControllerView animated:YES completion:nil];
         }
         if (indexPath.row == 1) {
-            OverlayOptionsController *overlayOptionsController = [[OverlayOptionsController alloc] init];
+            OverlayOptionsController *overlayOptionsController = [[OverlayOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *overlayOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:overlayOptionsController];
             overlayOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:overlayOptionsControllerView animated:YES completion:nil];
         }
         if (indexPath.row == 2) {
-            TabBarOptionsController *tabBarOptionsController = [[TabBarOptionsController alloc] init];
+            TabBarOptionsController *tabBarOptionsController = [[TabBarOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *tabBarOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:tabBarOptionsController];
             tabBarOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
@@ -273,14 +273,14 @@
             }
         }
         if (indexPath.row == 4) {
-            ShortsOptionsController *shortsOptionsController = [[ShortsOptionsController alloc] init];
+            ShortsOptionsController *shortsOptionsController = [[ShortsOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *shortsOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:shortsOptionsController];
             shortsOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:shortsOptionsControllerView animated:YES completion:nil];
         }
         if (indexPath.row == 5) {
-            SponsorBlockOptionsController *sponsorBlockOptionsController = [[SponsorBlockOptionsController alloc] init];
+            SponsorBlockOptionsController *sponsorBlockOptionsController = [[SponsorBlockOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *sponsorBlockOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:sponsorBlockOptionsController];
             sponsorBlockOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
@@ -289,7 +289,7 @@
     }
     if (indexPath.section == 4) {
         if (indexPath.row == 0) {
-            RebornSettingsController *rebornSettingsController = [[RebornSettingsController alloc] init];
+            RebornSettingsController *rebornSettingsController = [[RebornSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *rebornSettingsControllerView = [[UINavigationController alloc] initWithRootViewController:rebornSettingsController];
             rebornSettingsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
@@ -301,7 +301,7 @@
             [self presentViewController:changelogsController animated:YES completion:nil];
         }
         if (indexPath.row == 2) {
-            CreditsController *creditsController = [[CreditsController alloc] init];
+            CreditsController *creditsController = [[CreditsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *creditsControllerView = [[UINavigationController alloc] initWithRootViewController:creditsController];
             creditsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
@@ -310,22 +310,22 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 4) {
+        return 50;
+    }
+    return 0;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
         return @"Version: 3.1.2";
     }
     return nil;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [UIView new];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0 || section == 1 || section == 2 || section == 4) {
-        return 50;
-    }
-    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
@@ -342,13 +342,6 @@
     [footer.textLabel setTextColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"tableSection"]]];
     [footer.textLabel setFont:[UIFont systemFontOfSize:14]];
     footer.textLabel.textAlignment = NSTextAlignmentCenter;
-}
-
-- (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 4) {
-        return 50;
-    }
-    return 0;
 }
 
 - (void)colorPicker:self didAcceptColor:(UIColor *)colour {

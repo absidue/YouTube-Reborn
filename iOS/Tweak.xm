@@ -114,7 +114,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 %new;
 - (void)rebornRootOptionsAction {
-    RootOptionsController *rootOptionsController = [[RootOptionsController alloc] init];
+    RootOptionsController *rootOptionsController = [[RootOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
     UINavigationController *rootOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:rootOptionsController];
     rootOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
