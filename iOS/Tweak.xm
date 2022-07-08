@@ -809,6 +809,57 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
+%group gPictureInPicture
+%hook YTPlayerPIPController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
+- (BOOL)isPipSettingEnabled {
+    return YES;
+}
+- (BOOL)isPictureInPictureForceDisabled {
+    return NO;
+}
+- (void)setPictureInPictureForceDisabled:(BOOL)arg1 {
+    arg1 = NO;
+    %orig;
+}
+%end
+%hook YTLocalPlaybackController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
+%end
+%hook YTBackgroundabilityPolicy
+- (BOOL)isPlayableInPictureInPictureByUserSettings {
+    return YES;
+}
+%end
+%hook YTLightweightPlayerViewController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
+%end
+%hook YTPlayerViewController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
+%end
+%hook YTPlayerResponse
+- (BOOL)isPlayableInPictureInPicture {
+    return YES;
+}
+- (BOOL)isPipOffByDefault {
+    return NO;
+}
+%end
+%hook MLPIPController
+- (BOOL)pictureInPictureSupported {
+    return YES;
+}
+%end
+%end
+
 %group gExtraSpeedOptions
 %hook YTVarispeedSwitchController
 - (void *)init {
@@ -1896,6 +1947,7 @@ int selectedTabIndex = 0;
         }
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableNoVideoAds"] == YES) %init(gNoVideoAds);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableBackgroundPlayback"] == YES) %init(gBackgroundPlayback);
+        %init(gPictureInPicture);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoCastButton"] == YES) %init(gNoCastButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoNotificationButton"] == YES) %init(gNoNotificationButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kAllowHDOnCellularData"] == YES) %init(gAllowHDOnCellularData);

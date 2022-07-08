@@ -310,10 +310,6 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0;
-}
-
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
     if (section == 4) {
         return 50;
@@ -323,7 +319,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 4) {
-        return @"Version: 3.1.2";
+        return @"Version: 3.1.5 (Beta)";
     }
     return nil;
 }
