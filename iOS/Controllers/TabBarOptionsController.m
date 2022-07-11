@@ -137,7 +137,7 @@
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            StartupPageOptionsController *startupPageOptionsController = [[StartupPageOptionsController alloc] init];
+            StartupPageOptionsController *startupPageOptionsController = [[StartupPageOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *startupPageOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:startupPageOptionsController];
             startupPageOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
