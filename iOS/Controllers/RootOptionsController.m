@@ -237,7 +237,7 @@
             [self presentViewController:otherOptionsControllerView animated:YES completion:nil];
         }
     }
-    if (indexPath.section == 4) {
+    if (indexPath.section == 3) {
         if (indexPath.row == 0) {
             RebornSettingsController *rebornSettingsController = [[RebornSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *rebornSettingsControllerView = [[UINavigationController alloc] initWithRootViewController:rebornSettingsController];
