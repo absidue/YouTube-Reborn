@@ -157,12 +157,22 @@
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
-    UIAlertController *alertError = [UIAlertController alertControllerWithTitle:@"Notice" message:@"You must enable 'Disable Related Videos In Overlay' and 'Hide Overlay Quick Actions' in YouTube Reborn settings to use 'Always Show Player Bar'" preferredStyle:UIAlertControllerStyleAlert];
+    if (indexPath.row == 0 || indexPath.row == 1) {
+        UIAlertController *alertError = [UIAlertController alertControllerWithTitle:@"Notice" message:@"This feature has been disabled cause you have the 'I Have YouTube Premium' option enabled" preferredStyle:UIAlertControllerStyleAlert];
 
-    [alertError addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-    }]];
+        [alertError addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        }]];
 
-    [self presentViewController:alertError animated:YES completion:nil];
+        [self presentViewController:alertError animated:YES completion:nil];
+    }
+    if (indexPath.row == 10) {
+        UIAlertController *alertError = [UIAlertController alertControllerWithTitle:@"Notice" message:@"You must enable 'Disable Related Videos In Overlay' and 'Hide Overlay Quick Actions' in YouTube Reborn settings to use 'Always Show Player Bar'" preferredStyle:UIAlertControllerStyleAlert];
+
+        [alertError addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        }]];
+
+        [self presentViewController:alertError animated:YES completion:nil];
+    }
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
