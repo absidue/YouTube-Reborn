@@ -7,6 +7,7 @@
 #import "RebornSettingsController.h"
 #import "DownloadsController.h"
 #import "SponsorBlockOptionsController.h"
+#import "OtherOptionsController.h"
 #import "ChangelogsController.h"
 #import "../JailbreakDetection/JailbreakDetection.h"
 #import "../TheosLinuxFix.h"
@@ -42,7 +43,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -57,12 +58,9 @@
         }
     }
     if (section == 2) {
-        return 6;
-    }
-    if (section == 3) {
         return 7;
     }
-    if (section == 4) {
+    if (section == 3) {
         return 3;
     }
     return 0;
@@ -122,66 +120,11 @@
             if (indexPath.row == 5) {
                 cell.textLabel.text = @"SponsorBlock Options (Beta)";
             }
+            if (indexPath.row == 6) {
+                cell.textLabel.text = @"Other Options";
+            }
         }
         if (indexPath.section == 3) {
-            if (indexPath.row == 0) {
-                cell.textLabel.text = @"Enable iPad Style On iPhone";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *enableiPadStyleOniPhone = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [enableiPadStyleOniPhone addTarget:self action:@selector(toggleEnableiPadStyleOniPhone:) forControlEvents:UIControlEventValueChanged];
-                enableiPadStyleOniPhone.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"];
-                cell.accessoryView = enableiPadStyleOniPhone;
-            }
-            if (indexPath.row == 1) {
-                cell.textLabel.text = @"No Cast Button";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *noCastButton = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [noCastButton addTarget:self action:@selector(toggleNoCastButton:) forControlEvents:UIControlEventValueChanged];
-                noCastButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoCastButton"];
-                cell.accessoryView = noCastButton;
-            }
-            if (indexPath.row == 2) {
-                cell.textLabel.text = @"No Notification Button";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *noNotificationButton = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [noNotificationButton addTarget:self action:@selector(toggleNoNotificationButton:) forControlEvents:UIControlEventValueChanged];
-                noNotificationButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoNotificationButton"];
-                cell.accessoryView = noNotificationButton;
-            }
-            if (indexPath.row == 3) {
-                cell.textLabel.text = @"No Search Button";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *noSearchButton = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [noSearchButton addTarget:self action:@selector(toggleNoSearchButton:) forControlEvents:UIControlEventValueChanged];
-                noSearchButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kNoSearchButton"];
-                cell.accessoryView = noSearchButton;
-            }
-            if (indexPath.row == 4) {
-                cell.textLabel.text = @"Disable YouTube Kids";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *disableYouTubeKidsPopup = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [disableYouTubeKidsPopup addTarget:self action:@selector(toggleDisableYouTubeKidsPopup:) forControlEvents:UIControlEventValueChanged];
-                disableYouTubeKidsPopup.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableYouTubeKidsPopup"];
-                cell.accessoryView = disableYouTubeKidsPopup;
-            }
-            if (indexPath.row == 5) {
-                cell.textLabel.text = @"Disable Hints";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *disableHints = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [disableHints addTarget:self action:@selector(toggleDisableHints:) forControlEvents:UIControlEventValueChanged];
-                disableHints.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableHints"];
-                cell.accessoryView = disableHints;
-            }
-            if (indexPath.row == 6) {
-                cell.textLabel.text = @"Hide YouTube Logo";
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                UISwitch *hideYouTubeLogo = [[UISwitch alloc] initWithFrame:CGRectZero];
-                [hideYouTubeLogo addTarget:self action:@selector(toggleHideYouTubeLogo:) forControlEvents:UIControlEventValueChanged];
-                hideYouTubeLogo.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideYouTubeLogo"];
-                cell.accessoryView = hideYouTubeLogo;
-            }
-        }
-        if (indexPath.section == 4) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"Reborn Settings";
@@ -286,6 +229,13 @@
 
             [self presentViewController:sponsorBlockOptionsControllerView animated:YES completion:nil];
         }
+        if (indexPath.row == 6) {
+            OtherOptionsController *otherOptionsController = [[OtherOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
+            UINavigationController *otherOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:otherOptionsController];
+            otherOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+
+            [self presentViewController:otherOptionsControllerView animated:YES completion:nil];
+        }
     }
     if (indexPath.section == 4) {
         if (indexPath.row == 0) {
@@ -311,14 +261,14 @@
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 4) {
+    if (section == 3) {
         return 50;
     }
     return 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    if (section == 4) {
+    if (section == 3) {
         return @"Version: 3.1.5 (Beta)";
     }
     return nil;
@@ -379,76 +329,6 @@
         self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.949 blue:0.969 alpha:1.0];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    }
-}
-
-- (void)toggleEnableiPadStyleOniPhone:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kEnableiPadStyleOniPhone"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kEnableiPadStyleOniPhone"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleNoCastButton:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kNoCastButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kNoCastButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleNoNotificationButton:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kNoNotificationButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kNoNotificationButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleNoSearchButton:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kNoSearchButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kNoSearchButton"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleDisableYouTubeKidsPopup:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kDisableYouTubeKidsPopup"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kDisableYouTubeKidsPopup"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleDisableHints:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kDisableHints"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kDisableHints"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)toggleHideYouTubeLogo:(UISwitch *)sender {
-    if ([sender isOn]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHideYouTubeLogo"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHideYouTubeLogo"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
