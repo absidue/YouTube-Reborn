@@ -222,15 +222,17 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self rebornAudioDownloader:videoIdentifier];
-    }]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornAudioDownloader:videoIdentifier];
+        }]];
 
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self rebornVideoDownloader:videoIdentifier];
-    }]];
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoIdentifier];
+        }]];
+    }
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0") && SYSTEM_VERSION_LESS_THAN(@"15.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self rebornPictureInPicture:videoIdentifier];
         }]];
@@ -550,13 +552,15 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 
     UIAlertController *alertMenu = [UIAlertController alertControllerWithTitle:nil message:@"Please Pause The Video Before Continuing" preferredStyle:UIAlertControllerStyleActionSheet];
 
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self rebornAudioDownloader:videoIdentifier];
-    }]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornAudioDownloader:videoIdentifier];
+        }]];
 
-    [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self rebornVideoDownloader:videoIdentifier];
-    }]];
+        [alertMenu addAction:[UIAlertAction actionWithTitle:@"Download Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self rebornVideoDownloader:videoIdentifier];
+        }]];
+    }
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0") && SYSTEM_VERSION_LESS_THAN(@"15.0")) {
         [alertMenu addAction:[UIAlertAction actionWithTitle:@"Picture In Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -804,57 +808,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %hook YTBackgroundabilityPolicy
 - (BOOL)isBackgroundableByUserSettings {
-    return YES;
-}
-%end
-%end
-
-%group gPictureInPicture
-%hook YTPlayerPIPController
-- (BOOL)isPictureInPicturePossible {
-    return YES;
-}
-- (BOOL)isPipSettingEnabled {
-    return YES;
-}
-- (BOOL)isPictureInPictureForceDisabled {
-    return NO;
-}
-- (void)setPictureInPictureForceDisabled:(BOOL)arg1 {
-    arg1 = NO;
-    %orig;
-}
-%end
-%hook YTLocalPlaybackController
-- (BOOL)isPictureInPicturePossible {
-    return YES;
-}
-%end
-%hook YTBackgroundabilityPolicy
-- (BOOL)isPlayableInPictureInPictureByUserSettings {
-    return YES;
-}
-%end
-%hook YTLightweightPlayerViewController
-- (BOOL)isPictureInPicturePossible {
-    return YES;
-}
-%end
-%hook YTPlayerViewController
-- (BOOL)isPictureInPicturePossible {
-    return YES;
-}
-%end
-%hook YTPlayerResponse
-- (BOOL)isPlayableInPictureInPicture {
-    return YES;
-}
-- (BOOL)isPipOffByDefault {
-    return NO;
-}
-%end
-%hook MLPIPController
-- (BOOL)pictureInPictureSupported {
     return YES;
 }
 %end
@@ -1945,9 +1898,16 @@ int selectedTabIndex = 0;
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kEnableNoVideoAds"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableNoVideoAds"] == YES) %init(gNoVideoAds);
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableBackgroundPlayback"] == YES) %init(gBackgroundPlayback);
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnablePictureInPicture"] == YES) %init(gPictureInPicture);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableNoVideoAds"] == YES) {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
+                %init(gNoVideoAds);
+            }
+        }
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableBackgroundPlayback"] == YES) {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
+                %init(gBackgroundPlayback);
+            }
+        }
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoCastButton"] == YES) %init(gNoCastButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoNotificationButton"] == YES) %init(gNoNotificationButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kAllowHDOnCellularData"] == YES) %init(gAllowHDOnCellularData);
