@@ -69,6 +69,14 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 }
 %end
 
+%group gPictureInPicture
+%hook YTPlayerPIPController
+- (BOOL)canEnablePictureInPicture {
+    return YES;
+}
+%end
+%end
+
 %hook YTRightNavigationButtons
 %property (strong, nonatomic) YTQTMButton *youtubeRebornButton;
 - (NSMutableArray *)buttons {
@@ -171,6 +179,11 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %property(retain, nonatomic) UIButton *rebornOverlayButton;
 
 - (id)initWithDelegate:(id)delegate {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"15.0")) {
+        // if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
+        %init(gPictureInPicture);
+        // }
+    }
     self = %orig;
     if (self) {
         self.rebornOverlayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -808,14 +821,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %hook YTBackgroundabilityPolicy
 - (BOOL)isBackgroundableByUserSettings {
-    return YES;
-}
-%end
-%end
-
-%group gPictureInPicture
-%hook YTPlayerPIPController
-- (BOOL)canEnablePictureInPicture {
     return YES;
 }
 %end
@@ -1915,11 +1920,6 @@ int selectedTabIndex = 0;
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
                 %init(gBackgroundPlayback);
             }
-        }
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"15.0")) {
-            // if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
-            %init(gPictureInPicture);
-            // }
         }
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoCastButton"] == YES) %init(gNoCastButton);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kNoNotificationButton"] == YES) %init(gNoNotificationButton);
