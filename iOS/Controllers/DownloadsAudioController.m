@@ -13,6 +13,13 @@ NSString *documentsDirectory;
 NSMutableArray *filePathsAudioArray;
 NSMutableArray *filePathsAudioArtworkArray;
 
+- (id)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    if (self) {
+    }
+    return self;
+}
+
 - (void)loadView {
 	[super loadView];
     [self setupDownloadsAudioControllerView];
@@ -64,14 +71,6 @@ NSMutableArray *filePathsAudioArtworkArray;
     @catch (NSException *exception) {
     }
     return cell;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {        
-    return [UIView new];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

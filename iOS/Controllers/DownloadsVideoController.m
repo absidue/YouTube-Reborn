@@ -14,6 +14,13 @@ NSString *documentsDirectory;
 NSMutableArray *filePathsVideoArray;
 NSMutableArray *filePathsVideoArtworkArray;
 
+- (id)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    if (self) {
+    }
+    return self;
+}
+
 - (void)loadView {
 	[super loadView];
     [self setupDownloadsVideoControllerView];
@@ -65,14 +72,6 @@ NSMutableArray *filePathsVideoArtworkArray;
     @catch (NSException *exception) {
     }
     return cell;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {        
-    return [UIView new];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
