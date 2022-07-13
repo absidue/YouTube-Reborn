@@ -1724,13 +1724,6 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
-/* %hook YTMySubsFilterHeaderView
-- (void)layoutSubviews {
-	%orig();
-    MSHookIvar<UIView *>(self, "_chipFilterView").hidden = YES;
-}
-%end */
-
 BOOL sponsorBlockEnabled;
 NSMutableDictionary *sponsorBlockValues = [[NSMutableDictionary alloc] init];
 
