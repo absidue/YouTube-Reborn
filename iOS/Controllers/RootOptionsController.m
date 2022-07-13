@@ -9,6 +9,7 @@
 #import "SponsorBlockOptionsController.h"
 #import "OtherOptionsController.h"
 #import "ChangelogsController.h"
+#import "PictureInPictureOptionsController.h"
 #import "../JailbreakDetection/JailbreakDetection.h"
 #import "../TheosLinuxFix.h"
 #import "../iOS15Fix.h"
@@ -58,7 +59,7 @@
         }
     }
     if (section == 2) {
-        return 7;
+        return 8;
     }
     if (section == 3) {
         return 3;
@@ -115,12 +116,15 @@
                 cell.textLabel.text = @"Colour Options";
             }
             if (indexPath.row == 4) {
-                cell.textLabel.text = @"Shorts Options";
+                cell.textLabel.text = @"Picture In Picture Options";
             }
             if (indexPath.row == 5) {
-                cell.textLabel.text = @"SponsorBlock Options (Beta)";
+                cell.textLabel.text = @"Shorts Options";
             }
             if (indexPath.row == 6) {
+                cell.textLabel.text = @"SponsorBlock Options (Beta)";
+            }
+            if (indexPath.row == 7) {
                 cell.textLabel.text = @"Other Options";
             }
         }
@@ -216,20 +220,27 @@
             }
         }
         if (indexPath.row == 4) {
+            PictureInPictureOptionsController *pictureInPictureOptionsController = [[PictureInPictureOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
+            UINavigationController *pictureInPictureOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureOptionsController];
+            pictureInPictureOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+
+            [self presentViewController:pictureInPictureOptionsControllerView animated:YES completion:nil];
+        }
+        if (indexPath.row == 5) {
             ShortsOptionsController *shortsOptionsController = [[ShortsOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *shortsOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:shortsOptionsController];
             shortsOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:shortsOptionsControllerView animated:YES completion:nil];
         }
-        if (indexPath.row == 5) {
+        if (indexPath.row == 6) {
             SponsorBlockOptionsController *sponsorBlockOptionsController = [[SponsorBlockOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *sponsorBlockOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:sponsorBlockOptionsController];
             sponsorBlockOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
             [self presentViewController:sponsorBlockOptionsControllerView animated:YES completion:nil];
         }
-        if (indexPath.row == 6) {
+        if (indexPath.row == 7) {
             OtherOptionsController *otherOptionsController = [[OtherOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
             UINavigationController *otherOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:otherOptionsController];
             otherOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;

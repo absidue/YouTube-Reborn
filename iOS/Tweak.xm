@@ -80,8 +80,21 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 
 %group gPictureInPicture
 %hook YTPlayerPIPController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
 - (BOOL)canEnablePictureInPicture {
     return YES;
+}
+- (BOOL)isPipSettingEnabled {
+    return YES;
+}
+- (BOOL)isPictureInPictureForceDisabled {
+    return NO;
+}
+- (void)setPictureInPictureForceDisabled:(BOOL)arg1 {
+    arg1 = NO;
+    %orig;
 }
 %end
 %end
@@ -190,7 +203,9 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 - (id)initWithDelegate:(id)delegate {
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"15.0")) {
         // if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kRebornIHaveYouTubePremium"] == NO) {
-        %init(gPictureInPicture);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnablePictureInPictureVTwo"] == YES) {
+            %init(gPictureInPicture);
+        }
         // }
     }
     self = %orig;
@@ -1390,6 +1405,13 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     }
     %orig;
 }
+- (UIColor *)darkBackgroundColor {
+    return hexColour();
+}
+- (void)setDarkBackgroundColor:(UIColor *)color {
+    color = hexColour();
+    %orig;
+}
 %end
 %hook YTPivotBarView
 - (void)setBackgroundColor:(UIColor *)color {
@@ -1724,6 +1746,20 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
+/* %group gHidePictureInPictureAdsBadge
+%hook YTPlayerPIPController
+- (void)displayAdsBadge {
+}
+%end
+%end
+
+%group gHidePictureInPictureSponsorBadge
+%hook YTPlayerPIPController
+- (void)displaySponsorBadge {
+}
+%end
+%end */
+
 BOOL sponsorBlockEnabled;
 NSMutableDictionary *sponsorBlockValues = [[NSMutableDictionary alloc] init];
 
@@ -1930,6 +1966,10 @@ int selectedTabIndex = 0;
     @autoreleasepool {
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"kEnableNoVideoAds"] == nil) {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kEnableNoVideoAds"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"kEnablePictureInPictureVTwo"] == nil) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kEnablePictureInPictureVTwo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableNoVideoAds"] == YES) {
