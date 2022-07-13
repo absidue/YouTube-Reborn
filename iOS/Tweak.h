@@ -67,6 +67,10 @@
 - (NSInteger)playerState;
 @end
 
+@interface YTUserDefaults : NSObject
+- (long long)appThemeSetting;
+@end
+
 @interface YTWatchController : NSObject
 - (void)showFullScreen;
 @end

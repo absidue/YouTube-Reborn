@@ -50,6 +50,15 @@ YTSingleVideo *shortsPlayingVideoID;
 }
 %end
 
+YTUserDefaults *ytThemeSettings;
+
+%hook YTUserDefaults
+- (long long)appThemeSetting {
+    ytThemeSettings = self;
+    return %orig;
+}
+%end
+
 YTMainAppVideoPlayerOverlayViewController *resultOut;
 YTMainAppVideoPlayerOverlayViewController *layoutOut;
 YTMainAppVideoPlayerOverlayViewController *stateOut;
@@ -1633,6 +1642,25 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %hook YTSearchSuggestionCollectionViewCell
 - (void)updateColors {
+}
+%end
+%hook YTCreateCommentTextView
+- (void)setTextColor:(UIColor *)color {
+    long long ytDarkModeCheck = [ytThemeSettings appThemeSetting];
+    if (ytDarkModeCheck == 0 || ytDarkModeCheck == 1) {
+        if (UIScreen.mainScreen.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+            color = [UIColor blackColor];
+        } else {
+            color = [UIColor whiteColor];
+        }
+    }
+    if (ytDarkModeCheck == 2) {
+        color = [UIColor blackColor];
+    }
+    if (ytDarkModeCheck == 3) {
+        color = [UIColor whiteColor];
+    }
+    %orig;
 }
 %end
 %end
