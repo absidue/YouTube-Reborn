@@ -1746,7 +1746,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 %end
 %end
 
-/* %group gHidePictureInPictureAdsBadge
+%group gHidePictureInPictureAdsBadge
 %hook YTPlayerPIPController
 - (void)displayAdsBadge {
 }
@@ -1758,7 +1758,7 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
 - (void)displaySponsorBadge {
 }
 %end
-%end */
+%end
 
 BOOL sponsorBlockEnabled;
 NSMutableDictionary *sponsorBlockValues = [[NSMutableDictionary alloc] init];
@@ -2016,6 +2016,8 @@ int selectedTabIndex = 0;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == YES) %init(gHideOverlayQuickActions);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kEnableiPadStyleOniPhone"] == YES) %init(gEnableiPadStyleOniPhone);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePlayerBarHeatwave"] == YES) %init(gHidePlayerBarHeatwave);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePictureInPictureAdsBadge"] == YES) %init(gHidePictureInPictureAdsBadge);
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePictureInPictureSponsorBadge"] == YES) %init(gHidePictureInPictureSponsorBadge);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kDisableRelatedVideosInOverlay"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kHideOverlayQuickActions"] == YES & [[NSUserDefaults standardUserDefaults] boolForKey:@"kAlwaysShowPlayerBarVTwo"] == YES) {
             %init(gAlwaysShowPlayerBar);
         }

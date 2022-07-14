@@ -27,7 +27,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -56,6 +56,20 @@
             [enablePictureInPicture addTarget:self action:@selector(toggleEnablePictureInPicture:) forControlEvents:UIControlEventValueChanged];
             enablePictureInPicture.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kEnablePictureInPictureVTwo"];
             cell.accessoryView = enablePictureInPicture;
+        }
+        if (indexPath.row == 1) {
+            cell.textLabel.text = @"Hide PIP Ads Badge";
+            UISwitch *hidePictureInPictureAdsBadge = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [hidePictureInPictureAdsBadge addTarget:self action:@selector(toggleHidePictureInPictureAdsBadge:) forControlEvents:UIControlEventValueChanged];
+            hidePictureInPictureAdsBadge.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePictureInPictureAdsBadge"];
+            cell.accessoryView = hidePictureInPictureAdsBadge;
+        }
+        if (indexPath.row == 2) {
+            cell.textLabel.text = @"Hide PIP Sponsor Badge";
+            UISwitch *hidePictureInPictureSponsorBadge = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [hidePictureInPictureSponsorBadge addTarget:self action:@selector(toggleHidePictureInPictureSponsorBadge:) forControlEvents:UIControlEventValueChanged];
+            hidePictureInPictureSponsorBadge.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"kHidePictureInPictureSponsorBadge"];
+            cell.accessoryView = hidePictureInPictureSponsorBadge;
         }
     }
     return cell;
@@ -99,6 +113,26 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kEnablePictureInPictureVTwo"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)toggleHidePictureInPictureAdsBadge:(UISwitch *)sender {
+    if ([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHidePictureInPictureAdsBadge"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHidePictureInPictureAdsBadge"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)toggleHidePictureInPictureSponsorBadge:(UISwitch *)sender {
+    if ([sender isOn]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kHidePictureInPictureSponsorBadge"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kHidePictureInPictureSponsorBadge"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
