@@ -220,11 +220,20 @@
             }
         }
         if (indexPath.row == 4) {
-            PictureInPictureOptionsController *pictureInPictureOptionsController = [[PictureInPictureOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
-            UINavigationController *pictureInPictureOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureOptionsController];
-            pictureInPictureOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"15.0")) {
+                PictureInPictureOptionsController *pictureInPictureOptionsController = [[PictureInPictureOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
+                UINavigationController *pictureInPictureOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:pictureInPictureOptionsController];
+                pictureInPictureOptionsControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
 
-            [self presentViewController:pictureInPictureOptionsControllerView animated:YES completion:nil];
+                [self presentViewController:pictureInPictureOptionsControllerView animated:YES completion:nil];
+            } else {
+                UIAlertController *alertError = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Picture In Picture Options is only available for iOS 15+" preferredStyle:UIAlertControllerStyleAlert];
+
+                [alertError addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                }]];
+
+                [self presentViewController:alertError animated:YES completion:nil];
+            }
         }
         if (indexPath.row == 5) {
             ShortsOptionsController *shortsOptionsController = [[ShortsOptionsController alloc] initWithStyle:UITableViewStyleGrouped];
