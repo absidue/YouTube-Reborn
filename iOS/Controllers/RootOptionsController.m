@@ -89,7 +89,7 @@
         if (indexPath.section == 0) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 0) {
-                cell.textLabel.text = @"Donate";
+                cell.textLabel.text = @"Patreon";
             }
             if (indexPath.row == 1) {
                 cell.textLabel.text = @"Discord";
