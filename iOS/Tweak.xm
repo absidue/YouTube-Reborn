@@ -97,6 +97,39 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     %orig;
 }
 %end
+%hook YTLocalPlaybackController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
+%end
+%hook YTBackgroundabilityPolicy
+- (BOOL)isPlayableInPictureInPictureByUserSettings {
+    return YES;
+}
+%end
+%hook YTLightweightPlayerViewController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
+%end
+%hook YTPlayerViewController
+- (BOOL)isPictureInPicturePossible {
+    return YES;
+}
+%end
+%hook YTPlayerResponse
+- (BOOL)isPlayableInPictureInPicture {
+    return YES;
+}
+- (BOOL)isPipOffByDefault {
+    return NO;
+}
+%end
+%hook MLPIPController
+- (BOOL)pictureInPictureSupported {
+    return YES;
+}
+%end
 %end
 
 %hook YTRightNavigationButtons
