@@ -49,7 +49,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 1;
+        return 2;
     }
     if (section == 1) {
         if ([JailbreakDetection isJailbroken]) {
@@ -90,6 +90,9 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"Donate";
+            }
+            if (indexPath.row == 1) {
+                cell.textLabel.text = @"Discord";
             }
         }
         if (indexPath.section == 1) {
@@ -149,6 +152,9 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.patreon.com/lillieweeb"] options:@{} completionHandler:nil];
+        }
+        if (indexPath.row == 1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://repo.lillieh.gay/discord/"] options:@{} completionHandler:nil];
         }
     }
     if (indexPath.section == 1) {
@@ -289,7 +295,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 3) {
-        return @"Version: 3.1.8";
+        return @"Version: 3.1.9 (Beta)";
     }
     return nil;
 }
