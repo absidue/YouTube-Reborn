@@ -1470,6 +1470,12 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     %orig;
 }
 %end
+%hook YTCollectionView
+- (void)setBackgroundColor:(UIColor *)color {
+    color = hexColour();
+    %orig;
+}
+%end
 %hook YTChannelListSubMenuView
 - (void)setBackgroundColor:(UIColor *)color {
     color = hexColour();
@@ -1695,6 +1701,18 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
     %orig;
 }
 %end
+%hook YTShareTitleView
+- (void)setBackgroundColor:(UIColor *)color {
+    color = hexColour();
+    %orig;
+}
+%end
+%hook YTShareBusyView
+- (void)setBackgroundColor:(UIColor *)color {
+    color = hexColour();
+    %orig;
+}
+%end
 %hook YTSearchSuggestionCollectionViewCell
 - (void)updateColors {
 }
@@ -1716,6 +1734,13 @@ YTMainAppVideoPlayerOverlayViewController *stateOut;
         color = [UIColor whiteColor];
     }
     %orig;
+}
+%end
+%hook YTShareMainView
+- (void)layoutSubviews {
+	%orig();
+    MSHookIvar<YTQTMButton *>(self, "_cancelButton").backgroundColor = hexColour();
+    MSHookIvar<UIControl *>(self, "_safeArea").backgroundColor = hexColour();
 }
 %end
 %end

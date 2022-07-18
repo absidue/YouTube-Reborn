@@ -295,7 +295,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 3) {
-        return @"Version: 3.1.9";
+        return @"Version: 3.2.0 (Beta)";
     }
     return nil;
 }
