@@ -1,8 +1,6 @@
 #import "DownloadsController.h"
 #import "DownloadsVideoController.h"
 #import "DownloadsAudioController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface DownloadsController ()
 - (void)setupDownloadsControllerView;

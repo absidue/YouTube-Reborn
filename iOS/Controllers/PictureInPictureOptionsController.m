@@ -1,6 +1,4 @@
 #import "PictureInPictureOptionsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface PictureInPictureOptionsController ()
 - (void)setupPictureInPictureOptionsControllerView;

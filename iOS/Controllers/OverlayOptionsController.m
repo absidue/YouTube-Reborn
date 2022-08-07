@@ -1,7 +1,5 @@
 #import "OverlayOptionsController.h"
 #import <LocalAuthentication/LocalAuthentication.h>
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface OverlayOptionsController ()
 - (void)setupOverlayOptionsControllerView;

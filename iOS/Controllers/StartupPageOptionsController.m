@@ -1,6 +1,4 @@
 #import "StartupPageOptionsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface StartupPageOptionsController ()
 - (void)setupStartupPageOptionsControllerView;

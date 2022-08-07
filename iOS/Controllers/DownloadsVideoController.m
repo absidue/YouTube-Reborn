@@ -1,18 +1,17 @@
 #import "DownloadsVideoController.h"
 #import <Photos/Photos.h>
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface DownloadsVideoController ()
+{
+    NSString *documentsDirectory;
+    NSMutableArray *filePathsVideoArray;
+    NSMutableArray *filePathsVideoArtworkArray;
+}
 - (void)setupDownloadsVideoControllerView;
 - (void)setupVideoArrays;
 @end
 
 @implementation DownloadsVideoController
-
-NSString *documentsDirectory;
-NSMutableArray *filePathsVideoArray;
-NSMutableArray *filePathsVideoArtworkArray;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStyleGrouped];

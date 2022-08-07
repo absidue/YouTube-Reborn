@@ -1,5 +1,4 @@
 #import "PictureInPictureController.h"
-#import "../TheosLinuxFix.h"
 
 @interface PictureInPictureController ()
 - (void)setupPictureInPictureControllerView;

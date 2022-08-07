@@ -1,6 +1,4 @@
 #import "SponsorBlockOptionsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface SponsorBlockOptionsController ()
 - (void)setupSponsorBlockOptionsControllerView;

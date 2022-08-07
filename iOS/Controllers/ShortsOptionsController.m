@@ -1,6 +1,4 @@
 #import "ShortsOptionsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface ShortsOptionsController ()
 - (void)setupShortsOptionsControllerView;

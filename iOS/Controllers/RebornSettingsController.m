@@ -1,6 +1,4 @@
 #import "RebornSettingsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface RebornSettingsController ()
 - (void)setupRebornSettingsControllerView;

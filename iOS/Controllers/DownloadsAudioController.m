@@ -1,17 +1,16 @@
 #import "DownloadsAudioController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface DownloadsAudioController ()
+{
+    NSString *documentsDirectory;
+    NSMutableArray *filePathsAudioArray;
+    NSMutableArray *filePathsAudioArtworkArray;
+}
 - (void)setupDownloadsAudioControllerView;
 - (void)setupAudioArrays;
 @end
 
 @implementation DownloadsAudioController
-
-NSString *documentsDirectory;
-NSMutableArray *filePathsAudioArray;
-NSMutableArray *filePathsAudioArtworkArray;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStyleGrouped];

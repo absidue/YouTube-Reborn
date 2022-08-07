@@ -2,8 +2,6 @@
 #import "../MobileFFmpeg/MobileFFmpegConfig.h"
 #import "../MobileFFmpeg/MobileFFmpeg.h"
 #import "../AFNetworking/AFNetworking.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface YouTubeDownloadController () {
     UIImageView *artworkImage;

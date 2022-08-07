@@ -1,6 +1,4 @@
 #import "CreditsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface CreditsController ()
 - (void)setupCreditsControllerView;

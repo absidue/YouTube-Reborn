@@ -1,6 +1,4 @@
 #import "OtherOptionsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface OtherOptionsController ()
 - (void)setupOtherOptionsControllerView;

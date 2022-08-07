@@ -1,7 +1,5 @@
 #import "TabBarOptionsController.h"
 #import "StartupPageOptionsController.h"
-#import "../TheosLinuxFix.h"
-#import "../iOS15Fix.h"
 
 @interface TabBarOptionsController ()
 - (void)setupTabBarOptionsControllerView;
